@@ -31,6 +31,22 @@ Ext.onReady(function() {
 </div>
 <script type="text/javascript">
 {% autoescape off %}
+
+// Validator for ExtJS Checkbox
+// Credit: http://www.marcusschiesser.de/2009/02/151/
+// With improvements from http://www.marcusschiesser.de/2009/02/151/#comment-2935 and http://www.marcusschiesser.de/2009/02/151/#comment-8222
+Ext.form.Checkbox.prototype.validate = function(){
+    if (this.validateField) {
+        if (this.disabled || this.checked) {
+            Ext.form.Field.prototype.clearInvalid.call(this); // Use "Ext.form.Field.prototype" vs. "this" because clearInvalid() is deactivated for Ext.form.Field.Checkbox
+            return true;
+        }
+        else {
+            Ext.form.Field.prototype.markInvalid.call(this, this.validateMessage); // Use "Ext.form.Field.prototype" vs. "this" because markInvalid() is deactivated for Ext.form.Field.Checkbox
+        }
+    }
+};
+
 Ext.onReady(function(){
     Ext.QuickTips.init();
     
@@ -122,6 +138,15 @@ Ext.onReady(function(){
         allowBlank: true
     });
 
+    var termsField = new Ext.form.Checkbox({
+        id: 'terms', 
+        boxLabel: gettext('I agree to the Data Portal terms and conditions.'),
+        name: 'terms',
+        validateField: true,
+        validateMessage: gettext("You must agree to the Data Portal terms and conditions."),
+        submitValue: false
+    });
+
     var permissionsField = new Ext.form.Hidden({
         name: "permissions"
     });
@@ -138,7 +163,7 @@ Ext.onReady(function(){
             anchor: '95%',
             msgTarget: 'side'
         },
-        items: [layer_title, base_file, dbf_file, shx_file, prj_file, sld_file, abstractField, permissionsField, {
+        items: [layer_title, base_file, dbf_file, shx_file, prj_file, sld_file, abstractField, permissionsField, termsField, {
             xtype: "hidden",
             name: "csrfmiddlewaretoken",
             value: "{{ csrf_token }}"
@@ -219,6 +244,13 @@ Ext.onReady(function(){
 });
 {% endautoescape %}
 </script>
+<style>
+#x-form-el-terms .x-form-invalid-icon
+{
+    left:30px !important;
+    top:1px !important;
+}
+</style>
 
 {% endblock %}
 

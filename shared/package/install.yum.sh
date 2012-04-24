@@ -6,6 +6,7 @@ yum install \
   python26-distribute \
   python26-mod_wsgi \
   gcc \
+  geos-devel \
   gdal-devel \
   java-1.6.0-openjdk-devel \
   tomcat5 \

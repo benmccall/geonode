@@ -110,13 +110,13 @@ For example, on CentOS 5.x you can enable them with the following commands:
 .. code-block:: console
 
    # rpm -Uvh http://dl.fedoraproject.org/pub/epel/5/i386/epel-release-5-4.noarch.rpm 
-   # rpm -Uvh http://http://elgis.argeo.org/repos/5/elgis-release-5-5_0.noarch.rpm
+   # rpm -Uvh http://elgis.argeo.org/repos/5/elgis-release-5-5_0.noarch.rpm
 
 You can check whether these repositories are enabled using the `yum` command:
 
 .. code-block:: console
 
-   # yum repo list
+   # yum repolist
    ...
    elgis       EL GIS 5 - i386                                   enabled:    75
    epel        Extra Packages for Enterprise Linux 5 - i386      enabled: 5,618
@@ -127,7 +127,7 @@ With these repositories in place, you can use `yum` again to install GeoNode's r
 
    $ yum install postgis postgresql84-server postgresql84-devel \
      python26-virtualenv python26-distribute python26-mod_wsgi gcc \
-     java-1.6.0-openjdk-devel tomcat5 httpd gdal-devel
+     java-1.6.0-openjdk-devel tomcat5 httpd geos-devel gdal-devel
 
 Installation
 ------------

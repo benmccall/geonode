@@ -137,7 +137,7 @@ function setup_django_every_time() {
 
     ln -sf $GEONODE_ETC/local_settings.py $GEONODE_LIB/src/GeoNodePy/geonode/local_settings.py
     # Set up logging symlink
-    ln -sf /var/log/apache2/error.log $GEONODE_LOG/apache.log
+    ln -sf /var/log/httpd/error.log $GEONODE_LOG/apache.log
 
     export DJANGO_SETTINGS_MODULE=geonode.settings
     django-admin.py syncdb --noinput

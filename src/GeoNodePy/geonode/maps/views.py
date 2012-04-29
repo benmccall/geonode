@@ -76,20 +76,20 @@ class LayerForm(forms.ModelForm):
     date = forms.DateTimeField(widget=forms.SplitDateTimeWidget)
     date.widget.widgets[0].attrs = {"class":"date"}
     date.widget.widgets[1].attrs = {"class":"time"}
-    temporal_extent_start = forms.DateField(required=False,widget=forms.DateInput(attrs={"class":"date"}))
-    temporal_extent_end = forms.DateField(required=False,widget=forms.DateInput(attrs={"class":"date"}))
+    # temporal_extent_start = forms.DateField(required=False,widget=forms.DateInput(attrs={"class":"date"}))
+    # temporal_extent_end = forms.DateField(required=False,widget=forms.DateInput(attrs={"class":"date"}))
     
-    poc = forms.ModelChoiceField(empty_label = "Person outside GeoNode (fill form)",
+    poc = forms.ModelChoiceField(empty_label = "Person without a user account (fill form)",
                                  label = "Point Of Contact", required=False,
                                  queryset = Contact.objects.exclude(user=None))
 
-    metadata_author = forms.ModelChoiceField(empty_label = "Person outside GeoNode (fill form)",
+    metadata_author = forms.ModelChoiceField(empty_label = "Person without a user account (fill form)",
                                              label = "Metadata Author", required=False,
                                              queryset = Contact.objects.exclude(user=None))
 
     class Meta:
         model = Layer
-        exclude = ('contacts','workspace', 'store', 'name', 'uuid', 'storeType', 'typename')
+        exclude = ('owner', 'contacts','workspace', 'store', 'name', 'uuid', 'storeType', 'typename', 'keywords_region', 'language', 'bbox', 'llbbox', 'srs', 'temporal_extent_start', 'temporal_extent_end', 'geographic_bounding_box', 'distribution_url', 'distribution_description' )
 
 class RoleForm(forms.ModelForm):
     class Meta:

@@ -1,0 +1,221 @@
+/* REPLICATING STYLES FROM CITYGUIDE */
+
+/*-------------------------------------------------------------------------------------------*/
+/* 1. SETUP */
+/*-------------------------------------------------------------------------------------------*/
+
+/* 1.1 Defaults */
+
+body  { font: 14px/20px 'Helvetica Neue', Helvetica, Arial, Sans-serif; color: #555; background-color: #fafafa; }
+
+h1, h2, h3, h4, h5, h6  { margin: 0; color: #444; font-weight:bold; }
+h1  {font-size: 22px; } h2  {font-size: 22px;} h3  {font-size: 18px;} h4  {font-size: 15px;} h5  {font-size: 13px;} h6  {font-size: 12px;}
+
+p {margin: 0; font-size:12px; line-height:18px; color: #444; }
+
+hr { background-color: #e6e6e6;	border:0; height: 1px; margin-bottom: 20px; }
+
+input, textarea { padding: 7px 0 7px 7px; border-color: #ccc #efefef #efefef #ccc; border-width:1px; border-style:solid;}
+
+
+/* 1.2 Hyperlinks */
+
+a:link, a:visited  { color: #4fa0b2; text-decoration:none;}
+a:hover {text-decoration:underline;}
+
+h1 a:link, h1 a:visited, h2 a:link, h2 a:visited, h3 a:link, h3 a:visited,
+h4 a:link, h4 a:visited, h5 a:link, h5 a:visited, h6 a:link, h6 a:visited  { text-decoration: none; }
+h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover, h5 a:hover, h6 a:hover  {text-decoration: underline;}
+
+/*-------------------------------------------------------------------------------------------*/
+/* 2. SITE STRUCTURE & APPEARANCE */
+/*-------------------------------------------------------------------------------------------*/
+
+/* 2.1 Containers & Columns */
+
+/* #wrapper */
+#main  {
+	padding:0; background: #f8f8f8 url('http://rpsd.iogo.com/rpsd-content/themes/cityguide/images/wrapper-bg.jpg') repeat-y center top;
+	border: none;
+	}
+
+.col-left { float: left; }
+.col-right { float: right; }
+.col-full  { width: 940px; margin: 0 auto; }
+
+/* .col-full */
+.wrap  { width: 940px; margin: 0 auto; }
+
+/* 2.2 Navigation */
+#navigation-outer{background: #eeeeee url('http://rpsd.iogo.com/rpsd-content/themes/cityguide/images/navigation-outer-bg.jpg') repeat-x left top; border-bottom: 1px solid #ffffff; border-top:1px solid #e7e6e7;}
+.single #navigation-outer,.page #navigation-outer, .archive #navigation-outer {
+	margin-bottom: 0;
+}
+
+#navigation{font:14px/14px Helvetica, Arial, sans-serif; border-bottom:1px solid #e7e6e7;}
+
+.nav { z-index:99; margin:0; padding:0; list-style:none; line-height:1; }
+.nav a  { position:relative; color:#444; display:block; z-index:100; padding: 20px; line-height:18px; text-decoration:none; font-weight: bold; font-size: 12px; text-shadow: 1px solid #fff; border-left: 1px solid #fff; }
+.nav a:hover, .nav li.current_page_item, .nav li.current_page_parent, .nav li.current-menu-item, .nav li.current-category-ancestor,  .nav li.current-menu-ancestor, .nav li.current-menu-parent{ background:#eee; }
+.nav li  { float:left; width: auto; border-left: 1px solid #e3e3e3; }
+.nav li a.sf-with-ul { padding-right:30px; }
+
+/* 2.2.1 Drop-down menus */
+.nav li ul  { background: #FFF; position: absolute; left: -999em; width: 180px; border: 1px solid #dbdbdb; border-width:1px 1px 0; z-index:999; margin: 0;}
+.nav li ul li  { background:#eee; border-top:1px solid #fff; border-bottom:1px solid #dbdbdb; border-right:1px solid #dbdbdb; list-style-type:none;}
+.nav li ul li a  { width:160px; color:#555; font-size:0.8em; padding: 5px 10px }
+.nav li ul li a.sf-with-ul { padding:5px 10px; }
+.nav li ul li a:hover  { background:#eaeaea;}
+.nav li ul ul  { margin: -30px 0 0 180px; }
+.nav li ul ul li a  {  }
+.nav li ul li ul li a  {  }
+
+.nav li:hover,.nav li.hover  { position:static; }
+.nav li:hover ul ul, .nav li.sfhover ul ul,
+.nav li:hover ul ul ul, .nav li.sfhover ul ul ul,
+.nav li:hover ul ul ul ul, .nav li.sfhover ul ul ul ul { left:-999em; }
+.nav li:hover ul, .nav li.sfhover ul,
+.nav li li:hover ul, .nav li li.sfhover ul,
+.nav li li li:hover ul, .nav li li li.sfhover ul,
+.nav li li li li:hover ul, .nav li li li li.sfhover ul  { left:auto; }
+
+.nav .sf-sub-indicator {background:	url(http://rpsd.iogo.com/rpsd-content/themes/cityguide/images/arrow-superfish.png) no-repeat;position:absolute;display:block;right:1em;top:2.2em;width:10px;height:10px;text-indent:-999em;overflow:hidden;}
+.nav li ul .sf-sub-indicator {background:url(http://rpsd.iogo.com/rpsd-content/themes/cityguide/images/arrow-superfish-right.png) no-repeat; top:1em;}
+
+
+/* 2.3 Header */
+
+/* #wrapper */
+#header{
+	border-top: 5px solid #83c0cd;
+	border-bottom: none;
+}
+/* #header-outer */
+#header{
+	background: #ffffff url('http://rpsd.iogo.com/rpsd-content/themes/cityguide/images/header-outer-bg.jpg') repeat-x left bottom;
+	padding: 15px 0 16px;
+}
+#logo{
+	background: url('http://rpsd.iogo.com/rpsd-content/uploads/2011/12/rpsd_logo_254x80.png') no-repeat scroll 0 0 transparent;
+	width: 254px;
+	height: 80px;
+}
+
+/* p.rss a */
+#login-area , #login-area a {color:#777777;text-decoration:none; font-size:12px;}
+#login-area a {font-weight:bold;}
+
+/* 2.7 Footer */
+
+/* #footer-region-outer */
+#footer { background: #444444 url('http://rpsd.iogo.com/rpsd-content/themes/cityguide/images/footer-widgets-bg.jpg') repeat-x left top; padding-bottom: 20px; }
+/* #footer */
+#footer{padding: 20px 0 0;color:#999; text-shadow: 1px 1px #000; border-top: 1px solid #5a5a5a; }
+/* #footer p */
+#footer { color: #fff; font-size: 12px; }
+
+
+/*-------------------------------------------------------------------------------------------*/
+/* 3. POSTS */
+/*-------------------------------------------------------------------------------------------*/
+
+/* 3.1 Typographic Elements */
+
+/* #main */
+#main h1 { border-bottom:1px solid #e6e6e6; margin-bottom:20px; padding-bottom: 20px; }  #main h2 { padding-bottom:20px; }  #main h3 { padding-bottom:10px; }  #main h4 {}  #main h5 {}  #main h6 {}
+
+#main p  { margin: 0 0 20px 0; }
+
+#main blockquote  { background:url(images/blockquote.png) no-repeat 0 12px; padding: 10px 20px 10px 50px; color: #444;  }
+#main blockquote p  { font-style:italic; }
+
+#main ul  { margin: 0 0 15px 0; padding: 0 0 0 30px; }
+#main ul ul  { margin: 0; }
+#main ul li  {	list-style-type: circle; }
+#main ul ul li  { list-style-type: disc; }
+
+/* Add exclusions for GeoNode form fields */
+#main ul.form {	margin: 0px; padding: 0px; }
+#main ul.form ul li  { list-style-type: none !important; }
+#main ul.form li  {	list-style-type: none !important; }
+#main ul.form ul li  { list-style-type: none !important; }
+
+#main ol  { margin: 0 0 15px 0; padding: 0 0 0 30px; }
+#main ol ol  { margin: 0; }
+#main  ol li  { list-style-type: upper-latin; }
+#main  ol li ol li  { list-style-type: lower-latin; }
+
+/*-------------------------------------------------------------------------------------------*/
+/* 4. WIDGETS (SIDEBAR) */
+/*-------------------------------------------------------------------------------------------*/
+
+/* 4.2 Generic Widgets */
+
+/* .widget */
+.threecol  { margin: 0 0 20px 0; font-size:12px; padding:0 0 0 10px; }
+.threecol h3  { margin: 0 0 20px 0; color: #999999; font-style: italic; }
+.threecol p { font-size:12px; line-height: 18px; margin-bottom:15px; }
+
+/*-------------------------------------------------------------------------------------------*/
+/* 6. MISC */
+/*-------------------------------------------------------------------------------------------*/
+
+/* 6.1 Buttons */
+/* From style.css */
+
+/* Added input[type=submit] */
+input[type=submit], input[type=submit]:visited, .button, .button:visited, .reply a{ background: url(http://rpsd.iogo.com/rpsd-content/themes/cityguide/images/alert-overlay.png); display: inline-block; padding: 5px 10px 6px; color: #fff !important; text-decoration: none; border:none; position: relative; cursor: pointer; }
+input[type=submit], input[type=submit]:visited, .button, .button:visited, .reply a{ background-color:#555; }
+input[type=submit]:hover, .button:hover, .reply a:hover { color: #333!important; text-decoration:none; }
+input[type=submit]:active, .button:active, .reply a:active { top: 1px; }
+.small.button, .small.button:visited, .reply a { font-size: 10px; padding: 0px 6px 1px; text-transform:uppercase;}
+.button, .button:visited, .medium.button, .medium.button:visited { font-size: 13px; font-weight: bold; line-height: 1; }
+.large.button, .large.button:visited { font-size: 14px; padding: 8px 14px 9px; }
+
+/* From effects.js */
+/* Added input[type=submit] */
+input[type=submit], input[type=submit]:visited, .button, .button:visited, .medium.button, .medium.button:visited { text-shadow: 0 -1px 1px rgba(0,0,0,0.25); }
+input[type=submit], input[type=submit]:visited, .button, .button:visited, .reply a { -moz-border-radius: 5px; -webkit-border-radius: 5px; -moz-box-shadow: 0 1px 3px rgba(0,0,0,0.5); -webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.25); text-shadow: 0 -1px 1px rgba(0,0,0,0.25); border: 1px solid rgba(0,0,0,.25); border-bottom-color: rgba(0,0,0,.35); }
+input[type=submit]:hover, .button:hover, .reply a:hover { opacity:0.9; }
+
+/*-------------------------------------------------------------------------------------------*/
+/* GEONODE CUSTOMIZATIONS (NEW TO CITYGUIDE) */
+/*-------------------------------------------------------------------------------------------*/
+
+#main .wrap{
+	padding: 20px 0px;
+}
+.onecol, .twocol, .threecol{
+	background-image: none !important;
+}
+.onecol, .twocol{
+	background-color: #FFF;
+	margin: 0px;
+	padding: 20px;
+	width: 578px;
+	border: 1px solid #e3e3e3;
+}
+.onecol{
+	width: 898px;
+}
+.twocol{
+	width: 578px;
+}
+.threecol{
+	width: 300px;
+	margin: 0;
+	padding: 0;
+	float: right;
+}
+#footer .onecol{
+	background-color: transparent !important;
+	border: none !important;
+}
+.langbar{
+	display: none;
+}
+#permissions_form .x-panel-body{
+	background-color: transparent !important;
+}
+
+

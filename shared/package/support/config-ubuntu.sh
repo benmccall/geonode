@@ -29,6 +29,8 @@ APACHE_SERVICE="invoke-rc.d apache2"
 # sama sama
 TOMCAT_SERVICE="invoke-rc.d tomcat6"
 
+WEB_CONTENT_USER="www-data"
+
 # For Ubuntu 10.04
 if [ -d "/usr/share/postgresql/8.4/contrib" ]
 then

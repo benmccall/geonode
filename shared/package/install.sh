@@ -137,7 +137,7 @@ function setup_django_every_time() {
 
     ln -sf $GEONODE_ETC/local_settings.py $GEONODE_LIB/src/GeoNodePy/geonode/local_settings.py
     # Set up logging symlink
-    ln -sf /var/log/httpd/error.log $GEONODE_LOG/apache.log
+    ln -sf /var/log/httpd/error_log $GEONODE_LOG/apache.log
 
     export DJANGO_SETTINGS_MODULE=geonode.settings
     django-admin.py syncdb --noinput
@@ -148,7 +148,7 @@ function setup_django_every_time() {
 }
 
 function setup_apache_once() {
-	chown "${WEB_CONTENT_OWNER}" -R $GEONODE_WWW
+	chown "${WEB_CONTENT_USER}" -R $GEONODE_WWW
 	sitedir=`$GEONODE_LIB/bin/python -c "from distutils.sysconfig import get_python_lib; print get_python_lib()"`
         
 	sed -i '1d' "${APACHE_CONFIG_FILE}"

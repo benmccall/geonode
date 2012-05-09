@@ -38,9 +38,9 @@ CUSTOM_MEDIA_DIR="${GEONODE_ETC}/media"
 # OS preferred way of starting or stopping services
 # for example 'service httpd' or '/etc/init.d/apache2'
 APACHE_SERVICE="service httpd"
-APACHE_SERVICE="true"
+
 # sama sama
-TOMCAT_SERVICE="true"
+TOMCAT_SERVICE="service tomcat5"
 
 WEB_CONTENT_USER="apache"
 

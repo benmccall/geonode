@@ -10,7 +10,7 @@ else
 fi
 
 # Set SELinux context for Geonode httpd files
-chcon -R -t httpd_sys_content_t $GEONODE_LIB
+chcon -R -h -t httpd_sys_content_t $GEONODE_LIB
 chcon -R -t httpd_sys_content_t $GEONODE_ETC
 
 # Allow db and network relay connections

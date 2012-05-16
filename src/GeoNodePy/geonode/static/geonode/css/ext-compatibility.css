@@ -130,3 +130,10 @@ border-bottom: none;
     border-width: 0;
 }
 */
+.x-fieldset legend {
+border-style: none;
+display: inline;
+margin: 0;
+padding: 0 2px 0 2px;
+/*width: 100%*/
+}

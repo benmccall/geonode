@@ -84,14 +84,14 @@
                 });
             });
 {% has_obj_perm user layer "maps.change_layer" as can_change %}
-{% if can_change %}
+{% if can_change and perms.maps.change_layer %}
             Ext.get(Ext.DomQuery.select(".style-title")).on("click", function(evt, elem) {
                 showStyle(Ext.get(elem).prev("input").getAttribute("value"));
             });
 {% endif %}
 
 {% has_obj_perm user layer "maps.change_layer_permissions" as can_change_permissions %}
-{% if can_change_permissions %}
+{% if can_change_permissions and perms.maps.change_layer %}
             new GeoNode.PermissionsEditor({
                 renderTo: "permissions_form",
                 userLookup: "{% url auth_ajax_lookup %}",
@@ -295,7 +295,6 @@
 
     {% has_obj_perm user layer "maps.change_layer" as can_change %}
     {% has_obj_perm user layer "maps.delete_layer" as can_delete %}
-
     <h3> {% trans "Styles" %} </h3>
     <p> {% trans "The following styles are associated with this data set.  Choose a style to view it in the preview to the left.  Click on a style name to view or edit the style." %}
     <br/>
@@ -321,7 +320,7 @@
         <a href="{{ GEOSERVER_BASE_URL }}styles/{{ style.name }}.sld">SLD</a><br/>
     {% endfor %}
     </span>
-    {% if user.is_authenticated and can_change %}
+    {% if user.is_authenticated and perms.maps.change_layer and can_change %}
     {% trans "Default style:" %}
     <select name="default-style">
         <option value="{{layer.publishing.default_style.name}}" selected="selected">
@@ -337,13 +336,11 @@
     </p>
 
 
-
-    {% if user.is_authenticated %}
-    {% if can_change or can_delete or can_change_permissions %}
+  {% if user.is_authenticated and perms.maps.change_layer %}
+    {% if can_change or can_delete %}
 
         <h3> {% trans "Manage" %} </h3>
         <ul>
-                        {% if user.is_authenticated %}
         {% if can_change %}
         <li> <a href="{% url data_metadata layer.typename %}">
             {% trans "Update the description of this data" %}
@@ -352,22 +349,20 @@
             {% trans "Upload a new version of this data" %}
         </a></li>
         {% endif %}
-            {% if can_delete %}
-            <li><a href="{% url data_remove layer.typename %}">
-                {% trans "Remove" %}
-            </a></li>
-                        {% endif %}
-                        {% else %}
-            <li>{% trans "Please authenticate to update or remove layers" %}</li>
-                        {% endif %}
+        {% if can_delete %}
+        <li><a href="{% url data_remove layer.typename %}">
+            {% trans "Remove" %}
+        </a></li>
+        {% endif %}
         </ul>
     {% endif %}
+
     {% has_obj_perm user layer "maps.change_layer_permissions" as can_change_permissions %}
     {% if can_change_permissions %}
     <h3>{% trans "Permissions" %}</h3>
       <div id="permissions_form"></div>
     {% endif %}
-    {% endif %}
+  {% endif %}
 </div>
 {% endblock %}
 

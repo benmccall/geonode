@@ -89,9 +89,12 @@ Ext.onReady(function(){
         <a href="{% url data_search %}">{% trans "Advanced Search" %}</a>
     </form>
   
-    <!-- Links to specialized views of data -->
-    <!-- Upload data button (link?) -->
+    {% if perms.maps.add_layer %}
+
     <a class="layer-upload-link" href="{% url data_upload %}">{% trans "Upload data"  %}</a>
+
+    {% endif %}
+
   </div>
 </div>
 {% endblock %}

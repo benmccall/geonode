@@ -16,7 +16,9 @@
     <li><a href="{% url profiles_edit_profile %}">{% trans "Edit profile information" %}</a></li>
     <li><a href="{% url auth_password_change %}">{% trans "Change password" %}</a></li>
     {% endif %}
+    {% if perms.maps.add_layer %}
     <li><a href="{% url data_upload %}">{% trans "Upload new data" %}</a></li>
+    {% endif %}
     <li><a href="{% url maps_new %}">{% trans "Create a new map" %}</a></li>
   </ul>
   <h3>{% trans "Settings" %}</h3>

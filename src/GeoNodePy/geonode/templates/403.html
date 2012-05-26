@@ -1,0 +1,24 @@
+{% extends "page_layout.html" %}
+{% load i18n %}
+
+{% block main %}
+    <div id="description"> 
+      <h3> 
+        {% if error_title %}
+          {{ error_title }}
+        {% else %}
+          {% trans "Access Denied" %}
+        {% endif %}
+      </h3>
+    </div>
+    <p>
+    {% if error_message %}
+      {{ error_message }}
+    {% else %}
+      {% blocktrans %}
+          You do not have sufficient permissions to perform this operation.  
+      {% endblocktrans %}
+    {% endif %}
+    </p>
+
+{% endblock %}

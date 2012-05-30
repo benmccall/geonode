@@ -4,7 +4,7 @@
 {% load dialogos_tags %}
 {% load agon_ratings_tags %}
 
-{% block title %}{{ layer.resource.title|default:layer.typename }} â€” {{ block.super }}{% endblock %}
+{% block title %}{{ layer.resource.title|default:layer.typename }} — {{ block.super }}{% endblock %}
 
 {% block head %}
 
@@ -85,7 +85,7 @@
                 });
             });
 {% has_obj_perm user layer "maps.change_layer" as can_change %}
-{% if can_change %}
+{% if can_change and perms.maps.change_layer %}
             Ext.get(Ext.DomQuery.select(".style-title")).on("click", function(evt, elem) {
                 showStyle(Ext.get(elem).prev("input").getAttribute("value"));
             });
@@ -291,7 +291,7 @@
       <a href="{{ style.body_href }}">SLD</a><br/>
     {% endfor %}
   </span>
-  {% if user.is_authenticated and can_change %}
+  {% if user.is_authenticated and perms.maps.change_layer and can_change %}
     {% trans "Default style:" %}
     <select name="default-style">
       <option value="{{layer.publishing.default_style.name}}" selected="selected">
@@ -305,10 +305,9 @@
   {% endif %}
 
   <ul class="nav nav-list">
-    {% if user.is_authenticated %}
-      {% if can_change or can_delete or can_change_permissions %}
+    {% if user.is_authenticated and perms.maps.change_layer %}
+      {% if can_change or can_delete %}
         <li class="nav-header">{% trans "Manage" %}</li>
-        {% if user.is_authenticated %}
           {% if can_change %}
             <li> <a href="{% url data_metadata layer.typename %}">
                 {% trans "Update the description of this data" %}
@@ -324,9 +323,6 @@
               </a>
             </li>
           {% endif %}
-        {% else %}
-          <li>{% trans "Please authenticate to update or remove layers" %}</li>
-        {% endif %}
       {% endif %}
 
       {% has_obj_perm user layer "maps.change_layer_permissions" as can_change_permissions %}

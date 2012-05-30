@@ -4,7 +4,7 @@
 {% load dialogos_tags %}
 {% load agon_ratings_tags %}
 
-{% block title %}{{ layer.resource.title|default:layer.typename }} — {{ block.super }}{% endblock %}
+{% block title %}{{ layer.resource.title|default:layer.typename }} - {{ block.super }}{% endblock %}
 
 {% block head %}
 
@@ -124,7 +124,7 @@
 
 {% block main %}
   <div id="description">
-		<h3>{{ layer.resource.title|default:layer.typename }}</h3>
+	<h3>{{ layer.resource.title|default:layer.typename }}</h3>
     <div class="overall_rating" data-rating="{{ layer_rating }}"></div>
 		<g:plusone size="small" href="http://{{ request.get_host }}{{ request.get_full_path }}"></g:plusone>
 		<div class="fb-like" data-href="http://{{ request.get_host }}{{ request.get_full_path }}" data-send="false" data-width="50" data-layout="button_count" data-show-faces="false"></div>
@@ -228,11 +228,12 @@
 	</div>
 
 	{% if request.user.is_authenticated %}
+	<div class="ratings_container">
 		<h3>{% trans "Rate this layer" %}</h3>
 		{% user_rating request.user layer "layer" as user_layer_rating %}
 		<div id="user_rating" class="category-layer"></div>
-	{% endif %}
 	</div>
+	{% endif %}
 
 	{% url ajax_layer_permissions layer.typename as form_action %}
 	{% include "_permissions_form.html" %}

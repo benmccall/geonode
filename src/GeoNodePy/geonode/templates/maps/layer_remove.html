@@ -1,7 +1,7 @@
 {% extends "maps/base.html" %}
 {% load i18n %}
 
-{% block title %}{{ layer.typename }} — {{ block.super }}{% endblock %}
+{% block title %}{{ layer.typename }} - {{ block.super }}{% endblock %}
 
 {% block main %}
   <form action="{% url layer_remove layer.typename %}" method="POST">

@@ -1,23 +1,22 @@
-{% extends "page_layout.html" %}
+{% extends "maps/base.html" %}
 {% load i18n %}
 
-{% block title %} {% trans "Upload Layer"  %} - {{ block.super }} {% endblock %}
+{% block title %} {% trans "Upload Layer"  %} — {{ block.super }} {% endblock %}
 
 {% block head %}
-{% include "geonode/ext_header.html" %}
-{% include "geonode/app_header.html" %}
-{% include "geonode/geo_header.html" %}
-<link rel="stylesheet" type="text/css" href="{{ GEONODE_CLIENT_LOCATION }}theme/ux/fileuploadfield/fileuploadfield.css"/>
-{{ block.super }}
-<script type="text/javascript">
-Ext.onReady(function() {
-});
-</script>
+  {% include "geonode/ext_header.html" %}
+  {% include "geonode/app_header.html" %}
+  {% include "geonode/geo_header.html" %}
+  <link rel="stylesheet" type="text/css" href="{{ GEONODE_CLIENT_LOCATION }}theme/ux/fileuploadfield/fileuploadfield.css"/>
+  {{ block.super }}
+  <script type="text/javascript">
+  Ext.onReady(function() {
+  });
+  </script>
 {% endblock %}
 
 {% block main %}
-<div class="twocol">
-    <h2>{% trans "Add data" %}</h2>
+  <h2>{% trans "Add data" %}</h2>
   {% if errors %}
     <div id="errors">
       {% for error in errors %}
@@ -28,7 +27,6 @@ Ext.onReady(function() {
 
   <div id="upload_form">
   </div>
-</div>
 <script type="text/javascript">
 {% autoescape off %}
 
@@ -256,8 +254,10 @@ Ext.onReady(function(){
 
 
 {% block sidebar %}
-<div class="threecol">
-<h3>{%trans "Permissions"  %}</h3>
-
-<div id="permissions_form"></div>
+<ul class="nav nav-list">
+  <li class="nav-header">{% trans "Permissions" %}</li>
+  <li class="form-inline">
+    <div id="permissions_form"></div>
+  </li>
+</ul>
 {% endblock %}

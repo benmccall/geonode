@@ -7,10 +7,11 @@
   <div class="hero-unit">
     <h1>{% trans "Welcome" %}</h1>
     <p>
-      {% blocktrans %}
-        GeoNode is an open source platform for sharing geospatial data and maps.  If you have any questions about the software or service, join our mailing list by emailing <em>geonode@librelist.com</em>.
-      {% endblocktrans %}
-    </p>
+    {% blocktrans %}
+  The Regional Information Exchange is a service devoted to geospatial data sharing in the St. Louis metropolitan area.
+  Made possible with assistance from the Regional Plan for Sustainable Development, the site encourages users to contribute
+  data and maps describing regional conditions and trends.
+    {% endblocktrans %} 
     <p>
       <a class="btn btn-large" href="{% url maps_search %}">
         {% trans "Explore Maps" %}

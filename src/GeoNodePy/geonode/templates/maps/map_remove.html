@@ -3,7 +3,7 @@
 {% load i18n %}
 {% load bootstrap_tags %}
 
-{% block title %}{% trans "Deleting" %} {{ map.title }} — {{ block.super }}{% endblock %}
+{% block title %}{% trans "Deleting" %} {{ map.title }} - {{ block.super }}{% endblock %}
 
 {% block main %}
 <form action="/maps/{{map.id}}?remove" method="POST">

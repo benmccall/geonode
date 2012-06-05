@@ -7,7 +7,7 @@ from geoserver.resource import FeatureType, Coverage
 import base64
 from django import forms
 from django.contrib.auth import authenticate, get_backends as get_auth_backends
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse
@@ -78,20 +78,20 @@ class LayerForm(forms.ModelForm):
     date = forms.DateTimeField(widget=forms.SplitDateTimeWidget)
     date.widget.widgets[0].attrs = {"class":"date"}
     date.widget.widgets[1].attrs = {"class":"time"}
-    temporal_extent_start = forms.DateField(required=False,widget=forms.DateInput(attrs={"class":"date"}))
-    temporal_extent_end = forms.DateField(required=False,widget=forms.DateInput(attrs={"class":"date"}))
+    # temporal_extent_start = forms.DateField(required=False,widget=forms.DateInput(attrs={"class":"date"}))
+    # temporal_extent_end = forms.DateField(required=False,widget=forms.DateInput(attrs={"class":"date"}))
     
-    poc = forms.ModelChoiceField(empty_label = "Person outside GeoNode (fill form)",
+    poc = forms.ModelChoiceField(empty_label = "Person without a user account (fill form)",
                                  label = "Point Of Contact", required=False,
                                  queryset = Contact.objects.exclude(user=None))
 
-    metadata_author = forms.ModelChoiceField(empty_label = "Person outside GeoNode (fill form)",
+    metadata_author = forms.ModelChoiceField(empty_label = "Person without a user account (fill form)",
                                              label = "Metadata Author", required=False,
                                              queryset = Contact.objects.exclude(user=None))
     keywords = taggit.forms.TagField()
     class Meta:
         model = Layer
-        exclude = ('contacts','workspace', 'store', 'name', 'uuid', 'storeType', 'typename')
+        exclude = ('owner', 'contacts','workspace', 'store', 'name', 'uuid', 'storeType', 'typename', 'keywords_region', 'language', 'bbox', 'llbbox', 'srs', 'temporal_extent_start', 'temporal_extent_end', 'geographic_bounding_box', 'distribution_url', 'distribution_description' )
 
 class RoleForm(forms.ModelForm):
     class Meta:
@@ -828,6 +828,7 @@ GENERIC_UPLOAD_ERROR = _("There was an error while attempting to upload your dat
 Please try again, or contact and administrator if the problem continues.")
 
 @login_required
+@permission_required('maps.can_add_layer', raise_exception=True)
 def upload_layer(request):
     if request.method == 'GET':
         return render_to_response('maps/layer_upload.html',
@@ -867,6 +868,7 @@ def upload_layer(request):
             return HttpResponse(json.dumps({ "success": False, "errors": errors}))
 
 @login_required
+@permission_required('maps.can_change_layer', raise_exception=True)
 def layer_replace(request, layername):
     layer = get_object_or_404(Layer, typename=layername)
     if not request.user.has_perm('maps.change_layer', obj=layer):

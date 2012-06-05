@@ -48,3 +48,7 @@ font-size:40px
 	border-style: none;
 	width: auto;
 }
+
+.x-panel label {
+	margin-bottom: 0;
+}

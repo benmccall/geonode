@@ -1,3 +1,15 @@
+/* Data Search */
+.selection-table{
+	border: 1px solid #EDEDED;
+}
+#refine{
+	display: none;
+}
+#data_ops ul{
+	margin: 0px;
+}
+
+/* Data Info */
 .social_like{
 	width: 150px;
 	height: 15px;

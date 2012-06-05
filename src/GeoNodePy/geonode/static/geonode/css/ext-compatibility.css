@@ -29,8 +29,9 @@ img {
   border: none;
   list-style:none;
 }
-.x-panel-body ul{
-list-style:none;
+.x-panel-body ul, .x-tab-panel ul{
+  list-style:none;
+  margin: 0;
 }
  /*
 .x-toolbar {
@@ -130,3 +131,11 @@ border-bottom: none;
     border-width: 0;
 }
 */
+
+.x-panel legend {
+	display: inline;
+	padding: 0 2px;
+	margin: 0;
+	border-style: none;
+	width: auto;
+}

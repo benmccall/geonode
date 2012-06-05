@@ -70,24 +70,25 @@
 
             app = new GeoExplorer.Viewer(config);
             
-            Ext.get(Ext.DomQuery.select("input[@name='style']")).on("click", function(evt, elem) {
+            Ext.get(Ext.DomQuery.select(".view-style")).on("click", function(evt, elem) {
                 app.selectedLayer.getLayer().mergeNewParams({
-                    "STYLES": elem.value,
+                    "STYLES": elem.id.replace(/^view\-/, ''),
                     "_dc": Math.random()
                 });
             });
 
-            Ext.get(Ext.DomQuery.select("select[@name='default-style']")).on("change", function(evt, elem) {
+            Ext.get(Ext.DomQuery.select(".makedefault-style")).on("click", function(evt, elem) {
                 Ext.Ajax.request({
                     method: "post",
                     url: "{% url data_style layer.typename %}",
-                    params: {"defaultStyle" : elem.value}
+                    params: {"defaultStyle" : elem.id.replace(/^makedefault\-/, '')}
                 });
             });
+
 {% has_obj_perm user layer "maps.change_layer" as can_change %}
 {% if can_change and perms.maps.change_layer %}
-            Ext.get(Ext.DomQuery.select(".style-title")).on("click", function(evt, elem) {
-                showStyle(Ext.get(elem).prev("input").getAttribute("value"));
+            Ext.get(Ext.DomQuery.select(".edit-style")).on("click", function(evt, elem) {
+                showStyle(elem.id.replace(/^edit\-/, ''));
             });
 {% endif %}
         });
@@ -124,18 +125,19 @@
 
 {% block main %}
   <div id="description">
-	<h3>{{ layer.resource.title|default:layer.typename }}</h3>
-    <div class="overall_rating" data-rating="{{ layer_rating }}"></div>
-		<g:plusone size="small" href="http://{{ request.get_host }}{{ request.get_full_path }}"></g:plusone>
-		<div class="fb-like" data-href="http://{{ request.get_host }}{{ request.get_full_path }}" data-send="false" data-width="50" data-layout="button_count" data-show-faces="false"></div>
-	</div>
-  <p> <strong>{% trans "Abstract" %}:</strong> {{ layer.abstract|default:_("No abstract for this layer.") }} </p>
+    <div class="social_like">
+        <g:plusone size="small" href="http://{{ request.get_host }}{{ request.get_full_path }}"></g:plusone>
+        <div class="fb-like" data-href="http://{{ request.get_host }}{{ request.get_full_path }}" data-send="false" data-width="50" data-layout="button_count" data-show-faces="false"></div>
+    </div>
+    <h3>{{ layer.resource.title|default:layer.typename }}{% if layer.edition %} ({{ layer.edition }}){% endif %}</h3>
+    {# Not using ratings at this time #}{% comment %}<div class="overall_rating" data-rating="{{ layer_rating }}"></div>{% endcomment %}
+    {% if layer.abstract %}<p>{{ layer.abstract }}</p>{% endif %}
+  </div>
 
   <div id="preview_map"></div>
 
   {% if layer.display_type %}<p> <strong>{% trans "Type" %}:</strong> {{ layer.display_type }} </p>{% endif %}
   {% if layer.keywords %}<p> <strong>{% trans "Keywords" %}:</strong> {{ layer.keywords.all|join:", " }}</p>{% endif %}
-  {% if layer.edition %}<p> <strong>{% trans "Edition" %}:</strong> {{ layer.edition }}</p>{% endif %}
   {% if layer.topic_category %}<p> <strong>{% trans "Topic Category" %}:</strong> {{ layer.topic_category }}</p>{% endif %}
 
   {% if layer.constraints_use or layer.constraints_other %}
@@ -189,9 +191,9 @@
 	</p>
 	{% endif %}
 
-	{% if layer.geographic_bounding_box %}<p> <strong>{% trans "Bounding Box" %}:</strong> {{ layer.geographic_bounding_box }} </p>{% endif %}
 	{% if layer.resource.projection %}<p> <strong>{% trans "Native SRS" %}:</strong> {{ layer.resource.projection|default:_("No SRS specified.") }} </p>{% endif %}
 
+	{# Not using comments or ratings at this time #}{% comment %}
 	<h3>{% trans "Comments" %}</h3>
 	<div class="comments_container">
 	    {% comments layer as comments %}
@@ -234,6 +236,7 @@
 		<div id="user_rating" class="category-layer"></div>
 	</div>
 	{% endif %}
+	{% endcomment %}
 
 	{% url ajax_layer_permissions layer.typename as form_action %}
 	{% include "_permissions_form.html" %}
@@ -255,7 +258,7 @@
         <li>{% trans "No metadata links provided for this data." %}</li>
     {% endfor %}
 
-    <li class="nav-header">{% trans "The following maps use this data set" %}</li>
+    <li class="nav-header">{% trans "Mapping" %}</li>
     {% for map in layer.maps %} 
       <li><a href="{{ map.get_absolute_url }}">{{ map.title }}</a></li>
     {% empty %}
@@ -266,46 +269,71 @@
     </li>
   </ul>
 
-  <h5>{% trans "Styles" %}</h5>
-  <p>{% trans "The following styles are associated with this data set.  Choose a style to view it in the preview to the left.  Click on a style name to view or edit the style." %}</p>
-  {% has_obj_perm user layer "maps.change_layer" as can_change %}
-  {% has_obj_perm user layer "maps.delete_layer" as can_delete %}
-  <span class="styles-list form-inline">
-    <input type="radio" name="style" id="{{layer.publishing.default_style.name}}" value="{{layer.publishing.default_style.name}}" checked="checked"/>
-    <label for="{{layer.publishing.default_style.name}}" class="style-title">
-     {% if layer.default_style.sld_title %}
-        {{ layer.default_style.sld_title }}
-     {% else %}
-        {{ layer.default_style.name|title }}
-     {% endif %}
-    </label>
-    <a href="{{ GEOSERVER_BASE_URL }}styles/{{ layer.default_style.name }}.sld">SLD</a><br/>
-    {% for style in layer.styles %} 
-      <input type="radio" name="style" id="{{style.name}}" value="{{style.name}}"/>
-      <label for="{{style.name}}" class="style-title">
-       {% if style.sld_title %}
+  <ul class="nav nav-list">
+    <li class="nav-header">{% trans "Styles" %}</li>
+    <li>{% trans "The following styles are associated with this data set." %}</li>
+
+    {% has_obj_perm user layer "maps.change_layer" as can_change %}
+    <li class="dropdown">
+      <a href="#" data-toggle="dropdown" class="dropdown-toggle">
+        {% if layer.default_style.sld_title %}
+          {{ layer.default_style.sld_title }}
+        {% else %}
+          {{ layer.default_style.name|title }}
+        {% endif %}
+        <b class="caret"></b>
+      </a>
+      <ul class="dropdown-menu">
+        <li>
+          <a href="#" id="view-{{layer.publishing.default_style.name}}" class="view-style"><i class="icon-globe"></i> View Style</a>
+        </li>
+        {% if user.is_authenticated and perms.maps.change_layer and can_change %}
+        <li>
+          <a href="#" id="edit-{{layer.publishing.default_style.name}}" class="edit-style"><i class="icon-edit"></i> Edit Style</a>
+        </li>
+        {% endif %}
+        <li>
+          <a href="{{ GEOSERVER_BASE_URL }}styles/{{ layer.default_style.name }}.sld" target="_blank"><i class="icon-download"></i> Download SLD</a>
+        </li>
+      </ul>
+    </li>
+
+    {% for style in layer.styles %}
+    <li class="dropdown">
+      <a href="#" data-toggle="dropdown" class="dropdown-toggle">
+        {% if style.sld_title %}
           {{ style.sld_title }}
-       {% else %}
+        {% else %}
           {{ style.name|title }}
-       {% endif %}
-      </label>
-      <a href="{{ style.body_href }}">SLD</a><br/>
+        {% endif %}
+        <b class="caret"></b>
+      </a>
+      <ul class="dropdown-menu">
+        <li>
+          <a href="#" id="view-{{style.name}}" class="view-style"><i class="icon-globe"></i> View Style</a>
+        </li>
+        {% if user.is_authenticated and perms.maps.change_layer and can_change %}
+        <li>
+          <a href="#" id="edit-{{style.name}}" class="edit-style"><i class="icon-edit"></i> Edit Style</a>
+        </li>
+        <li>
+          <a href="#" id="makedefault-{{style.name}}" class="makedefault-style"><i class="icon-ok-circle"></i> Make Default</a>
+        </li>
+        {% endif %}
+        <li>
+          <a href="{{ style.body_href }}" target="_blank"><i class="icon-download"></i> Download SLD</a>
+        </li>
+      </ul>
+    </li>
     {% endfor %}
-  </span>
-  {% if user.is_authenticated and perms.maps.change_layer and can_change %}
-    {% trans "Default style:" %}
-    <select name="default-style">
-      <option value="{{layer.publishing.default_style.name}}" selected="selected">
-        {{layer.publishing.default_style.name|title}}
-      </option>
-      {% for style in layer.styles %} 
-        <option value="{{style.name}}"> {{ style.name|title }} </option>
-      {% endfor %}
-    </select><br />
-    <a href="javascript:showStyle()">{% trans "Create new style" %}</a>
-  {% endif %}
+
+    {% if user.is_authenticated and perms.maps.change_layer and can_change %}
+        <li><a href="javascript:showStyle()">{% trans "Create new style" %}</a></li>
+    {% endif %}
+  </ul>
 
   <ul class="nav nav-list">
+    {% has_obj_perm user layer "maps.delete_layer" as can_delete %}
     {% if user.is_authenticated and perms.maps.change_layer %}
       {% if can_change or can_delete %}
         <li class="nav-header">{% trans "Manage" %}</li>

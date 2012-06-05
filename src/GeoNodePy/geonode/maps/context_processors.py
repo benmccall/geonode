@@ -1,7 +1,7 @@
 from django.conf import settings
-from geonode import __version__
+from geonode import get_version
 
-def resource_urls(request): 
+def resource_urls(request):
     return dict(
         STATIC_URL = settings.STATIC_URL,
         GEONODE_CLIENT_LOCATION = settings.GEONODE_CLIENT_LOCATION,
@@ -9,5 +9,5 @@ def resource_urls(request):
         GOOGLE_API_KEY = settings.GOOGLE_API_KEY,
         SITENAME = settings.SITENAME,
         REGISTRATION_OPEN = settings.REGISTRATION_OPEN,
-        VERSION = __version__,
+        VERSION = get_version(),
     )

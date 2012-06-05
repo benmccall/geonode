@@ -25,19 +25,20 @@
     <div class="span4 homepage-teaser">
       <h2> {% trans "Maps" %} </h2>
       <p>
-        GeoNode lets you compose and share maps.  <a href="{% url maps_new %}">Create</a>
-        a map with our cartography tool, or <a href="{% url maps_search %}">explore</a> maps
+        GeoNode lets you compose and share interactive maps.  <a href="{% url maps_new %}">Create</a>
+        a map with our online cartography tool, or <a href="{% url maps_search %}">explore</a> maps
         shared by others.
       </p>
     </div>
     <div class="span4 homepage-teaser">
       <h2> {% trans "Data" %} </h2>
       <p>
-        GeoNode lets you upload, manage, and browse data.  
+        GeoNode lets you upload, manage, and browse GIS datasets.
         <a href="{% url data_search %}">Search</a> for data that is valuable to you, or 
         <a href="{% url data_upload %}">upload</a> your own data.
       </p>
     </div>
+    {% comment %}
     <div class="span4">
         <form class="form-search" action="{% url data_search %}" method="POST">
 		  {% csrf_token %}
@@ -46,5 +47,6 @@
         </form>
         <a href="{% url data_search %}">{% trans "Advanced Search" %}</a>
     </div>
+    {% endcomment %}
   </div>
 {% endblock %}

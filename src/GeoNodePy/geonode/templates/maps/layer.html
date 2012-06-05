@@ -91,6 +91,27 @@
                 showStyle(elem.id.replace(/^edit\-/, ''));
             });
 {% endif %}
+
+{% has_obj_perm user layer "maps.change_layer_permissions" as can_change_permissions %}
+{% if can_change_permissions %}
+            new GeoNode.PermissionsEditor({
+                renderTo: "permissions_form",
+                userLookup: "{% url geonode.views.ajax_lookup %}",
+                permissions: {{ permissions_json }},
+                levels: {
+                    'admin': 'layer_admin',
+                    'readwrite': 'layer_readwrite',
+                    'readonly': 'layer_readonly',
+                    '_none': '_none'
+                },
+                listeners: {
+                    updated: function(perms) {
+                        var submitTo = "{% url geonode.maps.views.ajax_layer_permissions layer.typename %}";
+                        Ext.Ajax.request({ url: submitTo, jsonData: perms.writePermissions() });
+                    }
+                }
+            });
+{% endif %}
         });
 
         function showStyle(styleName) {
@@ -211,20 +232,23 @@
 	{% endif %}
 	{% endcomment %}
 
-	{% url ajax_layer_permissions layer.typename as form_action %}
-	{% include "_permissions_form.html" %}
 {% endblock %}
 
 {% block sidebar %}
 
-    {% if layer.owner %}
-    <p> <strong>{% trans "Owner" %}:</strong>
+  {% if layer.owner %}
+    <ul class="nav nav-list">
+      <li class="nav-header">{% trans "Owner" %}</li>
+      <li>
         <a href="{{ layer.owner.get_profile.get_absolute_url }}"> {{ layer.owner.username }} </a>
-    </p>
-    {% endif %}
+      </li>
+    </ul>
+  {% endif %}
 
-    {% if layer.poc %}
-    <p> <strong>{% trans "Point of Contact" %}:</strong>
+  {% if layer.poc %}
+    <ul class="nav nav-list">
+      <li class="nav-header">{% trans "Point of Contact" %}</li>
+      <li>
         {% if layer.poc.user %}
             <a href="{{ layer.poc.user.get_profile.get_absolute_url }}"> {{ layer.poc.user.username }} </a>
         {% else %}
@@ -241,9 +265,12 @@
             {% if layer.poc.country %}<li><strong>{% trans "Country" %}:</strong> {{ layer.poc.country}}</li>{% endif %}
         </ul>
         {% endif %}
-    </p>
-    {% endif %}
+      </li>
+    </ul>
+  {% endif %}
 
+  <ul class="nav nav-list">
+    <li>
         <div class="btn-group">
             <a class="btn btn-large btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
                 <i class="icon-download icon-white"></i>
@@ -256,6 +283,8 @@
             {% endfor %}
             </ul>
         </div>
+    </li>
+  </ul>
 
   <ul class="nav nav-list">
     <li class="nav-header">{% trans "Download Metadata" %}</li>
@@ -367,7 +396,7 @@
       {% has_obj_perm user layer "maps.change_layer_permissions" as can_change_permissions %}
       {% if can_change_permissions %}
 	      <li class="nav-header">{% trans "Permissions" %}</li>
-	      <li><div id="permissions_form"></div></li>
+	      <li><div id="permissions_form" class="form-inline"></div></li>
       {% endif %}
     {% endif %}
   </ul>

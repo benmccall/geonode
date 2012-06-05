@@ -339,18 +339,13 @@
       {% has_obj_perm user layer "maps.change_layer_permissions" as can_change_permissions %}
       {% if can_change_permissions %}
 	      <li class="nav-header">{% trans "Permissions" %}</li>
-	      <li><a href="#modal_perms" data-toggle="modal">{% trans "Edit permissions" %}</a></li>
+	      <li><div id="permissions_form"></div></li>
       {% endif %}
     {% endif %}
   </ul>
 {% endblock %}
 
 {% block extra_script %}
-  <script>
-    $(function() {
-      $("#permission_form").submit(perms_submit);
-    });
-  </script>
 
 	{% if request.user.is_authenticated %}
 		{% user_rating_js request.user layer "layer" %}

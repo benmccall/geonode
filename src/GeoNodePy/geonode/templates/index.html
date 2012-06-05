@@ -22,24 +22,20 @@
     </p>
   </div>
   <div class="row">
-    <div class="span4">
+    <div class="span4 homepage-teaser">
       <h2> {% trans "Maps" %} </h2>
       <p>
-      {% blocktrans %} 
-        GeoNode lets you compose and share maps.  <strong>Create</strong>
-        a map with our cartography tool, or <strong>explore</strong> maps
+        GeoNode lets you compose and share maps.  <a href="{% url maps_new %}">Create</a>
+        a map with our cartography tool, or <a href="{% url maps_search %}">explore</a> maps
         shared by others.
-      {% endblocktrans %} 
       </p>
     </div>
-    <div class="span4">
+    <div class="span4 homepage-teaser">
       <h2> {% trans "Data" %} </h2>
       <p>
-      {% blocktrans %} 
         GeoNode lets you upload, manage, and browse data.  
-        <strong>Search</strong> for data that is valuable to you, or 
-        <strong>upload</strong> your own data.
-      {% endblocktrans %} 
+        <a href="{% url data_search %}">Search</a> for data that is valuable to you, or 
+        <a href="{% url data_upload %}">upload</a> your own data.
       </p>
     </div>
     <div class="span4">

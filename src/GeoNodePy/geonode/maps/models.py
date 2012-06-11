@@ -517,8 +517,7 @@ class Contact(models.Model):
 
 
 def create_user_profile(sender, instance, created, **kwargs):
-    if created:
-        Contact.objects.create(user=instance, 'name': instance.username )
+    profile, created = Contact.objects.get_or_create(user=instance, defaults={'name': instance.username})
 
 signals.post_save.connect(create_user_profile, sender=User)
 

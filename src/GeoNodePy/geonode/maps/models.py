@@ -540,8 +540,7 @@ class Contact(models.Model):
 
 
 def create_user_profile(sender, instance, created, **kwargs):
-    if created:
-        Contact.objects.create(user=instance, 'name'=instance.username )
+    profile, created = Contact.objects.get_or_create(user=instance, defaults={'name': instance.username})
 
 signals.post_save.connect(create_user_profile, sender=User)
 
@@ -716,7 +715,7 @@ class Layer(models.Model, PermissionLevelMixin):
     # see poc property definition below
 
     # section 3
-    keywords = TaggableManager(_('keywords'), help_text=_("A space or comma-separated list of keywords"))
+    keywords = TaggableManager(_('keywords'), help_text=_("A space or comma-separated list of keywords"), blank=True)
     keywords_region = models.CharField(_('keywords region'), max_length=3, choices=COUNTRIES, default = 'USA')
     constraints_use = models.CharField(_('constraints use'), max_length=255, choices=CONSTRAINT_OPTIONS, default='copyright')
     constraints_other = models.TextField(_('constraints other'), blank=True, null=True)
@@ -1234,7 +1233,7 @@ class Map(models.Model, PermissionLevelMixin):
     last_modified = models.DateTimeField(auto_now_add=True)
     # The last time the map was modified.
     
-    keywords = TaggableManager(_('keywords'), help_text=_("A space or comma-separated list of keywords"))
+    keywords = TaggableManager(_('keywords'), help_text=_("A space or comma-separated list of keywords"), blank=True)
 
     def __unicode__(self):
         return '%s by %s' % (self.title, (self.owner.username if self.owner else "<Anonymous>"))

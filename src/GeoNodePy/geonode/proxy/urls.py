@@ -6,4 +6,5 @@ urlpatterns = patterns('geonode.proxy.views',
         proxy_path='/gs/rest/styles', downstream_path='rest/styles')),
     (r'^gs/rest/layers', 'geoserver_rest_proxy', dict(
         proxy_path='/gs/rest/layers', downstream_path='rest/layers')),
+    (r'^download/(?P<service>[^/]*)/(?P<layer>[^/]*)/?$','download'),
 )

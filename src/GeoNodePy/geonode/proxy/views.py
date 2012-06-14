@@ -1,8 +1,26 @@
 from django.http import HttpResponse
 from httplib import HTTPConnection
-from urlparse import urlsplit
+from urlparse import urlsplit, urlparse
 import httplib2
 from django.conf import settings
+from geonode.maps.models import Layer
+
+
+_user, _password = settings.GEOSERVER_CREDENTIALS
+h = httplib2.Http()
+h.add_credentials(_user, _password)
+_netloc = urlparse(settings.GEOSERVER_BASE_URL).netloc
+h.authorizations.append(
+    httplib2.BasicAuthentication(
+        (_user, _password),
+        _netloc,
+        settings.GEOSERVER_BASE_URL,
+            {},
+        None,
+        None,
+        h
+    )
+)
 
 def proxy(request):
     if 'url' not in request.GET:
@@ -66,3 +84,31 @@ def geoserver_rest_proxy(request, proxy_path, downstream_path):
         content=content,
         status=response.status,
         mimetype=response.get("content-type", "text/plain"))
+
+
+def download(request, service, layer):
+    params = request.GET
+    #mimetype = params.get("outputFormat") if service == "wfs" else params.get("format")
+
+    service=service.replace("_","/")
+    url = settings.GEOSERVER_BASE_URL + service + "?" + params.urlencode()
+
+    layerObj = Layer.objects.get(pk=layer)
+
+    #if layerObj.downloadable and request.user.has_perm('maps.view_layer', obj=layerObj):
+    if request.user.has_perm('maps.view_layer', obj=layerObj):
+
+        download_response, content = h.request(
+            url, request.method,
+            body=None,
+            headers=dict())
+        content_disposition = None
+        if 'content_disposition' in download_response:
+            content_disposition = download_response['content-disposition']
+        mimetype = download_response['content-type']
+        response = HttpResponse(content, mimetype = mimetype)
+        if content_disposition is not None:
+            response['Content-Disposition'] = content_disposition
+        return response
+    else:
+        return HttpResponse(status=403)

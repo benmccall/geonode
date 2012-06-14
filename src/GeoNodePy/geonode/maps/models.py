@@ -714,6 +714,11 @@ class Layer(models.Model, PermissionLevelMixin):
     distribution_url = models.TextField(_('distribution URL'), blank=True, null=True)
     distribution_description = models.TextField(_('distribution description'), blank=True, null=True)
 
+#    downloadable = models.BooleanField(_('Downloadable'), blank=False, null=False, default=True)
+    """
+    Is the layer downloadable?
+    """
+
     # Section 8
     data_quality_statement = models.TextField(_('data quality statement'), blank=True, null=True)
 
@@ -724,6 +729,9 @@ class Layer(models.Model, PermissionLevelMixin):
         """Returns a list of (mimetype, URL) tuples for downloads of this data
         in various formats."""
  
+#         if not self.downloadable:
+#            return None
+
         bbox = self.resource.latlon_bbox
 
         dx = float(bbox[1]) - float(bbox[0])
@@ -751,7 +759,7 @@ class Layer(models.Model, PermissionLevelMixin):
                     'outputFormat': mime
                 }
                 params.update(extra_params)
-                return settings.GEOSERVER_BASE_URL + "wfs?" + urllib.urlencode(params)
+                return settings.SITEURL + "download/wfs/" + str(self.id) + "?" + urllib.urlencode(params)
 
             types = [
                 ("zip", _("Zipped Shapefile"), "SHAPE-ZIP", {'format_options': 'charset:UTF-8'}),
@@ -765,21 +773,21 @@ class Layer(models.Model, PermissionLevelMixin):
         elif self.resource.resource_type == "coverage":
             try:
                 client = httplib2.Http()
-                description_url = settings.GEOSERVER_BASE_URL + "wcs?" + urllib.urlencode({
+                description_url = settings.SITEURL + "download/wcs/" + str(self.id) + "?" + urllib.urlencode({
                         "service": "WCS",
                         "version": "1.0.0",
                         "request": "DescribeCoverage",
                         "coverage": self.typename
                     })
-                content = client.request(description_url)[1]
-                doc = etree.fromstring(content)
+                response, content = client.request(description_url)
+                doc = parse(StringIO(content))
                 extent = doc.find("//%(gml)slimits/%(gml)sGridEnvelope" % {"gml": "{http://www.opengis.net/gml}"})
                 low = extent.find("{http://www.opengis.net/gml}low").text.split()
                 high = extent.find("{http://www.opengis.net/gml}high").text.split()
                 w, h = [int(h) - int(l) for (h, l) in zip(high, low)]
 
                 def wcs_link(mime):
-                    return settings.GEOSERVER_BASE_URL + "wcs?" + urllib.urlencode({
+                    return settings.SITEURL + "download/wcs/" + str(self.id) + "?" + urllib.urlencode({
                         "service": "WCS",
                         "version": "1.0.0",
                         "request": "GetCoverage",
@@ -793,14 +801,14 @@ class Layer(models.Model, PermissionLevelMixin):
 
                 types = [("tiff", "GeoTIFF", "geotiff")]
                 links.extend([(ext, name, wcs_link(mime)) for (ext, name, mime) in types])
-            except Exception:
+            except Exception, e:
                 # if something is wrong with WCS we probably don't want to link
                 # to it anyway
                 # TODO: This is a bad idea to eat errors like this.
-                pass 
+                pass
 
         def wms_link(mime):
-            return settings.GEOSERVER_BASE_URL + "wms?" + urllib.urlencode({
+            return settings.SITEURL + "download/wms/" + str(self.id) + "?"  + urllib.urlencode({
                 'service': 'WMS',
                 'request': 'GetMap',
                 'layers': self.typename,
@@ -812,6 +820,7 @@ class Layer(models.Model, PermissionLevelMixin):
             })
 
         types = [
+            ("tiff", _("GeoTIFF"), "image/geotiff"),
             ("jpg", _("JPEG"), "image/jpeg"),
             ("pdf", _("PDF"), "application/pdf"),
             ("png", _("PNG"), "image/png")
@@ -819,12 +828,12 @@ class Layer(models.Model, PermissionLevelMixin):
 
         links.extend((ext, name, wms_link(mime)) for ext, name, mime in types)
 
-        kml_reflector_link_download = settings.GEOSERVER_BASE_URL + "wms/kml?" + urllib.urlencode({
+        kml_reflector_link_download = settings.SITEURL + "download/wms_kml/" + str(self.id) + "?"  + urllib.urlencode({
             'layers': self.typename,
             'mode': "download"
         })
 
-        kml_reflector_link_view = settings.GEOSERVER_BASE_URL + "wms/kml?" + urllib.urlencode({
+        kml_reflector_link_view = settings.SITEURL + "download/wms_kml/" + str(self.id) + "?" + urllib.urlencode({
             'layers': self.typename,
             'mode': "refresh"
         })

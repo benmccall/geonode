@@ -4,23 +4,8 @@ from urlparse import urlsplit, urlparse
 import httplib2
 from django.conf import settings
 from geonode.maps.models import Layer
+from django.shortcuts import get_object_or_404
 
-
-_user, _password = settings.GEOSERVER_CREDENTIALS
-h = httplib2.Http()
-h.add_credentials(_user, _password)
-_netloc = urlparse(settings.GEOSERVER_BASE_URL).netloc
-h.authorizations.append(
-    httplib2.BasicAuthentication(
-        (_user, _password),
-        _netloc,
-        settings.GEOSERVER_BASE_URL,
-            {},
-        None,
-        None,
-        h
-    )
-)
 
 def proxy(request):
     if 'url' not in request.GET:
@@ -86,22 +71,31 @@ def geoserver_rest_proxy(request, proxy_path, downstream_path):
         mimetype=response.get("content-type", "text/plain"))
 
 
-def download(request, service, layer):
+def download(request, service):
     params = request.GET
-    #mimetype = params.get("outputFormat") if service == "wfs" else params.get("format")
-
     service=service.replace("_","/")
     url = settings.GEOSERVER_BASE_URL + service + "?" + params.urlencode()
 
-    layerObj = Layer.objects.get(pk=layer)
+    if service == "wfs":
+        layername = params.get("typename")
+    elif service == "wcs":
+        layername = params.get("coverage")
+    else: #wms and wms/kml
+        layername = params.get("layers")
 
-    #if layerObj.downloadable and request.user.has_perm('maps.view_layer', obj=layerObj):
-    if request.user.has_perm('maps.view_layer', obj=layerObj):
+    layer = get_object_or_404(Layer, typename=layername)
 
-        download_response, content = h.request(
+    #if layer.downloadable and request.user.has_perm('maps.view_layer', obj=layer):
+    if request.user.has_perm('maps.view_layer', obj=layer):
+        http = httplib2.Http()
+        http.add_credentials(*settings.GEOSERVER_CREDENTIALS)
+        headers = dict()
+
+        download_response, content = http.request(
             url, request.method,
             body=None,
-            headers=dict())
+            headers=headers)
+
         content_disposition = None
         if 'content_disposition' in download_response:
             content_disposition = download_response['content-disposition']

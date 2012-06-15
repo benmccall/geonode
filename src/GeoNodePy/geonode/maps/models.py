@@ -759,7 +759,7 @@ class Layer(models.Model, PermissionLevelMixin):
                     'outputFormat': mime
                 }
                 params.update(extra_params)
-                return settings.SITEURL + "download/wfs/" + str(self.id) + "?" + urllib.urlencode(params)
+                return settings.SITEURL + "download/wfs?" + urllib.urlencode(params)
 
             types = [
                 ("zip", _("Zipped Shapefile"), "SHAPE-ZIP", {'format_options': 'charset:UTF-8'}),
@@ -773,7 +773,7 @@ class Layer(models.Model, PermissionLevelMixin):
         elif self.resource.resource_type == "coverage":
             try:
                 client = httplib2.Http()
-                description_url = settings.SITEURL + "download/wcs/" + str(self.id) + "?" + urllib.urlencode({
+                description_url = settings.SITEURL + "download/wcs?" + urllib.urlencode({
                         "service": "WCS",
                         "version": "1.0.0",
                         "request": "DescribeCoverage",
@@ -787,7 +787,7 @@ class Layer(models.Model, PermissionLevelMixin):
                 w, h = [int(h) - int(l) for (h, l) in zip(high, low)]
 
                 def wcs_link(mime):
-                    return settings.SITEURL + "download/wcs/" + str(self.id) + "?" + urllib.urlencode({
+                    return settings.SITEURL + "download/wcs?" + urllib.urlencode({
                         "service": "WCS",
                         "version": "1.0.0",
                         "request": "GetCoverage",
@@ -808,7 +808,7 @@ class Layer(models.Model, PermissionLevelMixin):
                 pass
 
         def wms_link(mime):
-            return settings.SITEURL + "download/wms/" + str(self.id) + "?"  + urllib.urlencode({
+            return settings.SITEURL + "download/wms?" + urllib.urlencode({
                 'service': 'WMS',
                 'request': 'GetMap',
                 'layers': self.typename,
@@ -828,12 +828,12 @@ class Layer(models.Model, PermissionLevelMixin):
 
         links.extend((ext, name, wms_link(mime)) for ext, name, mime in types)
 
-        kml_reflector_link_download = settings.SITEURL + "download/wms_kml/" + str(self.id) + "?"  + urllib.urlencode({
+        kml_reflector_link_download = settings.SITEURL + "download/wms_kml?" + urllib.urlencode({
             'layers': self.typename,
             'mode': "download"
         })
 
-        kml_reflector_link_view = settings.SITEURL + "download/wms_kml/" + str(self.id) + "?" + urllib.urlencode({
+        kml_reflector_link_view = settings.SITEURL + "download/wms_kml?" + urllib.urlencode({
             'layers': self.typename,
             'mode': "refresh"
         })

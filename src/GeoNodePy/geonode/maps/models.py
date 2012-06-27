@@ -1096,6 +1096,7 @@ class Layer(models.Model, PermissionLevelMixin):
             self.publishing.attribution = str(self.poc.user)
             profile = Contact.objects.get(user=self.poc.user)
             self.publishing.attribution_link = settings.SITEURL[:-1] + profile.get_absolute_url()
+            self.publishing.enabled = self.is_active
             Layer.objects.gs_catalog.save(self.publishing)
 
     def  _populate_from_gs(self):
@@ -1639,14 +1640,15 @@ def delete_layer(instance, sender, **kwargs):
 
 def post_save_layer(instance, sender, **kwargs):
     instance._autopopulate()
+    instance.save_to_geoserver()
+
+    if kwargs['created']:
+        instance._populate_from_gs()
 
     if instance.is_active:
-        instance.save_to_geoserver()
-        instance._populate_from_gs()
         instance.save_to_geonetwork()
         instance._populate_from_gn()
     elif not kwargs['created']:
-        #instance.delete_from_geoserver()
         instance.delete_from_geonetwork()
 
     signals.post_save.disconnect(post_save_layer, sender=Layer)

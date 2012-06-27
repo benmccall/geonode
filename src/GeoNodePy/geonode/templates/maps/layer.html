@@ -255,6 +255,10 @@
 	<h3>{% trans "Rate this layer" %}</h3>
 	{% user_rating request.user layer "layer" as user_layer_rating %}
 	<div id="user_rating" class="category-layer"></div>
+
+{% load flagtags  %}
+{% flag layer owner %}
+
 {% endif %}
 </div>
 {% endblock %}

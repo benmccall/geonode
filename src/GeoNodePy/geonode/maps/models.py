@@ -714,8 +714,14 @@ class Layer(models.Model, PermissionLevelMixin):
     distribution_url = models.TextField(_('distribution URL'), blank=True, null=True)
     distribution_description = models.TextField(_('distribution description'), blank=True, null=True)
 
-    # Section 8
+    # Section 7
     data_quality_statement = models.TextField(_('data quality statement'), blank=True, null=True)
+
+    # Section 8 (Customizations)
+    is_active = models.BooleanField(_('Active'), blank=False, null=False, default=False)
+    """
+    Is the layer published?
+    """
 
     # Section 9
     # see metadata_author property definition below
@@ -1633,16 +1639,19 @@ def delete_layer(instance, sender, **kwargs):
 
 def post_save_layer(instance, sender, **kwargs):
     instance._autopopulate()
-    instance.save_to_geoserver()
 
-    if kwargs['created']:
+    if instance.is_active:
+        instance.save_to_geoserver()
         instance._populate_from_gs()
-
-    instance.save_to_geonetwork()
-
-    if kwargs['created']:
+        instance.save_to_geonetwork()
         instance._populate_from_gn()
-        instance.save(force_update=True)
+    elif not kwargs['created']:
+        #instance.delete_from_geoserver()
+        instance.delete_from_geonetwork()
+
+    signals.post_save.disconnect(post_save_layer, sender=Layer)
+    instance.save(force_update=True)
+    signals.post_save.connect(post_save_layer, sender=Layer)
 
 signals.pre_delete.connect(delete_layer, sender=Layer)
 signals.post_save.connect(post_save_layer, sender=Layer)

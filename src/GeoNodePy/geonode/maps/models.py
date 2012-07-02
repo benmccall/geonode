@@ -714,13 +714,13 @@ class Layer(models.Model, PermissionLevelMixin):
     distribution_url = models.TextField(_('distribution URL'), blank=True, null=True)
     distribution_description = models.TextField(_('distribution description'), blank=True, null=True)
 
-#    downloadable = models.BooleanField(_('Downloadable'), blank=False, null=False, default=True)
+    # Section 8
+    data_quality_statement = models.TextField(_('data quality statement'), blank=True, null=True)
+
+    is_downloadable = models.BooleanField(_('Downloadable'), blank=False, null=False, default=True)
     """
     Is the layer downloadable?
     """
-
-    # Section 8
-    data_quality_statement = models.TextField(_('data quality statement'), blank=True, null=True)
 
     # Section 9
     # see metadata_author property definition below
@@ -729,8 +729,8 @@ class Layer(models.Model, PermissionLevelMixin):
         """Returns a list of (mimetype, URL) tuples for downloads of this data
         in various formats."""
  
-#         if not self.downloadable:
-#            return None
+        if not self.is_downloadable:
+            return None
 
         bbox = self.resource.latlon_bbox
 

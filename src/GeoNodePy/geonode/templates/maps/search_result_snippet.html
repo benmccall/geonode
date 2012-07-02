@@ -55,6 +55,7 @@
 {% else %} 
   {% has_obj_perm user layer "maps.view_layer" as can_view %}
   {% if can_view %}
+    {% if layer.is_downloadable %}
     <p><b>{% trans "Download:" %}</b>
     {% for link in extra_links.download %}
       <a href="{{link.2}}" class="download {{link.0}}">{{link.1}}</a>
@@ -62,6 +63,7 @@
     <em>{% trans "No download URLs are defined for this layer." %}</em>
     {% endfor %}
     </p>
+    {% endif %}
 
     {% if rec.distribution.onlineresource.url %}
     <p><a href="{{ rec.distribution.onlineresource.url }}">

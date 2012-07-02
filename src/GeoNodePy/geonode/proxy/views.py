@@ -85,8 +85,7 @@ def download(request, service):
 
     layer = get_object_or_404(Layer, typename=layername)
 
-    #if layer.downloadable and request.user.has_perm('maps.view_layer', obj=layer):
-    if request.user.has_perm('maps.view_layer', obj=layer):
+    if layer.is_downloadable and request.user.has_perm('maps.view_layer', obj=layer):
         http = httplib2.Http()
         http.add_credentials(*settings.GEOSERVER_CREDENTIALS)
         headers = dict()

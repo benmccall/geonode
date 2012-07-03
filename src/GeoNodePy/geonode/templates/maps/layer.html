@@ -257,7 +257,15 @@
 	{% user_rating request.user layer "layer" as user_layer_rating %}
 	<div id="user_rating" class="category-layer"></div>
 
-{% flag layer "owner" %}
+    {% if layer|can_be_flagged_by:request.user and not request.user.is_staff %}
+        <a href="{{ layer|flag_confirm_url:'owner' }}">Flag as Inappropriate</a>
+    {% elif request.user.is_staff %}
+        {% if layer|flag_count == 0 %}
+            <a href="{{ layer|flag_confirm_url_with_status:'owner' }}">Flag as Inappropriate</a>
+        {% else %}
+            <a href="{{ layer|flag_confirm_url_with_status:'owner' }}">Update Flag Status</a>
+        {% endif %}
+    {% endif %}
 
 {% endif %}
 </div>

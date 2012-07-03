@@ -1,8 +1,25 @@
 {% if form %}
 <form method="POST" action="{% url flag %}">
     {% csrf_token %}
-    {{ form.as_p }}
-    {% if next %}<input type="hidden" name="next" value="{{ next }}{% endif %}" />
-    <input type="submit" value="Submit Flag" /></td>
+    {{ form.non_field_errors }}
+    {# Include the visible fields #}
+    {% for field in form.visible_fields %}
+        <p class="fieldWrapper">
+            {{ field.errors }}
+            {% if field.label == "Comment" %}
+                {{ field }}
+            {% else %}
+                {{ field.label_tag }}: {{ field }}
+            {% endif %}
+            </p>
+    {% endfor %}
+
+    {# Include the hidden fields #}
+    {% for hidden in form.hidden_fields %}
+    {{ hidden }}
+    {% endfor %}
+    {% if next %}<input type="hidden" name="next" value="{{ next }}" />{% endif %}
+
+    <p class="comment_post"><input type="submit" value="Submit Flag" /></p>
 </form>
 {% endif %}

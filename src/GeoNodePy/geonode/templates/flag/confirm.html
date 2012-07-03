@@ -1,3 +1,28 @@
-{% block flag_form %}
+{% extends "page_layout.html" %}
+{% load i18n %}
+
+{% block title %} {% trans "Flag Inappropriate Content" %} {% endblock %}
+
+{% block main %}
+<div class="twocol">
+
+    <h2>{% trans "Flag Inappropriate Content" %}</h2>
+    <p>
+    {% blocktrans %}
+    Please describe why you believe this content should be removed from the site.
+    Flagged content will be reviewed by site moderators.
+    {% endblocktrans %}
+    </p>
+
     {% include "flag/flag_form.html" %}
+
+</div>
 {% endblock %}
+
+{% block sidebar %}
+<!--
+<div class="threecol">
+</div>
+-->
+{% endblock %}
+

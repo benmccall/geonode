@@ -261,12 +261,17 @@
 
 {% block sidebar %}
 <div id="sidebar" class="threecol">
+
     <h3> {% trans "Download" %} </h3>
+
+    {% if layer.download_links %}
     <p> <strong>{% trans "Data" %}: </strong>
         {% for extension, type, link in layer.download_links %}
             <a href="{{link}}">{{type}}</a>
         {% endfor %}
     </p>
+    {% endif %}
+
     <h3> {% trans "Legend" %}<h3>
     {% comment %}
     The request below accepts more parameters, like fontName ( fontName=DejaVu ) and scale ( SCALE=17471330.182978604 ).
@@ -280,6 +285,7 @@
             <em> {% trans "No metadata links provided for this data." noop %} </em>
         {% endfor %}
     </p>
+
     <h3>{% trans "Maps" %} </h3>
     {% if layer.maps %}
     <p>{% trans "The following maps use this data set" %}:

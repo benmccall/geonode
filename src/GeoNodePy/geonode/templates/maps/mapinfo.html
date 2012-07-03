@@ -3,6 +3,7 @@
 {% load geonode_auth %}
 {% load dialogos_tags %}
 {% load agon_ratings_tags %}
+{% load flag_tags %}
 
 {% block head %}
 {% include "geonode/ext_header.html" %}
@@ -114,7 +115,11 @@ Ext.onReady(function() {
 		<h3>{% trans "Rate this map" %}</h3>
 		{% user_rating request.user map "map" as user_map_rating %}
 		<div id="user_rating" class="category-map"></div>
-	{% endif %}
+
+        {% flag map "owner" %}
+
+    {% endif %}
+
 </div>
 {% endblock %}
 {% block sidebar %}

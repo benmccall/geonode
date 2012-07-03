@@ -714,12 +714,18 @@ class Layer(models.Model, PermissionLevelMixin):
     distribution_url = models.TextField(_('distribution URL'), blank=True, null=True)
     distribution_description = models.TextField(_('distribution description'), blank=True, null=True)
 
-    # Section 8
+    # Section 7
     data_quality_statement = models.TextField(_('data quality statement'), blank=True, null=True)
 
+    # Section 8 (Customizations)
     is_downloadable = models.BooleanField(_('Downloadable'), blank=False, null=False, default=True)
     """
     Is the layer downloadable?
+    """
+
+    is_active = models.BooleanField(_('Active'), blank=False, null=False, default=False)
+    """
+    Is the layer published?
     """
 
     # Section 9
@@ -1099,6 +1105,7 @@ class Layer(models.Model, PermissionLevelMixin):
             self.publishing.attribution = str(self.poc.user)
             profile = Contact.objects.get(user=self.poc.user)
             self.publishing.attribution_link = settings.SITEURL[:-1] + profile.get_absolute_url()
+            self.publishing.enabled = self.is_active
             Layer.objects.gs_catalog.save(self.publishing)
 
     def  _populate_from_gs(self):
@@ -1647,11 +1654,15 @@ def post_save_layer(instance, sender, **kwargs):
     if kwargs['created']:
         instance._populate_from_gs()
 
-    instance.save_to_geonetwork()
-
-    if kwargs['created']:
+    if instance.is_active:
+        instance.save_to_geonetwork()
         instance._populate_from_gn()
-        instance.save(force_update=True)
+    elif not kwargs['created']:
+        instance.delete_from_geonetwork()
+
+    signals.post_save.disconnect(post_save_layer, sender=Layer)
+    instance.save(force_update=True)
+    signals.post_save.connect(post_save_layer, sender=Layer)
 
 signals.pre_delete.connect(delete_layer, sender=Layer)
 signals.post_save.connect(post_save_layer, sender=Layer)

@@ -89,7 +89,7 @@ class LayerForm(forms.ModelForm):
 
     class Meta:
         model = Layer
-        exclude = ('contacts','workspace', 'store', 'name', 'uuid', 'storeType', 'typename')
+        exclude = ('contacts','workspace', 'store', 'name', 'uuid', 'storeType', 'typename', 'is_active')
 
 class RoleForm(forms.ModelForm):
     class Meta:
@@ -793,7 +793,7 @@ def layer_style(request, layername):
         return HttpResponse("Not allowed",status=403)
 
 def layer_detail(request, layername):
-    layer = get_object_or_404(Layer, typename=layername)
+    layer = get_object_or_404(Layer, typename=layername, is_active=True)
     if not request.user.has_perm('maps.view_layer', obj=layer):
         return HttpResponse(loader.render_to_string('401.html', 
             RequestContext(request, {'error_message': 

@@ -9,6 +9,7 @@
   <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}theme/boilerplate-min.css" media="screen" />
   <!--[if lte IE 6]><link rel="stylesheet" href="{{ STATIC_URL }}theme/boilerplate-ie-min.css" type="text/css" media="screen" charset="utf-8"><![endif]-->
   <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}theme/site.css" media="screen" />
+  <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}theme/custom.css" media="screen" />
   <script type="text/javascript" src="{% url jscat %}"></script>
   <script type="text/javascript" src="{{ STATIC_URL }}/jquery-1.6.4.min.js"></script>
   <script type="text/javascript" src="{% url django.views.i18n.javascript_catalog %}"></script>
@@ -71,7 +72,16 @@
     </div><!-- /.wrap -->
   </div><!-- /#crossbar -->
   <div id="main">
-    <div class="wrap selfclear">       
+    <div class="wrap selfclear">
+
+      {% if messages %}
+      <ul class="messagelist">
+          {% for message in messages %}
+          <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+          {% endfor %}
+      </ul>
+      {% endif %}
+
       {% block main %}{% endblock %}
       {% block content %}{% endblock %}
       {% block sidebar %}{% endblock %}

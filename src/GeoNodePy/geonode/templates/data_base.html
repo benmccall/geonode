@@ -54,12 +54,16 @@ Ext.onReady(function(){
   </div>
   --> 
 
+{% if perms.maps.add_layer %}
+
   <div id="upload" class="block">
     <h2>{% trans "Upload" %}</h2>
     <p>{% trans "We support Shapefile and GeoTIFF uploads." %}
     <a class="layer-upload-link" href="{% url data_upload %}">{% trans "Upload a new layer"  %}</a>
     </p>
   </div>
+
+{% endif %}
 
   <div class="block">
     <h2>{% trans "For Developers" %}</h2>

@@ -5,7 +5,7 @@ from geoserver.resource import FeatureType
 import base64
 from django import forms
 from django.contrib.auth import authenticate, get_backends as get_auth_backends
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse
@@ -820,6 +820,7 @@ GENERIC_UPLOAD_ERROR = _("There was an error while attempting to upload your dat
 Please try again, or contact and administrator if the problem continues.")
 
 @login_required
+@permission_required('maps.can_add_layer', raise_exception=True)
 def upload_layer(request):
     if request.method == 'GET':
         return render_to_response('maps/layer_upload.html',
@@ -859,6 +860,7 @@ def upload_layer(request):
             return HttpResponse(json.dumps({ "success": False, "errors": form.errors, "errormsgs": errormsgs}))
 
 @login_required
+@permission_required('maps.can_change_layer', raise_exception=True)
 def layer_replace(request, layername):
     layer = get_object_or_404(Layer, typename=layername)
     if not request.user.has_perm('maps.change_layer', obj=layer):

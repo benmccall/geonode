@@ -45,6 +45,7 @@ urlpatterns = patterns('',
     (r'^accounts/', include('registration.urls')),
     (r'^profiles/', include('profiles.urls')),
     (r'^avatar/', include('avatar.urls')),
+    (r'^faq/', include('fack.urls')),
 
     # Meta
     url(r'^lang\.js$', 'django.views.generic.simple.direct_to_template',

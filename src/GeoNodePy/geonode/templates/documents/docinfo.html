@@ -1,6 +1,7 @@
 {% extends "page_layout.html" %}
 {% load i18n %}
 {% load geonode_auth %}
+{% load flag_tags %}
 
 {% block title %} {{ document.title }} - {{ block.super }} {% endblock %}
 
@@ -52,6 +53,19 @@
 	    {%  endif %}
         <p><strong>{% trans "Contact:" %}</strong> <a
                 href="{{ document.owner.get_profile.get_absolute_url }}">{{ document.owner }}</a></p>
+
+		{% if request.user.is_authenticated %}
+			{% if document|can_be_flagged_by:request.user and not request.user.is_staff %}
+				<a href="{{ layer|flag_confirm_url:'owner' }}">Flag as Inappropriate</a>
+			{% elif request.user.is_staff %}
+				{% if document|flag_count == 0 %}
+					<a href="{{ document|flag_confirm_url_with_status:'owner' }}">Flag as Inappropriate</a>
+				{% else %}
+					<a href="{{ document|flag_confirm_url_with_status:'owner' }}">Update Flag Status</a>
+				{% endif %}
+			{% endif %}
+		{% endif %}
+
     </div>
 {% endblock %}
 {% block sidebar %}

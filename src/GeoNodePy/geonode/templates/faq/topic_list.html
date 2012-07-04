@@ -1,12 +1,23 @@
 {% extends "faq/base.html" %}
 
-{% block title %}{{ block.super }}: Topics{% endblock %}
+{% block title %}Browse Topics - {{ block.super }}{% endblock %}
 
 {% block body %}
-<h1>Topics</h1>
+<h2>Topics</h2>
 <ul>
   {% for topic in topics %}
     <li><a href="{{ topic.get_absolute_url }}">{{ topic }}</a></li>
   {% endfor %}
 </ul>
+
+  <div id="create" class="block">
+    <h2>Have a Question?</h2>
+    <p>
+      Do you have a question or a question and corresponding answer that you would like added to this site's FAQs?
+    </p>
+    <p>
+      If so, you can <a href="{% url faq_submit %}">submit your own question</a> for review.
+    </p>
+  </div>
+
 {% endblock %}

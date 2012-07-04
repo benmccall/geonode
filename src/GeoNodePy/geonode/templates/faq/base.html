@@ -1,14 +1,11 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset=utf-8 /> 
-  <title>{% block title %}Django Fack {% endblock %}</title>	
-</head>
-<body>
-  {% for message in messages %}
-    <p class="message">{{ message }}</p>
-  {% endfor %}
-  {% block body %}{% endblock %}
-</body>
-</html>
+{% extends "page_layout.html" %}
 
+{% block title %}FAQ - {{ block.super }}{% endblock %}
+
+{% block main %}
+<div class="twocol">
+
+  {% block body %}{% endblock %}
+
+</div>
+{% endblock %}

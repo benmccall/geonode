@@ -1,12 +1,14 @@
 {% extends "faq/base.html" %}
 
-{% block title %}{{ block.super }}: Add Question{% endblock %}
+{% block title %}Submit a Question - {{ block.super }}{% endblock %}
 
 {% block body %}
-<h3>Submit Question</h3>
+<h3>Submit a Question</h3>
 <p>
   Use this form to submit a question (and optionally a corresponding answer)
   that you would like to see added to the FAQs on this site.
+  Submissions are reviewed by site moderators prior to publishing.
+  Your submission may be modified in full or in part.
 </p>
 <form action="." method="POST">
   {% csrf_token %}

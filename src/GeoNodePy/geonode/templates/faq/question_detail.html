@@ -1,6 +1,6 @@
 {% extends "faq/base.html" %}
 
-{% block title %}{{ block.super }}: Question - {{ question.text|truncatewords:30}}{% endblock %}
+{% block title %}{{ question.text|truncatewords:30}} - {{ block.super }}{% endblock %}
 
 
 {% block body %}

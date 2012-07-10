@@ -77,11 +77,11 @@ class LayerForm(forms.ModelForm):
     temporal_extent_start = forms.DateField(required=False,widget=forms.DateInput(attrs={"class":"date"}))
     temporal_extent_end = forms.DateField(required=False,widget=forms.DateInput(attrs={"class":"date"}))
     
-    poc = forms.ModelChoiceField(empty_label = "Person outside GeoNode (fill form)",
+    poc = forms.ModelChoiceField(empty_label = "Person without a user account (fill form)",
                                  label = "Point Of Contact", required=False,
                                  queryset = Contact.objects.exclude(user=None))
 
-    metadata_author = forms.ModelChoiceField(empty_label = "Person outside GeoNode (fill form)",
+    metadata_author = forms.ModelChoiceField(empty_label = "Person without a user account (fill form)",
                                              label = "Metadata Author", required=False,
                                              queryset = Contact.objects.exclude(user=None))
 
@@ -89,7 +89,7 @@ class LayerForm(forms.ModelForm):
 
     class Meta:
         model = Layer
-        exclude = ('contacts','workspace', 'store', 'name', 'uuid', 'storeType', 'typename', 'is_active')
+        exclude = ('owner', 'contacts','workspace', 'store', 'name', 'uuid', 'storeType', 'typename', 'is_active', 'keywords_region', 'language', 'bbox', 'llbbox', 'srs', 'geographic_bounding_box', 'distribution_url', 'distribution_description' )
 
 class RoleForm(forms.ModelForm):
     class Meta:

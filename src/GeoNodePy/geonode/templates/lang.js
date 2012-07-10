@@ -228,5 +228,25 @@ if (window.GeoNode && GeoNode.BatchDownloadWidget) {
     });
 }
 
+/* Extensions */
+if (window.GeoNode && GeoNode.DocumentSearchTable) {
+    Ext.apply(GeoNode.DocumentSearchTable.prototype, {
+        titleHeaderText: gettext('Title'),
+        contactHeaderText: gettext('Contact'),
+        mapHeaderText: gettext('Maps'),
+        mapLinkLabelText: gettext('View this Document'),
+        previousText: gettext('Prev'),
+        nextText: gettext('Next'),
+        ofText: gettext('of'),
+        noResultsText: gettext('Your search did not match any items.'),
+        searchLabelText: gettext('Search Documents'),
+        searchButtonText: gettext('Search'),
+        showingText: gettext('Showing'),
+        loadingText: gettext('Loading'),
+        permalinkText: gettext('permalink'),
+        typeHeaderText: gettext('Type')
+    });
+}
+
 {% block extra_lang %}
 {% endblock %}

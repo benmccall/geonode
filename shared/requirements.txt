@@ -18,3 +18,4 @@ South==0.7.3
 django-taggit==0.9.3
 -e git+https://github.com/liberation/django-flag.git#egg=django-flag
 django-fack==1.1
+-e git+git://github.com/simod/geonode-documents.git#egg=documents

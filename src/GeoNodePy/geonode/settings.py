@@ -112,7 +112,9 @@ INSTALLED_APPS = (
     'agon_ratings',
     'taggit',
     'south',
-    'flag',    'fack',
+    'flag',
+    'fack',
+    'documents',
 
     # GeoNode internal apps
     'geonode.core',

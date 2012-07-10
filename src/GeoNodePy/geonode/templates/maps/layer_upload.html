@@ -17,7 +17,8 @@ Ext.onReady(function() {
 
 {% block main %}
 <div class="twocol">
-    <h2>{% trans "Add data" %}</h2>
+  <h2>{% trans "Add data" %}</h2>
+
   {% if errors %}
     <div id="errors">
       {% for error in errors %}
@@ -25,6 +26,10 @@ Ext.onReady(function() {
       {% endfor %}
     </div>
   {% endif %}
+
+  <p>To add data to the site, select a layer data file from your computer and submit the form below. Shapefile (.SHP) and GeoTiff (.TIF, .TIFF, .GEOTIF, or .GEOTIFF) file formats are currently supported.</p>
+  <p>If you are uploading a shapefile, first select the .SHP file.  You will then be prompted to add the remaining component files (.DBF and .SHX files are required; .PRJ files are recommended but optional).</p>
+  <p><strong>The maximum allowed file size is 250 MB.</strong> Please contact us if you would like to upload larger layers.</p>
 
   <div id="upload_form">
   </div>
@@ -225,6 +230,13 @@ Ext.onReady(function(){
 
 {% block sidebar %}
 <div class="threecol">
+<h3>Supported Formats</h3>
+
+  <ul>
+    <li>Shapefile</li>
+    <li>GeoTIFF</li>
+  </ul>
+
 <h3>{%trans "Permissions"  %}</h3>
 
 <div id="permissions_form"></div>

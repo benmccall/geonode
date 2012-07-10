@@ -27,8 +27,6 @@ urlpatterns = patterns('',
                 {'template': 'index.html'}, name='home'),
     url(r'^help/$', 'django.views.generic.simple.direct_to_template',
                 {'template': 'help.html'}, name='help'),
-    url(r'^developer/$', 'django.views.generic.simple.direct_to_template',
-                {'template': 'developer.html'}, name='dev'),
 
     # Data views
     (r'^data/', include(geonode.maps.urls.datapatterns)),

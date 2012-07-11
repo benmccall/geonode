@@ -404,58 +404,83 @@ ALL_LANGUAGES = (
     ('zul', 'Zulu'),
 )
 
-UPDATE_FREQUENCIES = [
-    'annually',
-    'asNeeded',
-    'biannually',
-    'continual',
-    'daily',
-    'fortnightly',
-    'irregular',
-    'monthly',
-    'notPlanned',
-    'quarterly',
-    'unknown',
-    'weekly'
-]
+UPDATE_FREQUENCIES = (
+    ('continual', 'Continual'),
+    ('daily', 'Daily'),
+    ('weekly', 'Weekly'),
+	('fortnightly', 'Biweekly'),
+	('monthly', 'Monthly'),
+	('quarterly', 'Quarterly'),
+	('annually', 'Annually'),
+    ('biannually', 'Biannually'),
+	('irregular', 'Irregular'),
+    ('asNeeded', 'As Needed'),
+    ('notPlanned', 'Not Planned'),
+    ('unknown', 'Unknown'),
+)
 
-CONSTRAINT_OPTIONS = [
-    'copyright',
-    'intellectualPropertyRights',
-    'license',
-    'otherRestrictions',
-    'patent',
-    'patentPending',
-    'restricted',
-    'trademark'
-]
+# See http://geonetwork-opensource.org/manuals/2.6.4/eng/users/quickstartguide/new_metadata/index.html
+# IOGO TODO: Are there better descriptions of these options in the ISO 19139 documentation?
+# Eg, Copyright: Exclusive right to the publication, production, or sale of the rights to a literary, dramatic, musical, or artistic work, or to the use of a commercial print or label, granted by law for a specified period of time to an author, composer, artist, distributor 
+CONSTRAINT_OPTIONS = (
+    ('copyright', 'Copyright'),
+    ('intellectualPropertyRights', 'Intellectual Property Rights'),
+    ('license', 'License'),
+    ('otherRestrictions', 'Other Restrictions'),
+    ('patent', 'Patent'),
+    ('patentPending', 'Patent Pending'),
+    ('restricted', 'Restricted'),
+    ('trademark', 'Trademark'),
+)
 
-SPATIAL_REPRESENTATION_TYPES = [
-    'grid', 'steroModel', 'textTable', 'tin', 'vector'
-]
+# From https://wiki.ceh.ac.uk/pages/viewpage.action?pageId=117277211
+# Vector 		Data based on points, lines, curves, shapes or polygons, all of which are defined by mathematical equations (as opposed to raster, or grid data – see below)
+# Grid 			Data composed of arrays of pixels. Also known as RASTER data (as opposed to vector data - see above)
+# Text Table 	Self explanatory
+# TIN 			Triangular Irregular Network. This is the data structure used to represent a SURFACE, as used in Geographical Information Systems (GIS)
+# Stereo Model 	A 3-dimensional view formed by overlapping pairs of images
+# Video 		Self explanatory
+SPATIAL_REPRESENTATION_TYPES = (
+    ('grid', 'Raster'),
+	('vector', 'Vector'),
+)
+# As of GeoNode 1.1, these spatial representation types are not supported
+# See http://docs.geonode.org/en/latest/users/upload.html#metadata
+# ('stereoModel', 'Stereo Model'),
+# ('textTable', 'Text Table'),
+# ('tin', 'Triangular Irregular Network (TIN)'),
 
-TOPIC_CATEGORIES = [
-    'biota',
-    'boundaries',
-    'climatologyMeteorologicalAtmosphere',
-    'economy',
-    'elevation',
-    'environment',
-    'farming',
-    'geoscientificInformation',
-    'health',
-    'imageryBaseMapsEarthCover',
-    'inlandWaters',
-    'intelligenceMilitary',
-    'location',
-    'oceans',
-    'planningCadastre'
-    'society',
-    'structure',
-    'transportation',
-    'utilitiesCommunication'
-]
+# ISO 19115 Topic Categories
+# Following MSDIS (http://msdis.missouri.edu/) formatting closely 
+# For other examples and information on topic categories, see:
+# http://gis.glin.net/ogc/themes.html
+# http://gcmd.nasa.gov/User/difguide/iso_topics.html
+# http://gis.utah.gov/sgid-arcsde-database-server/sgid-9-3-arcsde-database-server-now-available
+# http://msdisweb-nn.col.missouri.edu/geoportal/catalog/search/browse/browse.page
+TOPIC_CATEGORIES = (
+    ('boundaries', 'Administrative and Political Boundaries'),
+    ('farming', 'Agriculture and Farming'),
+	('climatologyMeteorologicalAtmosphere', 'Atmosphere and Climate'),
+    ('biota', 'Biology and Ecology'),
+	('economy', 'Business and Economy'),
+	('society', 'Culture, Society and Demography'),
+    ('elevation', 'Elevation and Derived Products'),
+    ('environment', 'Environment and Conservation'),
+    ('structure', 'Facilities and Structures'),
+    ('geoscientificInformation', 'Geological and Geophysical'),
+    ('health', 'Health Services and Public Health'),
+    ('imageryBaseMapsEarthCover', 'Imagery and Base Maps'),
+	('planningCadastre', 'Land Use, Planning and Zoning'),
+    ('location', 'Location and Geodetic Networks'),
+    ('transportation', 'Transportation Networks'),
+    ('utilitiesCommunication', 'Utilities and Communication'),
+	('inlandWaters', 'Water Resources'),
+)
+# For now, these categories are intentionally unlisted:
+# ('intelligenceMilitary', '#'),
+# ('oceans', '#'),
 
+# Contact field formatting is handled in the Contact model (below)
 CONTACT_FIELDS = [
     "name",
     "organization",
@@ -471,15 +496,13 @@ CONTACT_FIELDS = [
     "role"
 ]
 
-DEFAULT_SUPPLEMENTAL_INFORMATION=_(
-'You can customize the template to suit your \
-needs. You can add and remove fields and fill out default \
-information (e.g. contact details). Fields you can not change in \
-the default view may be accessible in the more comprehensive (and \
-more complex) advanced view. You can even use the XML editor to \
-create custom structures, but they have to be validated by the \
-system, so know what you do :-)'
+DATE_TYPES = (
+    ('creation', 'Date Created'),
+	('publication', 'Date Published'),
+	('revision', 'Date Revised'),
 )
+
+DEFAULT_SUPPLEMENTAL_INFORMATION=('')
 
 class GeoNodeException(Exception):
     pass
@@ -487,15 +510,15 @@ class GeoNodeException(Exception):
 
 class Contact(models.Model):
     user = models.ForeignKey(User, blank=True, null=True)
-    name = models.CharField(_('Individual Name'), max_length=255, blank=True, null=True)
-    organization = models.CharField(_('Organization Name'), max_length=255, blank=True, null=True)
-    position = models.CharField(_('Position Name'), max_length=255, blank=True, null=True)
-    voice = models.CharField(_('Voice'), max_length=255, blank=True, null=True)
-    fax = models.CharField(_('Facsimile'),  max_length=255, blank=True, null=True)
-    delivery = models.CharField(_('Delivery Point'), max_length=255, blank=True, null=True)
+    name = models.CharField(_('Contact Name'), max_length=255, blank=True, null=True)
+    organization = models.CharField(_('Organization'), max_length=255, blank=True, null=True)
+    position = models.CharField(_('Title'), max_length=255, blank=True, null=True)
+    voice = models.CharField(_('Phone'), max_length=255, blank=True, null=True)
+    fax = models.CharField(_('Fax'),  max_length=255, blank=True, null=True)
+    delivery = models.CharField(_('Address'), max_length=255, blank=True, null=True)
     city = models.CharField(_('City'), max_length=255, blank=True, null=True)
-    area = models.CharField(_('Administrative Area'), max_length=255, blank=True, null=True)
-    zipcode = models.CharField(_('Postal Code'), max_length=255, blank=True, null=True)
+    area = models.CharField(_('State'), max_length=255, blank=True, null=True)
+    zipcode = models.CharField(_('Zip Code'), max_length=255, blank=True, null=True)
     country = models.CharField(choices=COUNTRIES, max_length=3, blank=True, null=True)
     email = models.EmailField(blank=True, null=True)
     
@@ -665,8 +688,6 @@ class Layer(models.Model, PermissionLevelMixin):
     Layer Object loosely based on ISO 19115:2003
     """
 
-    VALID_DATE_TYPES = [(x.lower(), _(x)) for x in ['Creation', 'Publication', 'Revision']]
-
     # internal fields
     objects = LayerManager()
     workspace = models.CharField(max_length=128)
@@ -683,32 +704,32 @@ class Layer(models.Model, PermissionLevelMixin):
     title = models.CharField(_('title'), max_length=255)
     date = models.DateTimeField(_('date'), default = datetime.now) # passing the method itself, not the result
     
-    date_type = models.CharField(_('date type'), max_length=255, choices=VALID_DATE_TYPES, default='publication')
+    date_type = models.CharField(_('date type'), max_length=255, choices=DATE_TYPES, default='publication')
 
     edition = models.CharField(_('edition'), max_length=255, blank=True, null=True)
     abstract = models.TextField(_('abstract'), blank=True)
     purpose = models.TextField(_('purpose'), null=True, blank=True)
-    maintenance_frequency = models.CharField(_('maintenance frequency'), max_length=255, choices = [(x, x) for x in UPDATE_FREQUENCIES], blank=True, null=True)
+    maintenance_frequency = models.CharField(_('maintenance frequency'), max_length=255, choices=UPDATE_FREQUENCIES, blank=True, null=True)
 
     # section 2
     # see poc property definition below
 
     # section 3
     keywords = TaggableManager(_('keywords'), help_text=_("A space or comma-separated list of keywords"), blank=True)
-    keywords_region = models.CharField(_('keywords region'), max_length=3, choices= COUNTRIES, default = 'USA')
-    constraints_use = models.CharField(_('constraints use'), max_length=255, choices = [(x, x) for x in CONSTRAINT_OPTIONS], default='copyright')
+    keywords_region = models.CharField(_('keywords region'), max_length=3, choices=COUNTRIES, default = 'USA')
+    constraints_use = models.CharField(_('constraints use'), max_length=255, choices=CONSTRAINT_OPTIONS, default='copyright')
     constraints_other = models.TextField(_('constraints other'), blank=True, null=True)
-    spatial_representation_type = models.CharField(_('spatial representation type'), max_length=255, choices=[(x,x) for x in SPATIAL_REPRESENTATION_TYPES], blank=True, null=True)
+    spatial_representation_type = models.CharField(_('spatial representation type'), max_length=255, choices=SPATIAL_REPRESENTATION_TYPES, blank=True, null=True)
 
     # Section 4
     language = models.CharField(_('language'), max_length=3, choices=ALL_LANGUAGES, default='eng')
-    topic_category = models.CharField(_('topic_category'), max_length=255, choices = [(x, x) for x in TOPIC_CATEGORIES], default = 'location')
+    topic_category = models.CharField(_('topic_category'), max_length=255, choices=TOPIC_CATEGORIES, default = 'location')
 
     # Section 5
     temporal_extent_start = models.DateField(_('temporal extent start'), blank=True, null=True)
     temporal_extent_end = models.DateField(_('temporal extent end'), blank=True, null=True)
     geographic_bounding_box = models.TextField(_('geographic bounding box'))
-    supplemental_information = models.TextField(_('supplemental information'), default=DEFAULT_SUPPLEMENTAL_INFORMATION)
+    supplemental_information = models.TextField(_('supplemental information'), blank=True, null=True, default=DEFAULT_SUPPLEMENTAL_INFORMATION)
 
     # Section 6
     distribution_url = models.TextField(_('distribution URL'), blank=True, null=True)
@@ -1624,9 +1645,9 @@ class ContactRole(models.Model):
         if (self.role == self.layer.poc_role) or (self.role == self.layer.metadata_author_role):
             contacts = self.layer.contacts.filter(contactrole__role=self.role)
             if contacts.count() == 1:
-                # only allow this if we are updating the same contact
-                if self.contact != contacts.get():
-                    raise ValidationError('There can be only one %s for a given layer' % self.role)
+                 # only allow this if we are updating the same contact
+                 if self.contact != contacts.get():
+                     raise ValidationError('There can be only one %s for a given layer' % self.role)
         if self.contact.user is None:
             # verify that any unbound contact is only associated to one layer
             bounds = ContactRole.objects.filter(contact=self.contact).count()

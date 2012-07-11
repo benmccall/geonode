@@ -1,5 +1,4 @@
-{% load i18n %}
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+{% load i18n %}<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
   <title>{% block title %} {{ SITENAME }} {% endblock %}</title>
@@ -64,9 +63,9 @@
     {% if user.is_staff %}
         <li class=""><a class="" id="adminLink" href="/admin/">{% trans "Admin" %}</a></li>
     {% endif %}
-
     {% endif %}
 
+        <li class=""><a class="" id="mapsLink" href="{% url help %}">{% trans "Help" %}</a></li>
     </ul>
    {% endblock %}
 
@@ -93,10 +92,7 @@
     <div class="wrap selfclear">             
       {% block footer %}
       <div class="onecol">
-       {% trans "Powered by" %} <a href="http://geonode.org">{% trans "GeoNode" %} {{VERSION}}</a>
-        | <strong>{% trans "Need Help?" %}</strong>
-        <a href="{% url help %}">{% trans "Help" %}</a> 
-        | <a href="{% url dev %}">{% trans "For Developers" %}</a>
+       {% trans "Powered by" %} <a href="http://geonode.org" target="_blank">{% trans "GeoNode" %} {{VERSION}}</a>
       </div>
       {% endblock %}
     </div><!-- /.wrap -->

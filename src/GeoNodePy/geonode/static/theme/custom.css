@@ -2,6 +2,14 @@
 Style customizations
 -----------------------*/
 
+div#main #refine {
+	display: none;
+}
+
+div#main #data_ops ul {
+	margin: 0px;
+}
+
 div#main form ul.form {
 	margin: 0 0 2em 0;
 }

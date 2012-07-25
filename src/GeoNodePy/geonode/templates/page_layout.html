@@ -34,7 +34,7 @@
   <div id="crossbar">
     <div class="wrap selfclear">      
    <!-- Only show the language form if the csrf_token is present -->
-   {% if csrf_token != "NOTPROVIDED" %}       
+   {% if csrf_token != "NOTPROVIDED" and LANGUAGES and LANGUAGES|length > 1 %}
    {% get_current_language as LANGUAGE %}
     <form class="langbar" id="target" action="/i18n/setlang/" method="post">
       {% csrf_token %}

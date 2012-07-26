@@ -41,7 +41,17 @@ urlpatterns = patterns('',
     url(r'^accounts/ajax_lookup$', 'geonode.views.ajax_lookup',
                                        name='auth_ajax_lookup'),
     (r'^accounts/', include('registration.urls')),
-    (r'^profiles/', include('profiles.urls')),
+
+    # Use custom urlconf for django-profiles until https://bitbucket.org/ubernostrum/django-profiles/issue/9/url-regex-to-match-usernames-should-be is fixed
+    url(r'^profiles/create/$', 'profiles.views.create_profile',
+                                       name='profiles_create_profile'),
+    url(r'^profiles/edit/$', 'profiles.views.edit_profile',
+                                       name='profiles_edit_profile'),
+    url(r'^profiles/(?P<username>[\w.@+-]+)/$', 'profiles.views.profile_detail',
+                                       name='profiles_profile_detail'),
+    url(r'^profiles/$', 'profiles.views.profile_list',
+                                       name='profiles_profile_list'),
+
     (r'^avatar/', include('avatar.urls')),
     (r'^faq/', include('fack.urls')),
 

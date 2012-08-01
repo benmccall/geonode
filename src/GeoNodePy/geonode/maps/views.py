@@ -15,6 +15,7 @@ from django.conf import settings
 from django.template import RequestContext, loader
 from django.utils.translation import ugettext as _
 from django.utils import simplejson as json
+from django.template.defaultfilters import slugify
 
 import math
 import httplib2 
@@ -835,7 +836,19 @@ def upload_layer(request):
         if form.is_valid():
             try:
                 tempdir, base_file = form.write_files()
-                name, __ = os.path.splitext(form.cleaned_data["base_file"].name)
+
+                title = form.cleaned_data["layer_title"]
+
+                # Replace dots in filename - GeoServer REST API upload bug
+                # and avoid any other invalid characters.
+                # Use the title if possible, otherwise default to the filename
+                if title is not None and len(title) > 0:
+                    name_base = title
+                else:
+                    name_base, __ = os.path.splitext(form.cleaned_data["base_file"].name)
+
+                name = slugify(name_base.replace(".","_"))
+
                 saved_layer = save(name, base_file, request.user, 
                         overwrite = False,
                         abstract = form.cleaned_data["abstract"],
@@ -1480,6 +1493,7 @@ def _maps_search(query, start, limit, sort_field, sort_dir):
     for keyword in keywords:
         map_query = map_query.filter(
               Q(title__icontains=keyword)
+            | Q(keywords__name__icontains=keyword)
             | Q(abstract__icontains=keyword))
 
     if sort_field:
@@ -1580,6 +1594,7 @@ def batch_permissions(request):
             for user, user_level in users:
                 if user_level not in valid_perms:
                     user_level = "_none"
+                user = User.objects.get(username=user)
                 lyr.set_user_level(user, user_level)
 
     if "maps" in spec:
@@ -1598,6 +1613,7 @@ def batch_permissions(request):
             m.set_gen_level(AUTHENTICATED_USERS, auth_level)
             for user, user_level in spec['permissions'].get("users", []):
                 user_level = user_level.replace("layer", "map")
+                user = User.objects.get(username=user)
                 m.set_user_level(user, valid_perms.get(user_level, "_none"))
 
     return HttpResponse("Not implemented yet")

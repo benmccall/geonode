@@ -10,6 +10,7 @@ from geonode.geonetwork import Catalog as GeoNetwork
 from django.db.models import signals
 from taggit.managers import TaggableManager
 from django.utils import simplejson as json
+from django.utils.safestring import mark_safe
 
 import httplib2
 import urllib
@@ -422,6 +423,12 @@ UPDATE_FREQUENCIES = (
 # See http://geonetwork-opensource.org/manuals/2.6.4/eng/users/quickstartguide/new_metadata/index.html
 # IOGO TODO: Are there better descriptions of these options in the ISO 19139 documentation?
 # Eg, Copyright: Exclusive right to the publication, production, or sale of the rights to a literary, dramatic, musical, or artistic work, or to the use of a commercial print or label, granted by law for a specified period of time to an author, composer, artist, distributor 
+# Shortcuts for convenience in Open Data cases
+#    'Public Domain Dedication and License (PDDL)',
+#    'Attribution License (ODC-By)',
+#    'Open Database License (ODC-ODbL)',
+#    'CC-BY-SA',
+
 CONSTRAINT_OPTIONS = (
     ('copyright', 'Copyright'),
     ('intellectualPropertyRights', 'Intellectual Property Rights'),
@@ -624,7 +631,7 @@ class LayerManager(models.Manager):
     def default_metadata_author(self):
         return self.admin_contact()
 
-    def slurp(self, ignore_errors=True, verbosity=1, console=sys.stdout):
+    def slurp(self, ignore_errors=True, verbosity=1, console=sys.stdout, owner=None):
         """Configure the layers available in GeoServer in GeoNode.
 
            It returns a list of dictionaries with the name of the layer,
@@ -651,6 +658,7 @@ class LayerManager(models.Manager):
                     "typename": "%s:%s" % (workspace.name, resource.name),
                     "title": resource.title or 'No title provided',
                     "abstract": resource.abstract or 'No abstract provided',
+                    "owner": owner,
                     "uuid": str(uuid.uuid4())
                 })
 
@@ -831,8 +839,9 @@ class Layer(models.Model, PermissionLevelMixin):
             except Exception, e:
                 # if something is wrong with WCS we probably don't want to link
                 # to it anyway
-                # TODO: This is a bad idea to eat errors like this.
-                pass
+                # But at least this indicates a problem
+                notiff = mark_safe("<del>GeoTIFF</del>")
+                links.extend([("tiff",notiff,"#")])
 
         def wms_link(mime):
             return settings.SITEURL + "download/wms?" + urllib.urlencode({
@@ -1317,7 +1326,7 @@ class Map(models.Model, PermissionLevelMixin):
         """
         layers = list(self.layer_set.all()) + list(added_layers) #implicitly sorted by stack_order
         server_lookup = {}
-        sources = {'local': settings.DEFAULT_LAYER_SOURCE }
+        sources = {}
 
         def uniqify(seq):
             """
@@ -1463,7 +1472,7 @@ class MapLayerManager(models.Manager):
         """
         layer_cfg = dict(layer)
         for k in ["format", "name", "opacity", "styles", "transparent",
-                  "fixed", "group", "visibility", "title", "source"]:
+                  "fixed", "group", "visibility", "source"]:
             if k in layer_cfg: del layer_cfg[k]
 
         source_cfg = dict(source)

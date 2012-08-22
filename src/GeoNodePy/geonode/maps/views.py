@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render_to_response, get_object_or_404
 from django.conf import settings
 from django.template import RequestContext, loader
@@ -794,7 +794,13 @@ def layer_style(request, layername):
         return HttpResponse("Not allowed",status=403)
 
 def layer_detail(request, layername):
-    layer = get_object_or_404(Layer, typename=layername, is_active=True)
+    layer = get_object_or_404(Layer, typename=layername)
+
+    # Verify that the layer has been set to active/published by an administrator or the current user is the layer owner
+    if not layer.is_active and layer.owner != request.user:
+        raise Http404
+
+    # Verify that the user has permission to view the layer
     if not request.user.has_perm('maps.view_layer', obj=layer):
         return HttpResponse(loader.render_to_string('401.html', 
             RequestContext(request, {'error_message': 

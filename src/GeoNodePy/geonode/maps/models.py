@@ -882,9 +882,14 @@ class Layer(models.Model, PermissionLevelMixin):
     def verify(self):
         """Makes sure the state of the layer is consistent in GeoServer and GeoNetwork.
         """
-        
+
+        # Can't verify that the layer is on GeoServer or GeoNetwork if the layer is not yet active
+        if not self.is_active:
+            return
+
         # Check the layer is in the wms get capabilities record
         # FIXME: Implement caching of capabilities record site wide
+
         if (_wms is None) or (self.typename not in _wms.contents):
             get_wms()
         try:

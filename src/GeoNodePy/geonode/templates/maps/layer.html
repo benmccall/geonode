@@ -16,11 +16,13 @@
 <link rel="stylesheet" type="text/css" href="{{ GEONODE_CLIENT_LOCATION }}theme/ux/colorpicker/color-picker.ux.css" />
 
 {{ block.super }}
-
     <script type="text/javascript">
 {% autoescape off %}
         var styleEditor, modified = false;
         Ext.onReady(function() {
+
+{% if layer.is_active %}
+
             var config = {
                 tools: [{
                     ptype: "gxp_wmsgetfeatureinfo",
@@ -85,6 +87,9 @@
                     params: {"defaultStyle" : elem.value}
                 });
             });
+
+{% endif %}
+
 {% has_obj_perm user layer "maps.change_layer" as can_change %}
 {% if can_change and perms.maps.change_layer %}
             Ext.get(Ext.DomQuery.select(".style-title")).on("click", function(evt, elem) {
@@ -130,9 +135,13 @@
         }
 {% endautoescape %}
     </script>
+
+{% endif %}
 {% endblock %}
 
 {% block start_body_js %}
+{% if layer.is_active %}
+
 <div id="fb-root"></div>
 <script>(function(d, s, id) {
   var js, fjs = d.getElementsByTagName(s)[0];
@@ -141,22 +150,35 @@
   js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));</script>
+
+{% endif %}
 {% endblock %}
 
 
 {% block main %}
+
+{% if not layer.is_active %}
+<ul class="messagelist">
+    <li class="warning">This layer has not yet been approved by a site administrator.</li>
+</ul>
+{% endif %}
+
 <div class="twocol">
 	<div id="description">
 		<h3>{{ layer.resource.title|default:layer.typename }}</h3>
+
+        {% if layer.is_active %}
         {% overall_rating layer "layer" as layer_rating %}
         <div class="overall_rating" data-rating="{{ layer_rating }}"></div>
 		<g:plusone size="small" href="http://{{ request.get_host }}{{ request.get_full_path }}"></g:plusone>
 		<div class="fb-like" data-href="http://{{ request.get_host }}{{ request.get_full_path }}" data-send="false" data-width="50" data-layout="button_count" data-show-faces="false"></div>
+        {% endif %}
 	</div>
 <p> <strong>{% trans "Abstract" %}:</strong> {{ layer.abstract|default:_("No abstract for this layer.") }} </p>
 
+{% if layer.is_active %}
 <div id="preview_map"></div>
-
+{% endif %}
 
 <h3>{% trans "Layer Information" %}</h3>
 {% if layer.display_type %}<p> <strong>{% trans "Type" %}:</strong> {{ layer.display_type }} </p>{% endif %}
@@ -218,6 +240,7 @@
 {% if layer.geographic_bounding_box %}<p> <strong>{% trans "Bounding Box" %}:</strong> {{ layer.geographic_bounding_box }} </p>{% endif %}
 {% if layer.resource.projection %}<p> <strong>{% trans "Native SRS" %}:</strong> {{ layer.resource.projection|default:_("No SRS specified.") }} </p>{% endif %}
 
+{% if layer.is_active %}
 <h3>{% trans "Comments" %}</h3>
 <div class="comments_container">
     {% comments layer as comments %}
@@ -233,7 +256,7 @@
                 {% endblocktrans %}
                 </span>
             </p>
-            </div>
+        </div>
     {% endfor %}
 
     {% if request.user.is_authenticated %}
@@ -270,11 +293,18 @@
     {% endif %}
 
 {% endif %}
+{% endif %}
+
 </div>
+
 {% endblock %}
 
 {% block sidebar %}
 <div id="sidebar" class="threecol">
+
+{% has_obj_perm user layer "maps.change_layer" as can_change %}
+{% has_obj_perm user layer "maps.delete_layer" as can_delete %}
+{% if layer.is_active %}
 
     <h3> {% trans "Download" %} </h3>
 
@@ -313,8 +343,6 @@
     {% endif %}
     <p><a href="{% url maps_new %}?layer={{layer.typename}}">{% trans "Create new map" %}</a></p> 
 
-    {% has_obj_perm user layer "maps.change_layer" as can_change %}
-    {% has_obj_perm user layer "maps.delete_layer" as can_delete %}
     <h3> {% trans "Styles" %} </h3>
     <p> {% trans "The following styles are associated with this data set.  Choose a style to view it in the preview to the left.  Click on a style name to view or edit the style." %}
     <br/>
@@ -352,9 +380,9 @@
     </select><br/>
     <a href="javascript:showStyle()">{% trans "Create new style" %}</a>
     {% endif %}
-
     </p>
 
+{% endif %}
 
   {% if user.is_authenticated and perms.maps.change_layer %}
     {% if can_change or can_delete %}
@@ -387,6 +415,8 @@
 {% endblock %}
 
 {% block end_body_js %}
+{% if layer.is_active %}
+
 {% if request.user.is_authenticated %}
 	{% user_rating_js request.user layer "layer" %}
 {% else %}
@@ -408,4 +438,6 @@
 		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
 	})();
 </script>
+
+{% endif %}
 {% endblock %}

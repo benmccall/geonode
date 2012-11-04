@@ -631,7 +631,7 @@ class LayerManager(models.Manager):
     def default_metadata_author(self):
         return self.admin_contact()
 
-    def slurp(self, ignore_errors=True, verbosity=1, console=sys.stdout, owner=None):
+    def slurp(self, ignore_errors=True, verbosity=1, console=sys.stdout, owner=None, new_only=False, lnames=None, workspace=None):
         """Configure the layers available in GeoServer in GeoNode.
 
            It returns a list of dictionaries with the name of the layer,
@@ -640,16 +640,32 @@ class LayerManager(models.Manager):
         if verbosity > 1:
             print >> console, "Inspecting the available layers in GeoServer ..."
         cat = self.gs_catalog
-        resources = cat.get_resources()
+        if workspace is not None:
+            workspace = cat.get_workspace(workspace)
+        resources = cat.get_resources(workspace=workspace)
         number = len(resources)
         if verbosity > 1:
             msg =  "Found %d layers, starting processing" % number
             print >> console, msg
         output = []
+        
+        # check lnames
+        if lnames is not None:
+            gs_lnames = [resource.name for resource in resources]
+            for l in lnames:
+                if l not in gs_lnames:
+                    raise Exception('Layer %s does not exist' % l )
+
         for i, resource in enumerate(resources):
             name = resource.name
             store = resource.store
             workspace = store.workspace
+
+            if new_only and Layer.objects.filter(name=name).exists():
+                continue
+            elif lnames is not None and name not in lnames:
+                continue
+
             try:
                 layer, created = Layer.objects.get_or_create(name=name, defaults = {
                     "workspace": workspace.name,
@@ -689,7 +705,6 @@ class LayerManager(models.Manager):
             if verbosity > 0:
                 print >> console, msg
         return output
-
 
 class Layer(models.Model, PermissionLevelMixin):
     """

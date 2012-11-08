@@ -17,6 +17,12 @@ div#main #data_ops ul {
 div#main form ul.form {
 	margin: 0 0 2em 0;
 }
+
+#footer .credits{
+	font-size: .8em;
+	color: grey;
+}
+
 /* MESSAGES & ERRORS */
 
 ul.messagelist {

@@ -42,11 +42,27 @@ Ext.onReady(function(){
 <!-- TODO: i18n on the text here -->
   <div class="block">
     <h2> {% trans "Welcome" %} </h2>
+
     <p>
-      The {(SITENAME}} is a service devoted to geospatial data sharing in the St. Louis metropolitan area.
-      Made possible with assistance from the Regional Plan for Sustainable Development, the site encourages users to contribute
-      data and maps describing regional conditions and trends.
-  </p>
+Welcome to the St. Louis Regional Data Exchange! The goal of STLRDX is to provide broad
+access to valuable information, data and mapping capabilities for the St. Louis region. It aims to
+provide a ready data resource for a wide variety of people - academics, non-profits, community
+officials, GIS specialists and interested citizens. Not only does it allow you access and utilize
+data, data professionals can also share their data with others in the region, making this a true
+open source tool. We strive for the democratization of data.
+    </p>
+    <p>
+The Regional Data Exchange was created by the <a href="http://arc.umsl.edu/" target="_blank">Applied Research Consortium</a>, a collaboration
+between researchers at <a href="http://www.slu.edu/" target="_blank">Saint Louis University</a>, the <a href="http://www.umsl.edu/" target="_blank">University of Missouri – St. Louis</a>, and
+<a href="http://www.siue.edu/" target="_blank">Southern Illinois University at Edwardsville</a>, as part of the <a href="http://www.ewgateway.org/rpsd/" target="_blank">Regional Plan for Sustainable
+Development</a>; a project made possible by a U.S. Department of Housing and Urban
+Development grant received by the <a href="http://www.ewgateway.org/" target="_blank">East-West Gateway Council of Governments</a>.
+    </p>
+    <p>
+If you have data that you would like to share with others, please help us with our effort to make data more accessible
+by <a href="{% url data_upload %}">uploading it</a> to the Regional Data Exchange.
+    </p>
+
     <div class="selfclear">
       <div id="explore_map" class="content-button"></div>
       <div id="create_map" class="content-button"></div>

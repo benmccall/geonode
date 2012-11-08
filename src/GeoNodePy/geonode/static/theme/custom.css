@@ -2,8 +2,37 @@
 Style customizations
 -----------------------*/
 
+#header {
+	background: none repeat scroll 0 0 #464646;
+	border: 0px;
+	padding: 3px 0;
+}
+
 #logo {
 	width: 250px;
+}
+
+#crossbar {
+	background: none repeat scroll 0 0 #A7E4EE;
+	border-bottom: 2px solid #dedede;
+}
+
+#sitenav li a {
+	color: #353535
+}
+
+
+div#main {
+	background: none repeat scroll 0 0 white;
+}
+
+.onecol, .twocol {
+	background: none;
+	padding: 10px 0 !important;
+}
+
+.threecol {
+	background: none;
 }
 
 div#main #refine {
@@ -18,7 +47,7 @@ div#main form ul.form {
 	margin: 0 0 2em 0;
 }
 
-#footer .credits{
+#footer .credits {
 	font-size: .8em;
 	color: grey;
 }

@@ -2,6 +2,10 @@
 Style customizations
 -----------------------*/
 
+#logo {
+	width: 250px;
+}
+
 div#main #refine {
 	display: none;
 }

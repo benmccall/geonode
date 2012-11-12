@@ -22,18 +22,25 @@ Style customizations
 	color: #353535
 }
 
-
 div#main {
 	background: none repeat scroll 0 0 white;
 }
 
+.wrap {
+	width: 920px;
+}
+
 .onecol, .twocol {
 	background: none;
-	padding: 10px 0 !important;
+	padding: 0 !important;
 }
 
 .threecol {
 	background: none;
+}
+
+#data_block {
+	margin-bottom: 20px;
 }
 
 div#main #refine {

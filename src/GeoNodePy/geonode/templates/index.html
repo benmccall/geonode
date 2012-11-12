@@ -8,6 +8,7 @@
 {% include "geonode/ext_header.html" %}
 {{ block.super }}
 <script type="text/javascript" src="{{ STATIC_URL }}/nivo-slider/jquery.nivo.slider.pack.js"></script>
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}nivo-slider/themes/default/default.css" media="screen" />
 <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}nivo-slider/nivo-slider.css" media="screen" />
 <script type="text/javascript">
 Ext.onReady(function(){
@@ -36,6 +37,11 @@ Ext.onReady(function(){
 
 {% endautoescape %}
 });
+
+$(window).load(function() {
+	$('#slider').nivoSlider({ effect: 'fade', controlNav: false });
+});
+
 </script>
 {% endblock %}
 
@@ -43,41 +49,40 @@ Ext.onReady(function(){
 <div class="onecol">
 <!-- TODO: i18n on the text here -->
   <div class="block">
-    <h2> {% trans "Welcome" %} </h2>
 
-    <p>
-Welcome to the St. Louis Regional Data Exchange! The goal of STLRDX is to provide broad
-access to valuable information, data and mapping capabilities for the St. Louis region. It aims to
-provide a ready data resource for a wide variety of people - academics, non-profits, community
-officials, GIS specialists and interested citizens. Not only does it allow you access and utilize
-data, data professionals can also share their data with others in the region, making this a true
-open source tool. We strive for the democratization of data.
-    </p>
-    <p>
-The Regional Data Exchange was created by the <a href="http://arc.umsl.edu/" target="_blank">Applied Research Consortium</a>, a collaboration
-between researchers at <a href="http://www.slu.edu/" target="_blank">Saint Louis University</a>, the <a href="http://www.umsl.edu/" target="_blank">University of Missouri - St. Louis</a>, and
-<a href="http://www.siue.edu/" target="_blank">Southern Illinois University at Edwardsville</a>, as part of the <a href="http://www.ewgateway.org/rpsd/" target="_blank">Regional Plan for Sustainable
-Development</a>; a project made possible by a U.S. Department of Housing and Urban
-Development grant received by the <a href="http://www.ewgateway.org/" target="_blank">East-West Gateway Council of Governments</a>.
-    </p>
-    <p>
-If you have data that you would like to share with others, please help us with our effort to make data more accessible
-by <a href="{% url data_upload %}">uploading it</a> to the Regional Data Exchange.
-    </p>
+    <div class="slider-wrapper theme-default">
+        <div id="slider" class="nivoSlider">
+            <img src="{{ STATIC_URL }}/theme/img/slide01.jpg" alt="" title="#htmlcaption01" />
+            <img src="{{ STATIC_URL }}/theme/img/slide02.jpg" alt="" title="#htmlcaption02" />
+            <img src="{{ STATIC_URL }}/theme/img/slide03.jpg" alt="" title="#htmlcaption03" />
+            <img src="{{ STATIC_URL }}/theme/img/slide04.jpg" alt="" title="#htmlcaption04" />
+            <img src="{{ STATIC_URL }}/theme/img/slide05.jpg" alt="" title="#htmlcaption05" />
+            <img src="{{ STATIC_URL }}/theme/img/slide06.jpg" alt="" title="#htmlcaption06" />
+        </div>
+        <div id="htmlcaption01" class="nivo-html-caption">
+            <strong>Welcome to the St. Louis Regional Data Exchange!</strong>. 
+        </div>
+        <div id="htmlcaption02" class="nivo-html-caption">
+            The goal of STLRDX is to provide broad access to valuable information, data and mapping capabilities for the St. Louis region.
+        </div>
+        <div id="htmlcaption03" class="nivo-html-caption">
+            It aims to provide a ready data resource for a wide variety of people -
+            academics, non-profits, community officials, GIS specialists and interested citizens.
+        </div>
+        <div id="htmlcaption04" class="nivo-html-caption">
+            Not only does it allow you access and utilize data, data professionals can also share their data with others in the region.
+        </div>
+        <div id="htmlcaption05" class="nivo-html-caption">
 
-    <div class="selfclear">
-      <div id="explore_map" class="content-button"></div>
-      <div id="create_map" class="content-button"></div>
+        </div>
+        <div id="htmlcaption06" class="nivo-html-caption">
+            If you have data that you would like to share with others, please help us with our effort to make data more accessible
+            by <a href="{% url data_upload %}">uploading it</a>.
+        </div>
     </div>
+
   </div>
   <div id="data_block" class="block">
-    <h2> {% trans "Data" %} </h2>
-    <p>
-      The data exchange lets you upload, manage, and browse geospatial data.  
-      <strong>Search</strong> for data that is valuable to you, or 
-      <strong>upload</strong> your own data.
-    </p>
-
     <!-- Data search text box and button -->
 
     <form action="{% url data_search %}" method="POST">
@@ -88,11 +93,17 @@ by <a href="{% url data_upload %}">uploading it</a> to the Regional Data Exchang
               <input type="text" id="search_query" name="q" />
             </td>
             <td>
-              <div id="submit_search"></div>
+              <div id="submit_search" class="content-button"></div>
+            </td>
+            <td>
+              <div id="explore_map" class="content-button"></div>
+            </td>
+            <td>
+              <div id="create_map" class="content-button"></div>
             </td>
           </tr>
         </table>
-        <a href="{% url data_search %}">{% trans "All Data" %}</a>
+
     </form>
   
     {% if perms.maps.add_layer %}
@@ -102,6 +113,17 @@ by <a href="{% url data_upload %}">uploading it</a> to the Regional Data Exchang
     {% endif %}
 
   </div>
+
+  <p>
+    The Regional Data Exchange was created by the <a href="http://arc.umsl.edu/" target="_blank">Applied Research Consortium</a>, 
+    a collaboration between researchers at <a href="http://www.slu.edu/" target="_blank">Saint Louis University</a>,
+    the <a href="http://www.umsl.edu/" target="_blank">University of Missouri - St. Louis</a>, and
+    <a href="http://www.siue.edu/" target="_blank">Southern Illinois University at Edwardsville</a>, as part of the 
+    <a href="http://www.ewgateway.org/rpsd/" target="_blank">Regional Plan for Sustainable Development</a>; a project made possible
+    by a U.S. Department of Housing and Urban Development grant received by the
+    <a href="http://www.ewgateway.org/" target="_blank">East-West Gateway Council of Governments</a>.
+  </p>
+
 </div>
 {% endblock %}
 {% block sidebar %}

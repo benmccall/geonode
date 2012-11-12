@@ -7,6 +7,8 @@
 {% block head %} 
 {% include "geonode/ext_header.html" %}
 {{ block.super }}
+<script type="text/javascript" src="{{ STATIC_URL }}/nivo-slider/jquery.nivo.slider.pack.js"></script>
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}nivo-slider/nivo-slider.css" media="screen" />
 <script type="text/javascript">
 Ext.onReady(function(){
 {% autoescape off %}

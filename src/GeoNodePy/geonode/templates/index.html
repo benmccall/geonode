@@ -60,24 +60,41 @@ $(window).load(function() {
             <img src="{{ STATIC_URL }}/theme/img/slide06.jpg" alt="" title="#htmlcaption06" />
         </div>
         <div id="htmlcaption01" class="nivo-html-caption">
-            <strong>Welcome to the St. Louis Regional Data Exchange!</strong>. 
+            <div class="nivo-caption-01 nivo-caption-box">
+                <h2>Welcome!</h2>
+                <p>Thank you for visiting the<br/> St. Louis Regional Data Exchange!</p>
+            </div>
         </div>
         <div id="htmlcaption02" class="nivo-html-caption">
-            The goal of STLRDX is to provide broad access to valuable information, data and mapping capabilities for the St. Louis region.
+            <div class="nivo-caption-02 nivo-caption-box">
+                <h3>Our Goal?</h3>
+                <p>to provide <strong>broad access</strong> to <br/> <strong>valuable data</strong> and <br/> <strong>online mapping</strong> capabilities <br/> for the St. Louis region.</p>
+            </div>
         </div>
         <div id="htmlcaption03" class="nivo-html-caption">
-            It aims to provide a ready data resource for a wide variety of people -
-            academics, non-profits, community officials, GIS specialists and interested citizens.
+            <div class="nivo-caption-03 nivo-caption-box">
+                <h3>Our Audience?</h3>
+                <p>The STLRDX aims to be a ready data resource for academics, non-profits, community officials, GIS specialists and interested citizens.</p>
+            </div>
         </div>
         <div id="htmlcaption04" class="nivo-html-caption">
-            Not only does it allow you access and utilize data, data professionals can also share their data with others in the region.
+            <div class="nivo-caption-04 nivo-caption-box">
+                <h2>Publish</h2>
+                <p>Not only does the STLRDX allow you to access and interact with existing datasets, data owners/creators can <a href="{% url data_upload %}">upload their data</a> to share.</p>
+            </div>
+            
         </div>
         <div id="htmlcaption05" class="nivo-html-caption">
-
+            <div class="nivo-caption-05 nivo-caption-box">
+                <h2>Share</h2>
+                <p>If you have data that you would like to share with others in the region, please help us with our effort to make data more accessible by <a href="{% url data_upload %}">uploading it</a>.</p>
+            </div>
         </div>
         <div id="htmlcaption06" class="nivo-html-caption">
-            If you have data that you would like to share with others, please help us with our effort to make data more accessible
-            by <a href="{% url data_upload %}">uploading it</a>.
+            <div class="nivo-caption-06 nivo-caption-box">
+                <h2>Get Started!</h2>
+                <p>Browse GIS Datasets, Interactive Maps, or Map Documents to see what the STLRDX has to offer, today!</p>
+            </div>
         </div>
     </div>
 

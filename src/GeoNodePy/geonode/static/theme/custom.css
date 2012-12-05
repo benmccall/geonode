@@ -43,6 +43,10 @@ div#main {
 	margin-bottom: 20px;
 }
 
+#credit_block {
+	margin: 1.5em 0;
+}
+
 div#main #refine {
 	display: none;
 }

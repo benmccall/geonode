@@ -46,8 +46,8 @@ Supports Thumbs: true
 
 .theme-default .nivo-directionNav a {
 	display:block;
-	width:30px;
-	height:30px;
+	width:28px;
+	height:35px;
 	background:url(arrows.png) no-repeat;
 	text-indent:-9999px;
 	border:0;
@@ -59,11 +59,11 @@ Supports Thumbs: true
 }
 .theme-default:hover .nivo-directionNav a { opacity: 1; }
 .theme-default a.nivo-nextNav {
-	background-position:-30px 0;
-	right:15px;
+	background-position:-28px 0;
+	right:0px;
 }
 .theme-default a.nivo-prevNav {
-	left:15px;
+	left:0px;
 }
 
 .theme-default .nivo-caption {

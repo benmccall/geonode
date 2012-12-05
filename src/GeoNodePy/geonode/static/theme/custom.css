@@ -13,9 +13,13 @@ Style customizations
 	width: 250px;
 }
 
-#crossbar {
+#crossbar, #topPanel {
 	background: none repeat scroll 0 0 #A7E4EE;
 	border-bottom: 2px solid #dedede;
+}
+
+#topPanel {
+	background-color: #333;
 }
 
 #sitenav li a {

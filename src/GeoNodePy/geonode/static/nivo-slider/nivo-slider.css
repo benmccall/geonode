@@ -78,19 +78,19 @@
 }
 .nivo-caption h2 {
 	color: white;
-	margin: 0;
+	margin: 0 0 .25em 0;
 	font-weight: bold;
 	font-size: 40px;
-	line-height: 60px;
+	line-height: 44px;
 	text-align:left;
 	text-transform: uppercase;
 }
 .nivo-caption h3 {
 	color: white;
-	margin: 0;
+	margin: 0 0 .25em 0;
 	font-weight: bold;
 	font-size: 36px;
-	line-height: 50px;
+	line-height: 40px;
 	text-align:left;
 }
 .nivo-caption p {
@@ -108,7 +108,7 @@
 .nivo-caption-01 {
 	margin-left:20px;
 	margin-top:15px;
-	width:240px;
+	width:250px;
 }
 .nivo-caption-02 {
 	margin-left:33px;

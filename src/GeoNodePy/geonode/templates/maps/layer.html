@@ -374,10 +374,20 @@
     {% trans "Default style:" %}
     <select name="default-style">
         <option value="{{layer.publishing.default_style.name}}" selected="selected">
-          {{layer.publishing.default_style.name|title}}
+         {% if layer.default_style.sld_title %}
+            {{ layer.default_style.sld_title }}
+         {% else %}
+            {{ layer.default_style.name|title }}
+         {% endif %}
         </option>
     {% for style in layer.styles %} 
-        <option value="{{style.name}}"> {{ style.name|title }} </option>
+        <option value="{{style.name}}">
+         {% if style.sld_title %}
+            {{ style.sld_title }}
+         {% else %}
+            {{ style.name|title }}
+         {% endif %}
+        </option>
     {% endfor %}
     </select><br/>
     <a href="javascript:showStyle()">{% trans "Create new style" %}</a>

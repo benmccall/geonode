@@ -225,6 +225,7 @@ LOGIN_REDIRECT_URL = "/"
 
 # Sorl Thumbnail (See: http://sorl-thumbnail.readthedocs.org/en/latest/reference/settings.html)
 THUMBNAIL_ENGINE = 'sorl.thumbnail.engines.pgmagick_engine.Engine'
+THUMBNAIL_FORMAT = 'PNG'
 
 # Flag (See: https://github.com/liberation/django-flag#readme)
 FLAG_ALLOW_COMMENTS = True

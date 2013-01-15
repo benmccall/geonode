@@ -46,10 +46,14 @@
 
 		{% if document.type in imgtypes %}
         <div id="embedded_map">
-            <img src="{{document.file.url}}" width='100%' />
+            <a href="{{document.file.url}}"><img src="{{document.file.url}}" width='100%' /></a>
         </div>
+		{% elif document.type == "pdf" %}
+			<iframe src="http://docs.google.com/gview?url=http://{{ request.get_host }}{{ document.file.url }}&embedded=true" style="width:100%; height:350px;" frameborder="0"></iframe>
+			<br/>
+			<p><a href="{{ document.file.url }}" target="_blank">Download the {{ document }} document</a></p>
 		{% else %}
-			<a href="{{ document.file.url }}" target="_blank">Download the {{ document }} document</a>
+			<p><a href="{{ document.file.url }}" target="_blank">Download the {{ document }} document</a></p>
 	    {%  endif %}
         <p><strong>{% trans "Contact:" %}</strong> <a
                 href="{{ document.owner.get_profile.get_absolute_url }}">{{ document.owner }}</a></p>

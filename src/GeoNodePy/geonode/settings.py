@@ -115,6 +115,7 @@ INSTALLED_APPS = (
     'flag',
     'fack',
     'documents',
+    'sorl.thumbnail',
 
     # GeoNode internal apps
     'geonode.core',
@@ -221,6 +222,9 @@ LOGIN_REDIRECT_URL = "/"
 #
 # Settings for third party apps
 #
+
+# Sorl Thumbnail (See: http://sorl-thumbnail.readthedocs.org/en/latest/reference/settings.html)
+THUMBNAIL_ENGINE = 'sorl.thumbnail.engines.pgmagick_engine.Engine'
 
 # Flag (See: https://github.com/liberation/django-flag#readme)
 FLAG_ALLOW_COMMENTS = True

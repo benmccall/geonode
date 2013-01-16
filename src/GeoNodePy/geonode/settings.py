@@ -227,6 +227,9 @@ LOGIN_REDIRECT_URL = "/"
 THUMBNAIL_ENGINE = 'sorl.thumbnail.engines.pgmagick_engine.Engine'
 THUMBNAIL_FORMAT = 'PNG'
 
+# Avatars
+AVATAR_MAX_AVATARS_PER_USER = 1
+
 # Flag (See: https://github.com/liberation/django-flag#readme)
 FLAG_ALLOW_COMMENTS = True
 FLAG_LIMIT_SAME_OBJECT_FOR_USER = 2

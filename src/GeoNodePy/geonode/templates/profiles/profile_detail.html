@@ -7,13 +7,14 @@
 {% load i18n avatar_tags %}
 {% block content %}
 <div class="threecol">
-  <div style="float: right">{% avatar profile.user 70 %}</div>
+  <div style="float: right">{% primary_avatar profile.user 70 %}</div>
   <h2>{{ profile.name }}</h2>
   {% if user == profile.user %}
   <h3>{% trans "Actions" %}</h3>
   <ul>
     {% if user == profile.user %}
     <li><a href="{% url profiles_edit_profile %}">{% trans "Edit profile information" %}</a></li>
+    <li><a href="{% url avatar_add %}">{% trans "Add/update avatar" %}</a></li>
     <li><a href="{% url auth_password_change %}">{% trans "Change password" %}</a></li>
     {% endif %}
     {% if perms.maps.add_layer %}

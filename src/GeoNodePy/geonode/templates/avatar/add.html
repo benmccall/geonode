@@ -2,13 +2,23 @@
 {% load i18n avatar_tags %}
 
 {% block content %}
+<div class="onecol">
+  <h2>Add/Update Avatar</h2>
+
     <p>{% trans "Your current avatar: " %}</p>
-    {% avatar user %}
+    {% avatar user 80 %}
     {% if not avatars %}
         <p>{% trans "You haven't uploaded an avatar yet. Please upload one now." %}</p>
     {% endif %}
     <form enctype="multipart/form-data" method="POST" action="{% url avatar_add %}">
         {{ upload_avatar_form.as_p }}
-        <p>{% csrf_token %}<input type="submit" value="{% trans "Upload New Image" %}" /></p>
+        <p>
+            {% csrf_token %}
+            <input type="hidden" name="next" value="/profiles/{{ user }}/" />
+            <input type="submit" value="{% trans "Upload New Image" %}" />
+        </p>
     </form>
+
+</div>
+
 {% endblock %}

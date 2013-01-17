@@ -431,6 +431,10 @@ height:85%;
 background-image: url(img/silk/map_add.png);
 }
 
+.x-btn .icon-add { 
+background-image: url(img/silk/add.png);
+}
+
 
 .x-btn .icon-open-map { 
 background-image: url(img/silk/map_magnify.png);

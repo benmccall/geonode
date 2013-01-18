@@ -529,6 +529,8 @@ class Contact(models.Model):
     country = models.CharField(choices=COUNTRIES, max_length=3, blank=True, null=True)
     email = models.EmailField(blank=True, null=True)
     
+    keywords = TaggableManager(_('keywords'), help_text=_("A space or comma-separated list of keywords"), blank=True)
+
     def clean(self):
         # the specification says that either name or organization should be provided
         valid_name = (self.name != None and self.name != '')
@@ -545,7 +547,7 @@ class Contact(models.Model):
 
 
 def create_user_profile(sender, instance, created, **kwargs):
-    profile, created = Contact.objects.get_or_create(user=instance, defaults={'name': instance.username, 'email': instance.email })
+    profile, created = Contact.objects.get_or_create(user=instance, defaults={'name': instance.username})
 
 signals.post_save.connect(create_user_profile, sender=User)
 

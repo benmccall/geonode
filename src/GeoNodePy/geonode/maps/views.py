@@ -65,11 +65,12 @@ def default_map_config():
 
 def bbox_to_wkt(x0, x1, y0, y1, srid="4326"):
     return 'SRID='+srid+';POLYGON(('+x0+' '+y0+','+x0+' '+y1+','+x1+' '+y1+','+x1+' '+y0+','+x0+' '+y0+'))'
+
 class ContactForm(forms.ModelForm):
     keywords = taggit.forms.TagField(required=False)
     class Meta:
         model = Contact
-        exclude = ('user',)
+        exclude = ('user','keywords',)
 
 class LayerForm(forms.ModelForm):
     date = forms.DateTimeField(widget=forms.SplitDateTimeWidget)

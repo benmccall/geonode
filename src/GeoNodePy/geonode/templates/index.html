@@ -160,22 +160,26 @@ Ext.onReady(function(){
 
   <ol id="tourContent" style="display:none">
     <li data-id="dataLink" data-button="Next: Searching">
-      <p>Explore GIS Datasets (layers) that data professionals from the St. Louis region have uploaded to the Data Exchange.</p>
+      <p>Explore GIS Datasets (layers) that data professionals from the St. Louis region have uploaded to the Data Exchange to share.</p>
+      <p>You can view this data online or download it in a variety of file formats.</p>
     </li>
-    <li data-id="search_query" data-button="Next: Interactive Maps">
-      <p>For faster access, you can search GIS Datasets by keyword from the home page.</p>
+    <li data-id="search_query" data-button="Next: Interactive Maps" data-options="tipLocation:top">
+      <p>You can quickly search for GIS Datasets by keywords from the home page.</p>
     </li>
-    <li data-id="mapsLink" data-button="Next: Documents">
-      <p>Users of the Data Exchange can create Interactive Maps that combine one or more GIS Datasets and custom layer styles to share.</p>
+    <li data-id="mapsLink" data-button="Next: Map Documents">
+      <p>Users of the Data Exchange (just like you!) have created Interactive Maps that combine GIS Datasets and customized layer styles to share.</p>
+      <p>Explore other users' Interactive Maps or create your own, using layers from the Data Exchange and/or other online GIS servers.</p>
     </li>
     <li data-id="documentLink" data-button="Next: Create an Account" data-options="tipLocation:bottom">
-      <p>Looking for a pre-made map image or PDF? the Map Documents section of the site allows users to view and share noninteractive maps.</p>
+      <p>Looking for a pre-made map image or PDF? The Map Documents section of the site allows users to view and share noninteractive maps.</p>
     </li>
-    <li data-id="login-area" data-button="Next: Additional Help">
-      <p>To save your own Interactive Map or to upload a Map Document, create an account today!</p>
+    <li data-id="registerLink" data-button="Next: Additional Help">
+      <p>In order to save your own Interactive Maps or to upload Map Documents, you'll need a Data Exchange user account.</p>
+	  <p>Click the Register link to create one today!</p>
     </li>
     <li data-id="helpLink" data-button="Close">
       <p>If you need additional help, you can access additional instructions and FAQ's from the Help menu at the top of every page.</p>
+      <p><strong>Welcome to the St. Louis Regional Data Exchange!</strong></p>
     </li>
   </ol>
 
@@ -187,6 +191,20 @@ Ext.onReady(function(){
 <script type="text/javascript">
 //<![CDATA[
 
+function startTour(){
+	// hide the notification bar first so the position of the page is correct for joyride
+	$('#easyNotification').hide();
+	// fade the nivo slider out or it is hard to distinguish between the tour and the slider content
+	$('#slider').fadeTo(0, .25);
+	// initiate the joyride tour. when the tour ends, set the opacity of the slider back to normal
+	$('#tourContent').joyride({
+		'postRideCallback': function(){
+			$('#slider').fadeTo(0, 1);
+		},
+	});
+	return false;
+}
+
 // on document ready
 $(document).ready(function() {
 	$.easyNotification({
@@ -195,7 +213,7 @@ $(document).ready(function() {
 		cookieDays: 3650,
 		autoClose: true,
 		duration: 30000,
-		text: "New to the St. Louis Regional Data Exchange? <a href=\"#\" onclick=\"$('#tourContent').joyride({}); return false;\">View a quick tour of this page</a>."
+		text: "New to the St. Louis Regional Data Exchange? <a href=\"#\" onclick=\" return startTour();\">Take a quick tour!</a>"
 	}); 
 });
 

@@ -10,7 +10,7 @@
   <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}theme/site.css" media="screen" />
   <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}theme/custom.css" media="screen" />
   <script type="text/javascript" src="{% url jscat %}"></script>
-  <script type="text/javascript" src="{{ STATIC_URL }}/jquery-1.6.4.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
   <script type="text/javascript" src="{% url django.views.i18n.javascript_catalog %}"></script>
   <script type="text/javascript" src="{% url lang %}"></script>
   {% endblock %}
@@ -57,7 +57,6 @@
         <li class=""><a class="" id="dataLink" href="{% url data_search %}">GIS Datasets</a></li>
         <li class=""><a class="" id="mapsLink" href="{% url maps_search %}">Interactive Maps</a></li>
         <li class=""><a class="" id="documentLink" href="{% url documents_search %}">Map Documents</a></li>
-        <li class=""><a class="" id="faqsLink" href="{% url faq_topic_list %}">{% trans "FAQ" %}</a></li>
 		{% if user.is_authenticated %}
         <li class=""><a class="" id="profileLink" href="{% if user.get_profile %}{{ user.get_profile.get_absolute_url }}{% else %}{% url profiles_create_profile %}{% endif %}">{% trans "My Profile" %}</a></li>
     {% if user.is_staff %}
@@ -65,7 +64,7 @@
     {% endif %}
     {% endif %}
 
-        <li class=""><a class="" id="mapsLink" href="{% url help %}">{% trans "Help" %}</a></li>
+        <li class=""><a class="" id="helpLink" href="{% url help %}">{% trans "Help" %}</a></li>
     </ul>
    {% endblock %}
 

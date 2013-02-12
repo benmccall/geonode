@@ -105,6 +105,19 @@ div#main form ul.form {
 	color: grey;
 }
 
+/* TOUR NOTIFICATION (EASY NOTIFICATIONS JQUERY PLUGIN) */
+#easyNotification{
+	padding:5px 10px;
+	background:#fffed0;
+	border:1px solid #d4d287;
+	color:#333;
+	position:relative;
+	}
+#easyNotification span{
+	float:right;
+	cursor:pointer;
+	}
+
 /* MESSAGES & ERRORS */
 
 ul.messagelist {

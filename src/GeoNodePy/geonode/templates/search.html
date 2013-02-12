@@ -53,11 +53,11 @@ Ext.onReady(function(){
   <div class="block">
 
     {% if perms.maps.add_layer %}
-      <div class="layer-upload-container"><a class="layer-upload-link" href="{% url data_upload %}">{% trans "Upload data"  %}</a></div>
+      <div class="layer-upload-container"><a class="layer-upload-link" href="{% url data_upload %}">{% trans "Upload a dataset"  %}</a></div>
     {% endif %}
     <h2 class="explore">{% trans "Explore" %} <span class="subtitle">{% trans "GIS Datasets" %}</span></h2>
     <div class="explain">
-      Explore data uploaded to the Data Exchange on this page, or use the search form to locate data of interest to you.
+      Explore data uploaded to the Data Exchange by on this page, or use the search form to locate data of interest to you.
       All datasets can be viewed online or downloaded in a variety of formats for use in other applications.
     </div>
 

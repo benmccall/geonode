@@ -28,7 +28,14 @@ Ext.onReady(function(){
 {% block main %} 
 <div class="twocol">
   <div class="block">
-    <h2>{% trans "Search" %} <span class="subtitle">{% trans "for maps" %}</span></h2>
+
+    <div class="create-map-container"><a class="create-map-link" href="{% url maps_new %}">{% trans "Create your own map"  %}</a></div>
+    <h2 class="explore">{% trans "Explore" %} <span class="subtitle">{% trans "Interactive Maps" %}</span></h2>
+    <div class="explain">
+      The Data Exchange allows users (just like you!) to create and share interactive, online maps with one another.
+      Maps combine one or more GIS Datasets (layers) to display information about a particular geographic subject.
+      Explore maps contributed by other users on this page. You can search for a map using the form below or create a new map.
+    </div>
 
     <div id="search_results"></div>  
 
@@ -39,10 +46,10 @@ Ext.onReady(function(){
 
   <div id="create" class="block">
     <h3>{% trans "Create Your Own Maps" %}</h3>
-    <p>{% trans "Use GeoNode's Map Composer application to create your own maps.  Add layers from this GeoNode or remote services, and style them." %}
+    <p>{% trans "Use the Map Composer to create your own maps.  Add layers from the Data Exchange or remote services and style them." %}
     </p>
     <p>
-      <a href="{%url maps_new %}">{% trans "Create your own map" %}</a>
+      <a class="create-map-link" href="{%url maps_new %}">{% trans "Create your own map" %}</a>
     </p>
   </div>
 

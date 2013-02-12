@@ -51,7 +51,13 @@ Ext.onReady(function(){
 {% block main %} 
 <div class="twocol">
   <div class="block">
-    <h2>{% trans "Search" %} <span class="subtitle">{% trans "for geospatial data" %}</span></h2>
+
+    <div class="layer-upload-container"><a class="layer-upload-link" href="{% url data_upload %}">{% trans "Upload data"  %}</a></div>
+    <h2 class="explore">{% trans "Explore" %} <span class="subtitle">{% trans "GIS Datasets" %}</span></h2>
+    <div class="explain">
+      Explore data uploaded to the Data Exchange on this page, or use the search form to locate data of interest to you.
+      All datasets can be viewed online or downloaded in a variety of formats for use in other applications.
+    </div>
 
     <div id="search_results"></div>  
     <p class="explain">{%trans "Click the <b>+</b> on any row to show layer metadata or download in PDF, KML, GeoTIFF, or SHP." %}
@@ -63,7 +69,7 @@ Ext.onReady(function(){
 
   <div id="upload" class="block">
     <h3>{% trans "Upload GIS Data" %}</h3>
-    <p>{% trans "We support Shapefile and GeoTIFF uploads." %}
+    <p>{% trans "The Data Exchange currently supports Shapefile and GeoTIFF uploads." %}
     <a class="layer-upload-link" href="{% url data_upload %}">{% trans "Upload a new layer"  %}</a>
     </p>
   </div>
@@ -87,7 +93,8 @@ Ext.onReady(function(){
   </div>
   <div class="block">
   <h3>{% trans "Selected Data" %}</h3>
-    <p><span class="explain">{% blocktrans %}Use the checkboxes in the search results to add data to your selection.{% endblocktrans%}</span></p>
+    <p><span class="explain">{% blocktrans %}You can select multiple GIS Datasets (layers) using the checkboxes in the search results.
+    Then, create a new map using all selected layers or download them all at once using the links below.{% endblocktrans%}</span></p>
   <div id="selection">
     <div id="data_cart"></div>
     </div>

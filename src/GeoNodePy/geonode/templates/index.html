@@ -7,7 +7,6 @@
 {% block head %} 
 {% include "geonode/ext_header.html" %}
 {{ block.super }}
-<script type="text/javascript" src="{{ STATIC_URL }}/nivo-slider/jquery.nivo.slider.pack.js"></script>
 <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}nivo-slider/themes/default/default.css" media="screen" />
 <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}nivo-slider/nivo-slider.css" media="screen" />
 <script type="text/javascript">
@@ -56,10 +55,6 @@ Ext.onReady(function(){
      width: 650});
 
 {% endautoescape %}
-});
-
-$(window).load(function() {
-	$('#slider').nivoSlider({ effect: 'fade', controlNav: false, pauseTime: 7500 });
 });
 
 </script>
@@ -159,5 +154,17 @@ $(window).load(function() {
 
 </div>
 {% endblock %}
-{% block sidebar %}
+
+{% block end_body_js %}
+
+<script type="text/javascript" src="{{ STATIC_URL }}nivo-slider/jquery.nivo.slider.pack.js"></script>
+<script type="text/javascript">
+//<![CDATA[
+
+$(window).load(function() {
+	$('#slider').nivoSlider({ effect: 'fade', controlNav: false, pauseTime: 7500 });
+});
+
+//]]>
+</script>
 {% endblock %}

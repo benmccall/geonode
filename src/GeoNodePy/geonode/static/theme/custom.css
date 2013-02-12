@@ -46,6 +46,10 @@ div#main {
 	padding: 10px 0 10px 20px;
 }
 
+.slider-wrapper {
+	min-height: 250px;
+}
+
 h2.explore{
 	margin-bottom: .25em;
 }

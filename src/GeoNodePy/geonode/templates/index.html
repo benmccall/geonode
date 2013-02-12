@@ -15,25 +15,45 @@ Ext.onReady(function(){
 {% autoescape off %}
 
   var exploreMapButton = new Ext.Button({
-     renderTo: 'explore_map', 
-     text: '{% trans "Explore Maps" %}',
-     handler: function(){ window.location = "{% url maps_search %}"; }
+     renderTo: 'explore_data', 
+     text: '<strong>Explore Data</strong>',
+     margins: '0 4 4 0',
+     scale: 'large',
+     width: 80,
+     handler: function(){ window.location = "{% url data_search %}"; }
   });
 
+  {% if perms.maps.add_layer %}
   var createMapButton = new Ext.Button({
-     renderTo: 'create_map', 
-     text: 'Create a Map',
-     handler: function(){ window.location = "{% url maps_new %}"; }
+     renderTo: 'upload_data', 
+     text: '<strong>Upload Data</strong>',
+     margins: '0 4 4 0',
+     scale: 'large',
+     width: 80,
+     handler: function(){ window.location = "{% url data_upload %}"; }
   });
+  {% endif %}
 
   var submitForm = function() {
-      Ext.query('#data_block form')[0].submit();
+     if (searchInput.isValid())
+          Ext.query('#data_block form')[0].submit();
   };
 
-  var searchButton = new Ext.Button({renderTo: 'submit_search', text: '{% trans "Search" %}',
-                                     handler: submitForm});
+  var searchButton = new Ext.Button({
+     renderTo: 'submit_search',
+     text: '<strong>Search</strong>',
+     margins: '0 4 4 0',
+     scale: 'large',
+     width: 60,
+     handler: submitForm});
 
-  var searchInput = new Ext.form.TextField({applyTo: 'search_query', width: 350});
+  var searchInput = new Ext.form.TextField({
+     applyTo: 'search_query',
+     emptyText: 'Search for GIS Data',
+     allowBlank: false,
+     style: { 'font-size': '1.75em', 'font-weight': '600' },
+     height: 37,
+     width: 650});
 
 {% endautoescape %}
 });
@@ -102,8 +122,7 @@ $(window).load(function() {
   <div id="data_block" class="block">
     <!-- Data search text box and button -->
 
-    <form action="{% url data_search %}" method="POST">
-      {% csrf_token %}
+    <form action="{% url data_search %}" method="GET">
         <table>
           <tr>
             <td>
@@ -113,21 +132,18 @@ $(window).load(function() {
               <div id="submit_search" class="content-button"></div>
             </td>
             <td>
-              <div id="explore_map" class="content-button"></div>
+              <div id="explore_data" class="content-button"></div>
             </td>
+
+            {% if perms.maps.add_layer %}
             <td>
-              <div id="create_map" class="content-button"></div>
+              <div id="upload_data" class="content-button"></div>
             </td>
+            {% endif %}
           </tr>
         </table>
 
     </form>
-  
-    {% if perms.maps.add_layer %}
-
-    <a class="layer-upload-link" href="{% url data_upload %}">{% trans "Upload data"  %}</a>
-
-    {% endif %}
 
   </div>
 

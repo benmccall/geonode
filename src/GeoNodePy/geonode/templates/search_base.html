@@ -58,6 +58,18 @@ Ext.onReady(function(){
     {% trans "To bookmark your current search use this" %} <a href="#" class="permalink">{% trans "permalink" %}</a>
     </p>
   </div>
+
+{% if perms.maps.add_layer %}
+
+  <div id="upload" class="block">
+    <h3>{% trans "Upload GIS Data" %}</h3>
+    <p>{% trans "We support Shapefile and GeoTIFF uploads." %}
+    <a class="layer-upload-link" href="{% url data_upload %}">{% trans "Upload a new layer"  %}</a>
+    </p>
+  </div>
+
+{% endif %}
+
 </div>
 {% endblock %}
 

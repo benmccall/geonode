@@ -36,6 +36,16 @@ Ext.onReady(function(){
       {% trans "To bookmark your current search use this" %} <a href="#" class="permalink">{% trans "permalink" %}</a>
     </p>
   </div>
+
+  <div id="create" class="block">
+    <h3>{% trans "Create Your Own Maps" %}</h3>
+    <p>{% trans "Use GeoNode's Map Composer application to create your own maps.  Add layers from this GeoNode or remote services, and style them." %}
+    </p>
+    <p>
+      <a href="{%url maps_new %}">{% trans "Create your own map" %}</a>
+    </p>
+  </div>
+
 </div>
 {% endblock %}
 

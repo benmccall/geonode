@@ -52,7 +52,9 @@ Ext.onReady(function(){
 <div class="twocol">
   <div class="block">
 
-    <div class="layer-upload-container"><a class="layer-upload-link" href="{% url data_upload %}">{% trans "Upload data"  %}</a></div>
+    {% if perms.maps.add_layer %}
+      <div class="layer-upload-container"><a class="layer-upload-link" href="{% url data_upload %}">{% trans "Upload data"  %}</a></div>
+    {% endif %}
     <h2 class="explore">{% trans "Explore" %} <span class="subtitle">{% trans "GIS Datasets" %}</span></h2>
     <div class="explain">
       Explore data uploaded to the Data Exchange on this page, or use the search form to locate data of interest to you.

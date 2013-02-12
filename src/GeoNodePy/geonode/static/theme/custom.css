@@ -50,7 +50,7 @@ h2.explore{
 	margin-bottom: .25em;
 }
 
-.layer-upload-container, .create-map-container{
+.layer-upload-container, .create-map-container, .document-upload-container{
 	float: right;
 }
 
@@ -60,6 +60,15 @@ background-repeat:no-repeat;
 padding-left: 18px;
 margin-top: 1em;
 background-image: url(img/silk/map_add.png);
+display: block;
+}
+
+a.document-upload-link {
+text-decoration: none;  
+background-repeat:no-repeat;
+padding-left: 18px;
+margin-top: 1em;
+background-image: url(img/silk/page_add.png);
 display: block;
 }
 

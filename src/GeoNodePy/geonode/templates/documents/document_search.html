@@ -29,11 +29,19 @@ Ext.onReady(function(){
 {% block main %} 
 <div class="twocol">
   <div class="block">
-    <h2>{% trans "Search" %} <span class="subtitle">{% trans "for documents" %}</span></h2>
+
+    <div class="document-upload-container"><a class="document-upload-link" href="{% url document-upload %}">{% trans "Upload data"  %}</a></div>
+    <h2 class="explore">{% trans "Explore" %} <span class="subtitle">{% trans "Map Documents" %}</span></h2>
+    <div class="explain">
+      The Data Exchange allows users (just like you!) to upload and share Map Documents with one another.
+      Map Documents are noninteractive images or PDFs of maps that other users have previously created.
+      They can be easily printed or included in reports or other documents.
+      You can search for a document using the form below.
+    </div>
 
     <div id="search_results"></div>  
 
-    <p class="explain">{%trans "Click the <b>+</b> on any row to show map abstract." %}
+    <p class="explain">{%trans "Click the <b>+</b> on any row to show additional details." %}
       {% trans "To bookmark your current search use this" %} <a href="#" class="permalink">{% trans "permalink" %}</a>
     </p>
   </div>

@@ -13,7 +13,9 @@
 
 {% block main %}
     <div class="twocol">
-        <h2>{% trans "Upload a Document" %}</h2>
+
+        <h2 class="explore">{% trans "Map Documents" %} <span class="subtitle">{% trans "Upload" %}</span></h2>
+
         {% if errors %}
             <div id="errors">
                 {% for error in errors %}
@@ -21,6 +23,12 @@
                 {% endfor %}
             </div>
         {% endif %}
+
+        <div class="explain">
+            <p>To add data to the site, select a document from your computer and submit the form below.
+            Image (.JPG, .GIF, .PNG) and Adobe Portable Document Format (.PDF) files are currently supported.
+            <p><strong>The maximum allowed file size is 250 MB. Please contact us if you would like to upload larger documents.</strong></p>
+        </div>
 
         <div id="upload_form">
         </div>

@@ -29,7 +29,6 @@ Ext.onReady(function(){
 <div class="twocol">
   <div class="block">
 
-    <div class="create-map-container"><a class="create-map-link" href="{% url maps_new %}">{% trans "Create your own map"  %}</a></div>
     <h2 class="explore">{% trans "Explore" %} <span class="subtitle">{% trans "Interactive Maps" %}</span></h2>
     <div class="explain">
       The Data Exchange allows users (just like you!) to create and share interactive, online maps with one another.
@@ -44,18 +43,20 @@ Ext.onReady(function(){
     </p>
   </div>
 
+</div>
+{% endblock %}
+
+{% block sidebar %}
+
+<div class="threecol">
   <div id="create" class="block">
     <h3>{% trans "Create Your Own Maps" %}</h3>
-    <p>{% trans "Use the Map Composer to create your own maps.  Add layers from the Data Exchange or remote services and style them." %}
+    <p class="explain">{% trans "Use the Map Composer to create your own maps.  Add layers from the Data Exchange or remote services and style them." %}
     </p>
     <p>
       <a class="create-map-link" href="{%url maps_new %}">{% trans "Create your own map" %}</a>
     </p>
   </div>
-
 </div>
-{% endblock %}
-
-{% block sidebar %}
 
 {% endblock %}

@@ -11,6 +11,7 @@ from django.db.models import signals
 from taggit.managers import TaggableManager
 from django.utils import simplejson as json
 from django.utils.safestring import mark_safe
+from django.core.mail import send_mail
 
 import httplib2
 import urllib
@@ -1703,6 +1704,13 @@ def post_save_layer(instance, sender, **kwargs):
 
     if kwargs['created']:
         instance._populate_from_gs()
+        if not instance.is_active:
+            # Send email to admins
+            send_mail("A new dataset has been uploaded to the STLRDX",
+                       "You may view and approve the new layer at: \n%sadmin/maps/layer/%d/" % (settings.SITEURL, instance.id),
+                       "stldata@slu.edu",
+                       ["info@iogo.com"],
+                       fail_silently=True)
 
     if instance.is_active:
         instance.save_to_geonetwork()

@@ -118,6 +118,13 @@ div#main form ul.form textarea
 	height: 8em;
 }
 
+span.helptext{
+	display: block;
+	color: grey;
+	font-size: .9em;
+	line-height: 1.8em;
+}
+
 
 /* TOUR NOTIFICATION (EASY NOTIFICATIONS JQUERY PLUGIN) */
 #easyNotification{

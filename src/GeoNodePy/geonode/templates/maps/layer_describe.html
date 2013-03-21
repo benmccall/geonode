@@ -1,7 +1,7 @@
 {% extends "page_layout.html" %}
 {% load i18n %}
 
-{% block title %} {{ layer.typename }} - {{ block.super }} {% endblock %}
+{% block title %} {{ layer.resource.title|default:layer.typename }} - {{ block.super }} {% endblock %}
 
 {% block head %}
 {% include "geonode/ext_header.html" %}
@@ -9,7 +9,9 @@
 {% endblock %}
 {% block main %}
 <div class="twocol">
-  <h2> {% trans "Editing details for " %} {{ layer.typename }} </h2>
+
+  <h2 class="explore">{% trans "GIS Datasets" %} <span class="subtitle">{% trans "Metadata Editor" %}</span></h2>
+
   <form action="{% url data_metadata layer.typename %}" method="POST">
 	  {% csrf_token %}
       <ul class="form">

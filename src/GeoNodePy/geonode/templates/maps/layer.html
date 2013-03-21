@@ -183,11 +183,15 @@
 {% if layer.display_type %}<p> <strong>{% trans "Type" %}:</strong> {{ layer.display_type }} </p>{% endif %}
 {% if layer.keywords %}<p> <strong>{% trans "Keywords" %}:</strong> {{ layer.keywords.all|join:", " }}</p>{% endif %}
 {% if layer.edition %}<p> <strong>{% trans "Edition" %}:</strong> {{ layer.edition }}</p>{% endif %}
-{% if layer.topic_category %}<p> <strong>{% trans "Topic Category" %}:</strong> {{ layer.topic_category }}</p>{% endif %}
+{% if layer.topic_category %}<p> <strong>{% trans "Topic Category" %}:</strong> {{ layer.get_topic_category_display }}</p>{% endif %}
 
 {% if layer.constraints_use or layer.constraints_other %}
-<p> <strong>{% trans "Citation" %}:</strong> 
-    {{ layer.constraints_use}} {{ layer.contraints_other}}
+<p> <strong>{% trans "License or Use Constraints" %}:</strong> 
+    {{ layer.get_constraints_use_display }}
+
+    {% if layer.constraints_other %}
+    <br/>{{ layer.constraints_other}}
+    {% endif %}
 </p>
 {% endif %}
 
@@ -212,7 +216,7 @@
         {% if layer.poc.delivery %}<li><strong>{% trans "Delivery" %}:</strong> {{ layer.poc.delivery}}</li>{% endif %}
         {% if layer.poc.area %}<li><strong>{% trans "Area" %}:</strong> {{ layer.poc.area}}</li>{% endif %}
         {% if layer.poc.zipcode %}<li><strong>{% trans "Zip Code" %}:</strong> {{ layer.poc.zipcode}}</li>{% endif %}
-        {% if layer.poc.country %}<li><strong>{% trans "Country" %}:</strong> {{ layer.poc.country}}</li>{% endif %}
+        {% if layer.poc.country %}<li><strong>{% trans "Country" %}:</strong> {{ layer.poc.get_country_display}}</li>{% endif %}
     </ul>
   {% endif %}
 </p>
@@ -237,7 +241,7 @@
 {% endif %}
 
 {% if layer.geographic_bounding_box %}<p> <strong>{% trans "Bounding Box" %}:</strong> {{ layer.geographic_bounding_box }} </p>{% endif %}
-{% if layer.resource.projection %}<p> <strong>{% trans "Native SRS" %}:</strong> {{ layer.resource.projection|default:_("No SRS specified.") }} </p>{% endif %}
+{% if layer.resource.projection %}<p> <strong>{% trans "Spatial Reference System (SRS)" %}:</strong> {{ layer.resource.projection }} </p>{% endif %}
 
 {% if layer.is_active %}
 <h3>{% trans "Comments" %}</h3>

@@ -32,7 +32,7 @@ Ext.onReady(function() {
     <p>To add data to the site, select a layer data file from your computer and submit the form below.
     Shapefile (.SHP) and GeoTiff (.TIF, .TIFF, .GEOTIF, or .GEOTIFF) file formats are currently supported.
     If you are uploading a shapefile, first select the .SHP file.
-    You will then be prompted to add the remaining component files (.DBF and .SHX files are required; .PRJ files are recommended but optional).</p>
+    You will then be prompted to add the remaining component files (.DBF and .SHX files are required; .PRJ files are required if not using WGS 84 / EPSG:4326).</p>
     <p><strong>The maximum allowed file size is 250 MB. Please contact us if you would like to upload larger layers.</strong></p>
   </div>
 
@@ -125,7 +125,7 @@ Ext.onReady(function(){
 
     var prj_file = new Ext.ux.form.FileUploadField({
         id: 'prj_file',
-        emptyText: gettext('Select a .prj data file (optional)'),
+        emptyText: gettext("Select a .prj data file (required unless WGS 84 \/ EPSG:4326)"),
         fieldLabel: gettext('PRJ'),
         name: 'prj_file',
         allowBlank: true,

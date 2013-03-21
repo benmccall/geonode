@@ -92,10 +92,6 @@ div#main #data_ops ul {
 	margin: 0px;
 }
 
-div#main form ul.form {
-	margin: 0 0 2em 0;
-}
-
 #footer {
 	padding: 15px 0;
 }
@@ -104,6 +100,24 @@ div#main form ul.form {
 	font-size: .8em;
 	color: grey;
 }
+
+/* FORMS */
+
+div#main form ul.form {
+	margin: 0 0 2em 0;
+}
+div#main form ul.form input#id_layer-title,
+div#main form ul.form input#id_layer-keywords
+{
+	width: 100%;
+}
+
+div#main form ul.form textarea
+{
+	width: 100%;
+	height: 8em;
+}
+
 
 /* TOUR NOTIFICATION (EASY NOTIFICATIONS JQUERY PLUGIN) */
 #easyNotification{

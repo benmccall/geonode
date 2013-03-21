@@ -424,21 +424,41 @@ UPDATE_FREQUENCIES = (
 # See http://geonetwork-opensource.org/manuals/2.6.4/eng/users/quickstartguide/new_metadata/index.html
 # IOGO TODO: Are there better descriptions of these options in the ISO 19139 documentation?
 # Eg, Copyright: Exclusive right to the publication, production, or sale of the rights to a literary, dramatic, musical, or artistic work, or to the use of a commercial print or label, granted by law for a specified period of time to an author, composer, artist, distributor 
-# Shortcuts for convenience in Open Data cases
-#    'Public Domain Dedication and License (PDDL)',
-#    'Attribution License (ODC-By)',
-#    'Open Database License (ODC-ODbL)',
-#    'CC-BY-SA',
+# ORIGINAL VALUES
+# ('copyright', 'Copyright'),
+# ('intellectualPropertyRights', 'Intellectual Property Rights'),
+# ('license', 'License'),
+# ('otherRestrictions', 'Other Restrictions'),
+# ('patent', 'Patent'),
+# ('patentPending', 'Patent Pending'),
+# ('restricted', 'Restricted'),
+# ('trademark', 'Trademark'),
 
 CONSTRAINT_OPTIONS = (
+    ('PDDL', 'Open Data Commons Public Domain Dedication and License (PDDL)'),
+    ('ODC-By', 'Open Data Commons Attribution License (ODC-By)'),
+    ('ODC-ODbL', 'Open Data Commons Open Database License (ODC-ODbL)'),
+
+    ('CC-BY', 'Creative Commons Attribution (CC BY)'),
+    ('CC-BY-SA', 'Creative Commons Attribution-ShareAlike (CC BY-SA)'),
+    ('CC-BY-ND', 'Creative Commons Attribution-NoDerivs (CC BY-ND)'),
+    ('CC-BY-NC', 'Creative Commons Attribution-NonCommercial (CC BY-NC)'),
+    ('CC-BY-NC-SA', 'Creative Commons Attribution-NonCommercial-ShareAlike (CC BY-NC-SA)'),
+    ('CC-BY-NC-ND', 'Creative Commons Attribution-NonCommercial-NoDerivs (CC BY-NC-ND)'),
+    ('CC0', 'Creative Commons Public Domain Dedication (CC0)'),
+
+    ('GFDL', 'GNU Free Documentation License (GFDL)'),
+
     ('copyright', 'Copyright'),
-    ('intellectualPropertyRights', 'Intellectual Property Rights'),
-    ('license', 'License'),
-    ('otherRestrictions', 'Other Restrictions'),
-    ('patent', 'Patent'),
-    ('patentPending', 'Patent Pending'),
-    ('restricted', 'Restricted'),
-    ('trademark', 'Trademark'),
+    ('publicDomain', 'Public Domain'),
+
+    ('otherAttribution', 'Other License (Attribution)'),
+    ('otherNonCommercial', 'Other License (Non-Commercial)'),
+    ('otherPublicDomain', 'Other License (Public Domain)'),
+    ('otherOpen', 'Other License (Open)'),
+    ('other', 'Other'),
+
+    ('unSpecified', 'License Not Specified'),
 )
 
 # From https://wiki.ceh.ac.uk/pages/viewpage.action?pageId=117277211
@@ -741,7 +761,7 @@ class Layer(models.Model, PermissionLevelMixin):
     # section 3
     keywords = TaggableManager(_('keywords'), help_text=_("A space or comma-separated list of keywords"), blank=True, help_text=_('commonly used word(s) or formalised word(s) or phrase(s) used to describe the subject (space or comma-separated'))
     keywords_region = models.CharField(_('keywords region'), max_length=3, choices=COUNTRIES, default = 'USA', help_text=_('keyword identifies a location'))
-    constraints_use = models.CharField(_('constraints use'), max_length=255, choices=CONSTRAINT_OPTIONS, default='copyright', help_text=_('constraints applied to assure the protection of privacy or intellectual property, and any special restrictions, limitations or warnings on using the resource or metadata'))
+    constraints_use = models.CharField(_('constraints use'), max_length=255, choices=CONSTRAINT_OPTIONS, default='unSpecified', help_text=_('constraints applied to assure the protection of privacy or intellectual property, and any special restrictions, limitations or warnings on using the resource or metadata'))
     constraints_other = models.TextField(_('constraints other'), blank=True, null=True, help_text=_('other restrictions and legal prerequisites for accessing and using the resource or metadata'))
     spatial_representation_type = models.CharField(_('spatial representation type'), max_length=255, choices=SPATIAL_REPRESENTATION_TYPES, blank=True, null=True, help_text=_('method used to represent geographic information in the dataset'))
 

@@ -435,7 +435,7 @@ UPDATE_FREQUENCIES = (
 # ('trademark', 'Trademark'),
 
 CONSTRAINT_OPTIONS = (
-    ('PDDL', 'Open Data Commons Public Domain Dedication and License (PDDL)'),
+    ('ODC-PDDL', 'Open Data Commons Public Domain Dedication and License (ODC-PDDL)'),
     ('ODC-By', 'Open Data Commons Attribution License (ODC-By)'),
     ('ODC-ODbL', 'Open Data Commons Open Database License (ODC-ODbL)'),
 

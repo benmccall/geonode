@@ -326,6 +326,12 @@ ACTSTREAM_SETTINGS = {
     'GFK_FETCH_DEPTH': 1,
 }
 
+# Django Avatar
+AVATAR_MAX_AVATARS_PER_USER = 1
+AVATAR_CLEANUP_DELETED = True
+AVATAR_ALLOW_FILE_EXTS = ('jpg', 'jpeg', 'png', 'gif')
+AUTO_GENERATE_AVATAR_SIZES = (20, 65, 80)
+
 # For South migrations
 SOUTH_MIGRATION_MODULES = {
     'avatar': 'geonode.migrations.avatar',

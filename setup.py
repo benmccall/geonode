@@ -99,7 +99,7 @@ setup(name='GeoNode',
         "django-activity-stream==0.4.4",
         "django-request==0.3",
         "user-messages==0.1.1",
-        "geonode-avatar==2.1.1",
+        "django-avatar==2.0a9",
         "dialogos==0.2",
         "agon-ratings==0.2",
         "South==0.7.3",
@@ -118,5 +118,8 @@ setup(name='GeoNode',
         # translation
         "transifex-client",
         ],
+      dependency_links = [
+        "http://github.com/jezdez/django-avatar/tarball/master#egg=django_avatar-2.0a9"
+      ],
       zip_safe=False,
       )

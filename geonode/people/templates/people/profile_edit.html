@@ -4,7 +4,7 @@
 
 {% block body %}
   {% avatar user %}
-  {% if not avatars %}
+  {% if not user|has_avatar %}
     <p>{% trans "You haven't uploaded an avatar yet. Please upload one now." %}</p>
   {% else %}
     <form method="POST" action="{% url avatar_change %}">

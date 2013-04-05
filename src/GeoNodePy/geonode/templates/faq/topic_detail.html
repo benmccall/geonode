@@ -3,12 +3,11 @@
 {% block title %}{{ topic }} - {{ block.super }}{% endblock %}
 
 {% block body %}
-<h3>{{ topic }}</h3>
-<dl>
+<h2>FAQ Topic: {{ topic }}</h2>
+<ul>
 {% for question in questions %}
-  <dt>{{ question.text }}</dt>
-  <dd class="answer">{{ question.answer }}</dd>
+  <li><a href="./{{ question.slug }}/">{{ question.text }}</a></li>
 {% endfor %}
-</dl>
+</ul>
 
 {% endblock %}

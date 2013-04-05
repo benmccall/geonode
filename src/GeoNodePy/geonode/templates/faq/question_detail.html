@@ -2,13 +2,10 @@
 
 {% block title %}{{ question.text|truncatewords:30}} - {{ block.super }}{% endblock %}
 
-
 {% block body %}
 
-{{ question.text }}
+<h2>FAQ: {{ question.text }}</h2>
 
-<br/>
-
-{{ question.answer }}
+<p>{{ question.answer|safe }}</p>
 
 {% endblock %}

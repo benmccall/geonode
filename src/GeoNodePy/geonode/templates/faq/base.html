@@ -9,3 +9,15 @@
 
 </div>
 {% endblock %}
+
+{% block sidebar %}
+<div class="threecol">
+  <h3>Additional FAQs</h3>
+  <ul>
+    {% faq_topic_list as topic_list %}
+    {% for topic in topic_list %}
+      <li><a href="{{ topic.get_absolute_url }}">{{ topic }}</a></li>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock %}

@@ -25,9 +25,7 @@
 $(document).ready(function(){
 
 var $avatarChangeForm = $('#avatar_change_form');
-
 $("#avatar_change_form .radio input[type='radio']:checked").siblings('img').addClass('avatar_primary');
-$("#avatar_change_form .form-actions").hide();
 
 $('#avatar_change_form label.radio img').click(function() {
     var $img = $(this);
@@ -36,13 +34,13 @@ $('#avatar_change_form label.radio img').click(function() {
     $.ajax({
         type: "POST",
         url: $avatarChangeForm.attr('action'),
-        data: $('#avatar_change_form').serialize().concat("&next=/_messages/"),
+        data: $avatarChangeForm.serialize().concat("&next=/_messages/"),
         success: function(data){
             // add success alert
             $('#messages').html(data);
             setTimeout(function(){ $('.alert').alert('close'); }, 5000);
             // update avatar in header
-            $('.navbar .user-avatar img').attr('src', $img.attr('src'))
+            $('.navbar .user-avatar img').attr('src', $img.attr('src').replace('/resized/80/', '/resized/20/'))
         }
     });
 });

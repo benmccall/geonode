@@ -2,13 +2,75 @@
 {% load i18n avatar_tags %}
 {% load bootstrap_tags %}
 
+
+{% block extra_head %}
+
+<style>
+#avatar_change_form label.radio input{
+        display: none;
+}
+#avatar_change_form label.radio{
+        cursor: pointer;
+        border: solid 3px transparent;
+}
+#avatar_change_form .avatar_primary{
+        border: solid 3px black !important;
+}
+</style>
+
+{% endblock extra_head %}
+{% block extra_script %}
+<script>
+
+$(document).ready(function(){
+
+var $avatarChangeForm = $('#avatar_change_form');
+
+$("#avatar_change_form .radio input[type='radio']:checked").siblings('img').addClass('avatar_primary');
+$("#avatar_change_form .form-actions").hide();
+
+$('#avatar_change_form label.radio img').click(function() {
+    var $img = $(this);
+    $img.addClass('avatar_primary').parent().siblings('label').children('img').removeClass('avatar_primary');
+    $img.siblings('input').prop('checked', true);
+    $.ajax({
+        type: "POST",
+        url: $avatarChangeForm.attr('action'),
+        data: $('#avatar_change_form').serialize().concat("&next=/_messages/"),
+        success: function(data){
+            // add success alert
+            $('#messages').html(data);
+            setTimeout(function(){ $('.alert').alert('close'); }, 5000);
+            // update avatar in header
+            $('.navbar .user-avatar img').attr('src', $img.attr('src'))
+        }
+    });
+});
+
+});
+
+</script>
+
+{% endblock extra_script %}
+
 {% block body %}
-  {% avatar user %}
+
+<div id="messages">{% include "_messages.html" %}</div>
+
   {% if not user|has_avatar %}
     <p>{% trans "You haven't uploaded an avatar yet. Please upload one now." %}</p>
+  {% else %}
+    <form method="POST" action="{% url avatar_change %}" id="avatar_change_form" class="form-inline">
+      <legend>{% trans "Change Your Avatar" %}</legend>
+      {% csrf_token %}
+      {{ primary_avatar_form|as_bootstrap }}
+      <div class="form-actions">
+        <input type="submit" class="btn" value="{% trans "Choose new avatar" %}" />
+      </div>
+    </form>
   {% endif %}
 
-  <form enctype="multipart/form-data" method="POST" action="{% url avatar_add %}">
+  <form enctype="multipart/form-data" method="POST" action="{% url avatar_add %}" id="avatar_add_form" class="form-inline">
     <legend>{% trans "Upload a New Avatar" %}</legend>
     {% csrf_token %}
     <div class="form-controls">

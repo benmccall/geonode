@@ -35,7 +35,8 @@ from itertools import chain
 from geonode.people.models import Profile
 from geonode.people.forms import ProfileForm
 from geonode.people.forms import ForgotUsernameForm
-from avatar.forms import UploadAvatarForm
+from avatar.forms import UploadAvatarForm, PrimaryAvatarForm, DeleteAvatarForm
+from avatar.views import _get_avatars
 
 class ProfileListView(ListView):
 
@@ -62,11 +63,20 @@ def profile_edit(request, username=None):
             return redirect(reverse('profile_detail', args=[request.user.username]))
     else:
         form = ProfileForm(instance=profile)
-        upload_avatar_form(data=None, user=request.user)
+        avatar, avatars = _get_avatars(request.user)
+        if avatar:
+            kwargs = {'initial': {'choice': avatar.id}}
+        else:
+            kwargs = {}
+        primary_avatar_form = PrimaryAvatarForm(user=request.user, avatars=avatars, **kwargs)
+        upload_avatar_form = UploadAvatarForm(user=request.user, **kwargs)
 
     return render(request, "people/profile_edit.html", {
         "form": form,
-        "upload_avatar_form": upload_avatar_form
+        "avatar": avatar,
+        "avatars": avatars,
+        "upload_avatar_form": upload_avatar_form,
+        "primary_avatar_form": primary_avatar_form
     })
 
 def _get_user_objects(profile):   

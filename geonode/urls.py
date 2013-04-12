@@ -51,6 +51,8 @@ urlpatterns = patterns('',
                 {'template': 'developer.html'}, name='developer'),
     url(r'^about/$', 'django.views.generic.simple.direct_to_template',
                 {'template': 'about.html'}, name='about'),
+    url(r'^_messages/$', 'django.views.generic.simple.direct_to_template',
+                {'template': '_messages.html'}, name='_messages'),
 
     # Layer views
     (r'^layers/', include('geonode.layers.urls')),

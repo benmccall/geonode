@@ -1,0 +1,17 @@
+{% comment %}
+
+    This template can be called by ajax or included in other templates to display Django messages, styled by Bootstrap
+
+    Django message tags can be: debug, info, success, warning, error (https://docs.djangoproject.com/en/dev/ref/contrib/messages/#message-tags)
+    Bootstrap alert classes can be: alert-error, alert-success, alert-info (http://twitter.github.io/bootstrap/components.html#alerts)
+
+{% endcomment %}
+
+{% if messages %}
+    {% for message in messages %}
+    <div class="alert fade in {% if message.tags %} alert-{{ message.tags }}{% endif %}">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        {{ message }}
+    </div>
+    {% endfor %}
+{% endif %}

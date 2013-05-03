@@ -96,7 +96,7 @@ def download(request, service):
             headers=headers)
 
         content_disposition = None
-        if 'content_disposition' in download_response:
+        if 'content-disposition' in download_response:
             content_disposition = download_response['content-disposition']
         mimetype = download_response['content-type']
         response = HttpResponse(content, mimetype = mimetype)

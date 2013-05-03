@@ -72,8 +72,14 @@ def geoserver_rest_proxy(request, proxy_path, downstream_path):
 
 
 def download(request, service):
+    '''
+    View that proxies layer download requests from Geoserver to the end user
+    
+    Checks that a layer is allowed to be downloaded and that the current user
+    has "view" permissions for the layer or returns a 403 http status code
+    '''
     params = request.GET
-    service=service.replace("_","/")
+    service = service.replace("_","/")
     url = settings.GEOSERVER_BASE_URL + service + "?" + params.urlencode()
 
     if service == "wfs":
@@ -85,16 +91,24 @@ def download(request, service):
 
     layer = get_object_or_404(Layer, typename=layername)
 
+    # Check that the layer owner allows users to download the layer
+    # and ensure that the current user has permission to view the layer
     if layer.is_downloadable and request.user.has_perm('maps.view_layer', obj=layer):
+
+        # Setup http connection to Geoserver layer url
         http = httplib2.Http()
         http.add_credentials(*settings.GEOSERVER_CREDENTIALS)
         headers = dict()
 
+        # Open http connection
         download_response, content = http.request(
             url, request.method,
             body=None,
             headers=headers)
 
+        # Pass Content-Disposition and Content-Type headers from Geoserver.
+        # Helps the browser determine if the file should be downloaded as an
+        # attachment or viewed inline and set the file name/extension
         content_disposition = None
         if 'content-disposition' in download_response:
             content_disposition = download_response['content-disposition']

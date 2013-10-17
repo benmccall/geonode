@@ -6,6 +6,10 @@ from django.db import models
 
 class Migration(SchemaMigration):
 
+    depends_on = (
+        ("base", "0001_initial"),
+    )
+
     def forwards(self, orm):
         
         # Deleting field 'Map.csw_mdsource'
@@ -25,7 +29,6 @@ class Migration(SchemaMigration):
 
         # Deleting field 'Map.uuid'
         db.delete_column('maps_map', 'uuid')
-
 
         # Deleting field 'Map.date_type'
         db.delete_column('maps_map', 'date_type')
@@ -56,7 +59,6 @@ class Migration(SchemaMigration):
 
         # Deleting field 'Map.distribution_description'
         db.delete_column('maps_map', 'distribution_description')
-
 
         # Deleting field 'Map.supplemental_information'
         db.delete_column('maps_map', 'supplemental_information')

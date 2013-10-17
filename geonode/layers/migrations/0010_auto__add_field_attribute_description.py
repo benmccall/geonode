@@ -71,6 +71,16 @@ class Migration(SchemaMigration):
             'resource': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['base.ResourceBase']"}),
             'role': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['people.Role']"})
         },
+        u'base.link': {
+            'Meta': {'object_name': 'Link'},
+            'extension': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'link_type': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
+            'mime': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
+            'resource': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['base.ResourceBase']"}),
+            'url': ('django.db.models.fields.TextField', [], {'unique': 'True', 'max_length': '1000'})
+        },
         u'base.region': {
             'Meta': {'ordering': "('name',)", 'object_name': 'Region'},
             'code': ('django.db.models.fields.CharField', [], {'max_length': '50'}),
@@ -144,13 +154,10 @@ class Migration(SchemaMigration):
         u'base.topiccategory': {
             'Meta': {'ordering': "('identifier',)", 'object_name': 'TopicCategory'},
             'description': ('django.db.models.fields.TextField', [], {}),
-            'documents_count': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
             'gn_description': ('django.db.models.fields.TextField', [], {'default': "''", 'null': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'identifier': ('django.db.models.fields.CharField', [], {'default': "'location'", 'max_length': '255'}),
-            'is_choice': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
-            'layers_count': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
-            'maps_count': ('django.db.models.fields.IntegerField', [], {'default': '0'})
+            'is_choice': ('django.db.models.fields.BooleanField', [], {'default': 'True'})
         },
         u'contenttypes.contenttype': {
             'Meta': {'ordering': "('name',)", 'unique_together': "(('app_label', 'model'),)", 'object_name': 'ContentType', 'db_table': "'django_content_type'"},

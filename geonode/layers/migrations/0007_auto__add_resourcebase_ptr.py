@@ -8,279 +8,12 @@ class Migration(SchemaMigration):
 
     def forwards(self, orm):
         
-        # Removing unique constraint on 'ContactRole', fields ['contact', 'layer', 'role']
-        db.delete_unique('layers_contactrole', ['contact_id', 'layer_id', 'role_id'])
-
-        # Deleting model 'Link'
-        db.delete_table('layers_link')
-
-        # Deleting model 'TopicCategory'
-        db.delete_table('layers_topiccategory')
-
-        # Deleting model 'ContactRole'
-        db.delete_table('layers_contactrole')
-
-        # Deleting field 'Layer.csw_mdsource'
-        db.delete_column('layers_layer', 'csw_mdsource')
-
-        # Deleting field 'Layer.csw_schema'
-        db.delete_column('layers_layer', 'csw_schema')
-
-        # Deleting field 'Layer.csw_typename'
-        db.delete_column('layers_layer', 'csw_typename')
-
-        # Deleting field 'Layer.constraints_other'
-        db.delete_column('layers_layer', 'constraints_other')
-
-        # Deleting field 'Layer.date'
-        db.delete_column('layers_layer', 'date')
-
-        # Deleting field 'Layer.owner'
-        db.delete_column('layers_layer', 'owner_id')
-
-        # Deleting field 'Layer.uuid'
-        db.delete_column('layers_layer', 'uuid')
-
-        # Deleting field 'Layer.title'
-        db.delete_column('layers_layer', 'title')
-
-        # Deleting field 'Layer.date_type'
-        db.delete_column('layers_layer', 'date_type')
-
-        # Deleting field 'Layer.csw_insert_date'
-        db.delete_column('layers_layer', 'csw_insert_date')
-
-        # Deleting field 'Layer.temporal_extent_end'
-        db.delete_column('layers_layer', 'temporal_extent_end')
-
-        # Deleting field 'Layer.distribution_url'
-        db.delete_column('layers_layer', 'distribution_url')
-
-        # Deleting field 'Layer.metadata_xml'
-        db.delete_column('layers_layer', 'metadata_xml')
-
-        # Deleting field 'Layer.data_quality_statement'
-        db.delete_column('layers_layer', 'data_quality_statement')
-
-        # Deleting field 'Layer.temporal_extent_start'
-        db.delete_column('layers_layer', 'temporal_extent_start')
-
-        # Deleting field 'Layer.bbox_x1'
-        db.delete_column('layers_layer', 'bbox_x1')
-
-        # Deleting field 'Layer.bbox_x0'
-        db.delete_column('layers_layer', 'bbox_x0')
-
-        # Deleting field 'Layer.distribution_description'
-        db.delete_column('layers_layer', 'distribution_description')
-
-        # Deleting field 'Layer.abstract'
-        db.delete_column('layers_layer', 'abstract')
-
-        # Deleting field 'Layer.supplemental_information'
-        db.delete_column('layers_layer', 'supplemental_information')
-
-        # Deleting field 'Layer.edition'
-        db.delete_column('layers_layer', 'edition')
-
-        # Deleting field 'Layer.id'
-        db.delete_column('layers_layer', 'id')
-
-        # Deleting field 'Layer.category'
-        db.delete_column('layers_layer', 'category_id')
-
-        # Deleting field 'Layer.spatial_representation_type'
-        db.delete_column('layers_layer', 'spatial_representation_type')
-
-        # Deleting field 'Layer.bbox_y0'
-        db.delete_column('layers_layer', 'bbox_y0')
-
-        # Deleting field 'Layer.bbox_y1'
-        db.delete_column('layers_layer', 'bbox_y1')
-
-        # Deleting field 'Layer.topic_category'
-        db.delete_column('layers_layer', 'topic_category')
-
-        # Deleting field 'Layer.purpose'
-        db.delete_column('layers_layer', 'purpose')
-
-        # Deleting field 'Layer.srid'
-        db.delete_column('layers_layer', 'srid')
-
-        # Deleting field 'Layer.language'
-        db.delete_column('layers_layer', 'language')
-
-        # Deleting field 'Layer.keywords_region'
-        db.delete_column('layers_layer', 'keywords_region')
-
-        # Deleting field 'Layer.maintenance_frequency'
-        db.delete_column('layers_layer', 'maintenance_frequency')
-
-        # Deleting field 'Layer.csw_anytext'
-        db.delete_column('layers_layer', 'csw_anytext')
-
-        # Deleting field 'Layer.csw_type'
-        db.delete_column('layers_layer', 'csw_type')
-
-        # Deleting field 'Layer.metadata_uploaded'
-        db.delete_column('layers_layer', 'metadata_uploaded')
-
-        # Deleting field 'Layer.csw_wkt_geometry'
-        db.delete_column('layers_layer', 'csw_wkt_geometry')
-
-        # Deleting field 'Layer.constraints_use'
-        db.delete_column('layers_layer', 'constraints_use')
-
         # Adding field 'Layer.resourcebase_ptr'
         db.add_column('layers_layer', 'resourcebase_ptr', self.gf('django.db.models.fields.related.OneToOneField')(default=0, to=orm['base.ResourceBase'], unique=True, primary_key=True), keep_default=False)
 
 
     def backwards(self, orm):
         
-        # Adding model 'Link'
-        db.create_table('layers_link', (
-            ('layer', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['layers.Layer'])),
-            ('mime', self.gf('django.db.models.fields.CharField')(max_length=255)),
-            ('name', self.gf('django.db.models.fields.CharField')(max_length=255)),
-            ('extension', self.gf('django.db.models.fields.CharField')(max_length=255)),
-            ('url', self.gf('django.db.models.fields.TextField')(max_length=1000, unique=True)),
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('link_type', self.gf('django.db.models.fields.CharField')(max_length=255)),
-        ))
-        db.send_create_signal('layers', ['Link'])
-
-        # Adding model 'TopicCategory'
-        db.create_table('layers_topiccategory', (
-            ('slug', self.gf('django.db.models.fields.SlugField')(max_length=50, db_index=True)),
-            ('description', self.gf('django.db.models.fields.TextField')(blank=True)),
-            ('name', self.gf('django.db.models.fields.CharField')(max_length=50)),
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-        ))
-        db.send_create_signal('layers', ['TopicCategory'])
-
-        # Adding model 'ContactRole'
-        db.create_table('layers_contactrole', (
-            ('layer', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['layers.Layer'], null=True)),
-            ('role', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['people.Role'])),
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('contact', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['people.Profile'])),
-        ))
-        db.send_create_signal('layers', ['ContactRole'])
-
-        # Adding unique constraint on 'ContactRole', fields ['contact', 'layer', 'role']
-        db.create_unique('layers_contactrole', ['contact_id', 'layer_id', 'role_id'])
-
-        # Adding field 'Layer.csw_mdsource'
-        db.add_column('layers_layer', 'csw_mdsource', self.gf('django.db.models.fields.CharField')(default='local', max_length=256), keep_default=False)
-
-        # Adding field 'Layer.csw_schema'
-        db.add_column('layers_layer', 'csw_schema', self.gf('django.db.models.fields.CharField')(default='http://www.isotc211.org/2005/gmd', max_length=64), keep_default=False)
-
-        # Adding field 'Layer.csw_typename'
-        db.add_column('layers_layer', 'csw_typename', self.gf('django.db.models.fields.CharField')(default='gmd:MD_Metadata', max_length=32), keep_default=False)
-
-        # Adding field 'Layer.constraints_other'
-        db.add_column('layers_layer', 'constraints_other', self.gf('django.db.models.fields.TextField')(null=True, blank=True), keep_default=False)
-
-        # Adding field 'Layer.date'
-        db.add_column('layers_layer', 'date', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime.now), keep_default=False)
-
-        # Adding field 'Layer.owner'
-        db.add_column('layers_layer', 'owner', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'], null=True, blank=True), keep_default=False)
-
-        # Adding field 'Layer.uuid'
-        db.add_column('layers_layer', 'uuid', self.gf('django.db.models.fields.CharField')(default=0, max_length=36), keep_default=False)
-
-        # Adding field 'Layer.title'
-        db.add_column('layers_layer', 'title', self.gf('django.db.models.fields.CharField')(default='', max_length=255), keep_default=False)
-
-        # Adding field 'Layer.date_type'
-        db.add_column('layers_layer', 'date_type', self.gf('django.db.models.fields.CharField')(default='publication', max_length=255), keep_default=False)
-
-        # Adding field 'Layer.csw_insert_date'
-        db.add_column('layers_layer', 'csw_insert_date', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, null=True, blank=True), keep_default=False)
-
-        # Adding field 'Layer.temporal_extent_end'
-        db.add_column('layers_layer', 'temporal_extent_end', self.gf('django.db.models.fields.DateField')(null=True, blank=True), keep_default=False)
-
-        # Adding field 'Layer.distribution_url'
-        db.add_column('layers_layer', 'distribution_url', self.gf('django.db.models.fields.TextField')(null=True, blank=True), keep_default=False)
-
-        # Adding field 'Layer.metadata_xml'
-        db.add_column('layers_layer', 'metadata_xml', self.gf('django.db.models.fields.TextField')(default='<gmd:MD_Metadata xmlns:gmd="http://www.isotc211.org/2005/gmd"/>', null=True, blank=True), keep_default=False)
-
-        # Adding field 'Layer.data_quality_statement'
-        db.add_column('layers_layer', 'data_quality_statement', self.gf('django.db.models.fields.TextField')(null=True, blank=True), keep_default=False)
-
-        # Adding field 'Layer.temporal_extent_start'
-        db.add_column('layers_layer', 'temporal_extent_start', self.gf('django.db.models.fields.DateField')(null=True, blank=True), keep_default=False)
-
-        # Adding field 'Layer.bbox_x1'
-        db.add_column('layers_layer', 'bbox_x1', self.gf('django.db.models.fields.DecimalField')(null=True, max_digits=19, decimal_places=10, blank=True), keep_default=False)
-
-        # Adding field 'Layer.bbox_x0'
-        db.add_column('layers_layer', 'bbox_x0', self.gf('django.db.models.fields.DecimalField')(null=True, max_digits=19, decimal_places=10, blank=True), keep_default=False)
-
-        # Adding field 'Layer.distribution_description'
-        db.add_column('layers_layer', 'distribution_description', self.gf('django.db.models.fields.TextField')(null=True, blank=True), keep_default=False)
-
-        # Adding field 'Layer.abstract'
-        db.add_column('layers_layer', 'abstract', self.gf('django.db.models.fields.TextField')(default='', blank=True), keep_default=False)
-
-        # Adding field 'Layer.supplemental_information'
-        db.add_column('layers_layer', 'supplemental_information', self.gf('django.db.models.fields.TextField')(default=u'No information provided'), keep_default=False)
-
-        # Adding field 'Layer.edition'
-        db.add_column('layers_layer', 'edition', self.gf('django.db.models.fields.CharField')(max_length=255, null=True, blank=True), keep_default=False)
-
-        # Adding field 'Layer.id'
-        db.add_column('layers_layer', 'id', self.gf('django.db.models.fields.AutoField')(default=0, primary_key=True), keep_default=False)
-
-        # Adding field 'Layer.category'
-        db.add_column('layers_layer', 'category', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['layers.TopicCategory'], null=True, blank=True), keep_default=False)
-
-        # Adding field 'Layer.spatial_representation_type'
-        db.add_column('layers_layer', 'spatial_representation_type', self.gf('django.db.models.fields.CharField')(max_length=255, null=True, blank=True), keep_default=False)
-
-        # Adding field 'Layer.bbox_y0'
-        db.add_column('layers_layer', 'bbox_y0', self.gf('django.db.models.fields.DecimalField')(null=True, max_digits=19, decimal_places=10, blank=True), keep_default=False)
-
-        # Adding field 'Layer.bbox_y1'
-        db.add_column('layers_layer', 'bbox_y1', self.gf('django.db.models.fields.DecimalField')(null=True, max_digits=19, decimal_places=10, blank=True), keep_default=False)
-
-        # Adding field 'Layer.topic_category'
-        db.add_column('layers_layer', 'topic_category', self.gf('django.db.models.fields.CharField')(default='location', max_length=255), keep_default=False)
-
-        # Adding field 'Layer.purpose'
-        db.add_column('layers_layer', 'purpose', self.gf('django.db.models.fields.TextField')(null=True, blank=True), keep_default=False)
-
-        # Adding field 'Layer.srid'
-        db.add_column('layers_layer', 'srid', self.gf('django.db.models.fields.CharField')(default='EPSG:4326', max_length=255), keep_default=False)
-
-        # Adding field 'Layer.language'
-        db.add_column('layers_layer', 'language', self.gf('django.db.models.fields.CharField')(default='eng', max_length=3), keep_default=False)
-
-        # Adding field 'Layer.keywords_region'
-        db.add_column('layers_layer', 'keywords_region', self.gf('django.db.models.fields.CharField')(default='USA', max_length=3), keep_default=False)
-
-        # Adding field 'Layer.maintenance_frequency'
-        db.add_column('layers_layer', 'maintenance_frequency', self.gf('django.db.models.fields.CharField')(max_length=255, null=True, blank=True), keep_default=False)
-
-        # Adding field 'Layer.csw_anytext'
-        db.add_column('layers_layer', 'csw_anytext', self.gf('django.db.models.fields.TextField')(null=True), keep_default=False)
-
-        # Adding field 'Layer.csw_type'
-        db.add_column('layers_layer', 'csw_type', self.gf('django.db.models.fields.CharField')(default='dataset', max_length=32), keep_default=False)
-
-        # Adding field 'Layer.metadata_uploaded'
-        db.add_column('layers_layer', 'metadata_uploaded', self.gf('django.db.models.fields.BooleanField')(default=False), keep_default=False)
-
-        # Adding field 'Layer.csw_wkt_geometry'
-        db.add_column('layers_layer', 'csw_wkt_geometry', self.gf('django.db.models.fields.TextField')(default='SRID=4326;POLYGON((-180 -90,-180 90,180 90,180 -90,-180 -90))'), keep_default=False)
-
-        # Adding field 'Layer.constraints_use'
-        db.add_column('layers_layer', 'constraints_use', self.gf('django.db.models.fields.CharField')(default='copyright', max_length=255), keep_default=False)
-
         # Deleting field 'Layer.resourcebase_ptr'
         db.delete_column('layers_layer', 'resourcebase_ptr_id')
 
@@ -419,18 +152,80 @@ class Migration(SchemaMigration):
             'unique_values': ('django.db.models.fields.TextField', [], {'default': "'NA'", 'null': 'True', 'blank': 'True'}),
             'visible': ('django.db.models.fields.BooleanField', [], {'default': 'True'})
         },
+        'layers.contactrole': {
+            'Meta': {'unique_together': "(('contact', 'layer', 'role'),)", 'object_name': 'ContactRole'},
+            'contact': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['people.Profile']"}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'layer': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['layers.Layer']", 'null': 'True'}),
+            'role': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['people.Role']"})
+        },
         'layers.layer': {
-            'Meta': {'object_name': 'Layer', '_ormbases': ['base.ResourceBase']},
+            'Meta': {'object_name': 'Layer'},
+            'abstract': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
+            'bbox_x0': ('django.db.models.fields.DecimalField', [], {'null': 'True', 'max_digits': '19', 'decimal_places': '10', 'blank': 'True'}),
+            'bbox_x1': ('django.db.models.fields.DecimalField', [], {'null': 'True', 'max_digits': '19', 'decimal_places': '10', 'blank': 'True'}),
+            'bbox_y0': ('django.db.models.fields.DecimalField', [], {'null': 'True', 'max_digits': '19', 'decimal_places': '10', 'blank': 'True'}),
+            'bbox_y1': ('django.db.models.fields.DecimalField', [], {'null': 'True', 'max_digits': '19', 'decimal_places': '10', 'blank': 'True'}),
+            'category': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['layers.TopicCategory']", 'null': 'True', 'blank': 'True'}),
+            'constraints_other': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
+            'constraints_use': ('django.db.models.fields.CharField', [], {'default': "'copyright'", 'max_length': '255'}),
+            'contacts': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['people.Profile']", 'through': "orm['layers.ContactRole']", 'symmetrical': 'False'}),
+            'csw_anytext': ('django.db.models.fields.TextField', [], {'null': 'True'}),
+            'csw_insert_date': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'null': 'True', 'blank': 'True'}),
+            'csw_mdsource': ('django.db.models.fields.CharField', [], {'default': "'local'", 'max_length': '256'}),
+            'csw_schema': ('django.db.models.fields.CharField', [], {'default': "'http://www.isotc211.org/2005/gmd'", 'max_length': '64'}),
+            'csw_type': ('django.db.models.fields.CharField', [], {'default': "'dataset'", 'max_length': '32'}),
+            'csw_typename': ('django.db.models.fields.CharField', [], {'default': "'gmd:MD_Metadata'", 'max_length': '32'}),
+            'csw_wkt_geometry': ('django.db.models.fields.TextField', [], {'default': "'SRID=4326;POLYGON((-180 -90,-180 90,180 90,180 -90,-180 -90))'"}),
+            'data_quality_statement': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
+            'date': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
+            'date_type': ('django.db.models.fields.CharField', [], {'default': "'publication'", 'max_length': '255'}),
             'default_style': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'layer_default_style'", 'null': 'True', 'to': "orm['layers.Style']"}),
+            'distribution_description': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
+            'distribution_url': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
+            'edition': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'keywords_region': ('django.db.models.fields.CharField', [], {'default': "'USA'", 'max_length': '3'}),
+            'language': ('django.db.models.fields.CharField', [], {'default': "'eng'", 'max_length': '3'}),
+            'maintenance_frequency': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
+            'metadata_uploaded': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'metadata_xml': ('django.db.models.fields.TextField', [], {'default': '\'<gmd:MD_Metadata xmlns:gmd="http://www.isotc211.org/2005/gmd"/>\'', 'null': 'True', 'blank': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '128'}),
+            'owner': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['auth.User']", 'null': 'True', 'blank': 'True'}),
             'popular_count': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
+            'purpose': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
             'resourcebase_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['base.ResourceBase']", 'unique': 'True', 'primary_key': 'True'}),
             'share_count': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
+            'spatial_representation_type': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
+            'srid': ('django.db.models.fields.CharField', [], {'default': "'EPSG:4326'", 'max_length': '255'}),
             'store': ('django.db.models.fields.CharField', [], {'max_length': '128'}),
             'storeType': ('django.db.models.fields.CharField', [], {'max_length': '128'}),
             'styles': ('django.db.models.fields.related.ManyToManyField', [], {'related_name': "'layer_styles'", 'symmetrical': 'False', 'to': "orm['layers.Style']"}),
+            'supplemental_information': ('django.db.models.fields.TextField', [], {'default': "u'No information provided'"}),
+            'temporal_extent_end': ('django.db.models.fields.DateField', [], {'null': 'True', 'blank': 'True'}),
+            'temporal_extent_start': ('django.db.models.fields.DateField', [], {'null': 'True', 'blank': 'True'}),
+            'title': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
+            'topic_category': ('django.db.models.fields.CharField', [], {'default': "'location'", 'max_length': '255'}),
             'typename': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '128'}),
+            'uuid': ('django.db.models.fields.CharField', [], {'max_length': '36'}),
             'workspace': ('django.db.models.fields.CharField', [], {'max_length': '128'})
+        },
+        'layers.link': {
+            'Meta': {'object_name': 'Link'},
+            'extension': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'layer': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['layers.Layer']"}),
+            'link_type': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
+            'mime': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
+            'url': ('django.db.models.fields.TextField', [], {'unique': 'True', 'max_length': '1000'})
+        },
+        'layers.topiccategory': {
+            'Meta': {'ordering': "('name',)", 'object_name': 'TopicCategory'},
+            'description': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '50'}),
+            'slug': ('django.db.models.fields.SlugField', [], {'max_length': '50', 'db_index': 'True'})
         },
         'layers.style': {
             'Meta': {'object_name': 'Style'},

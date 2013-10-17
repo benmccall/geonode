@@ -131,8 +131,6 @@ class Migration(SchemaMigration):
         # Deleting field 'Layer.constraints_use'
         db.delete_column('layers_layer', 'constraints_use')
 
-        # Adding field 'Layer.resourcebase_ptr'
-        db.add_column('layers_layer', 'resourcebase_ptr', self.gf('django.db.models.fields.related.OneToOneField')(default=0, to=orm['base.ResourceBase'], unique=True, primary_key=True), keep_default=False)
 
 
     def backwards(self, orm):
@@ -281,8 +279,6 @@ class Migration(SchemaMigration):
         # Adding field 'Layer.constraints_use'
         db.add_column('layers_layer', 'constraints_use', self.gf('django.db.models.fields.CharField')(default='copyright', max_length=255), keep_default=False)
 
-        # Deleting field 'Layer.resourcebase_ptr'
-        db.delete_column('layers_layer', 'resourcebase_ptr_id')
 
 
     models = {

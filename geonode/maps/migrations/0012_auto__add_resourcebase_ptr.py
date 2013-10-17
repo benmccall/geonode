@@ -23,14 +23,9 @@ class Migration(SchemaMigration):
         # Deleting field 'Map.date'
         db.delete_column('maps_map', 'date')
 
-        # Deleting field 'Map.owner'
-        db.delete_column('maps_map', 'owner_id')
-
         # Deleting field 'Map.uuid'
         db.delete_column('maps_map', 'uuid')
 
-        # Deleting field 'Map.title'
-        db.delete_column('maps_map', 'title')
 
         # Deleting field 'Map.date_type'
         db.delete_column('maps_map', 'date_type')
@@ -62,8 +57,6 @@ class Migration(SchemaMigration):
         # Deleting field 'Map.distribution_description'
         db.delete_column('maps_map', 'distribution_description')
 
-        # Deleting field 'Map.abstract'
-        db.delete_column('maps_map', 'abstract')
 
         # Deleting field 'Map.supplemental_information'
         db.delete_column('maps_map', 'supplemental_information')
@@ -71,8 +64,6 @@ class Migration(SchemaMigration):
         # Deleting field 'Map.edition'
         db.delete_column('maps_map', 'edition')
 
-        # Deleting field 'Map.id'
-        db.delete_column('maps_map', 'id')
 
         # Deleting field 'Map.category'
         db.delete_column('maps_map', 'category_id')
@@ -125,117 +116,6 @@ class Migration(SchemaMigration):
 
     def backwards(self, orm):
         
-        # Adding field 'Map.csw_mdsource'
-        db.add_column('maps_map', 'csw_mdsource', self.gf('django.db.models.fields.CharField')(default='local', max_length=256), keep_default=False)
-
-        # Adding field 'Map.csw_schema'
-        db.add_column('maps_map', 'csw_schema', self.gf('django.db.models.fields.CharField')(default='http://www.isotc211.org/2005/gmd', max_length=64), keep_default=False)
-
-        # Adding field 'Map.csw_typename'
-        db.add_column('maps_map', 'csw_typename', self.gf('django.db.models.fields.CharField')(default='gmd:MD_Metadata', max_length=32), keep_default=False)
-
-        # Adding field 'Map.constraints_other'
-        db.add_column('maps_map', 'constraints_other', self.gf('django.db.models.fields.TextField')(null=True, blank=True), keep_default=False)
-
-        # Adding field 'Map.date'
-        db.add_column('maps_map', 'date', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime.now), keep_default=False)
-
-        # Adding field 'Map.owner'
-        db.add_column('maps_map', 'owner', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'], null=True, blank=True), keep_default=False)
-
-        # Adding field 'Map.uuid'
-        db.add_column('maps_map', 'uuid', self.gf('django.db.models.fields.CharField')(default=0, max_length=36), keep_default=False)
-
-        # Adding field 'Map.title'
-        db.add_column('maps_map', 'title', self.gf('django.db.models.fields.CharField')(default='', max_length=255), keep_default=False)
-
-        # Adding field 'Map.date_type'
-        db.add_column('maps_map', 'date_type', self.gf('django.db.models.fields.CharField')(default='publication', max_length=255), keep_default=False)
-
-        # Adding field 'Map.csw_insert_date'
-        db.add_column('maps_map', 'csw_insert_date', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, null=True, blank=True), keep_default=False)
-
-        # Adding field 'Map.temporal_extent_end'
-        db.add_column('maps_map', 'temporal_extent_end', self.gf('django.db.models.fields.DateField')(null=True, blank=True), keep_default=False)
-
-        # Adding field 'Map.distribution_url'
-        db.add_column('maps_map', 'distribution_url', self.gf('django.db.models.fields.TextField')(null=True, blank=True), keep_default=False)
-
-        # Adding field 'Map.data_quality_statement'
-        db.add_column('maps_map', 'data_quality_statement', self.gf('django.db.models.fields.TextField')(null=True, blank=True), keep_default=False)
-
-        # Adding field 'Map.metadata_xml'
-        db.add_column('maps_map', 'metadata_xml', self.gf('django.db.models.fields.TextField')(default='<gmd:MD_Metadata xmlns:gmd="http://www.isotc211.org/2005/gmd"/>', null=True, blank=True), keep_default=False)
-
-        # Adding field 'Map.temporal_extent_start'
-        db.add_column('maps_map', 'temporal_extent_start', self.gf('django.db.models.fields.DateField')(null=True, blank=True), keep_default=False)
-
-        # Adding field 'Map.bbox_x1'
-        db.add_column('maps_map', 'bbox_x1', self.gf('django.db.models.fields.DecimalField')(null=True, max_digits=19, decimal_places=10, blank=True), keep_default=False)
-
-        # Adding field 'Map.bbox_x0'
-        db.add_column('maps_map', 'bbox_x0', self.gf('django.db.models.fields.DecimalField')(null=True, max_digits=19, decimal_places=10, blank=True), keep_default=False)
-
-        # Adding field 'Map.distribution_description'
-        db.add_column('maps_map', 'distribution_description', self.gf('django.db.models.fields.TextField')(null=True, blank=True), keep_default=False)
-
-        # Adding field 'Map.abstract'
-        db.add_column('maps_map', 'abstract', self.gf('django.db.models.fields.TextField')(default='', blank=True), keep_default=False)
-
-        # Adding field 'Map.supplemental_information'
-        db.add_column('maps_map', 'supplemental_information', self.gf('django.db.models.fields.TextField')(default=u'No information provided'), keep_default=False)
-
-        # Adding field 'Map.edition'
-        db.add_column('maps_map', 'edition', self.gf('django.db.models.fields.CharField')(max_length=255, null=True, blank=True), keep_default=False)
-
-        # Adding field 'Map.id'
-        db.add_column('maps_map', 'id', self.gf('django.db.models.fields.AutoField')(default=0, primary_key=True), keep_default=False)
-
-        # Adding field 'Map.category'
-        db.add_column('maps_map', 'category', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['layers.TopicCategory'], null=True, blank=True), keep_default=False)
-
-        # Adding field 'Map.spatial_representation_type'
-        db.add_column('maps_map', 'spatial_representation_type', self.gf('django.db.models.fields.CharField')(max_length=255, null=True, blank=True), keep_default=False)
-
-        # Adding field 'Map.maintenance_frequency'
-        db.add_column('maps_map', 'maintenance_frequency', self.gf('django.db.models.fields.CharField')(max_length=255, null=True, blank=True), keep_default=False)
-
-        # Adding field 'Map.bbox_y0'
-        db.add_column('maps_map', 'bbox_y0', self.gf('django.db.models.fields.DecimalField')(null=True, max_digits=19, decimal_places=10, blank=True), keep_default=False)
-
-        # Adding field 'Map.bbox_y1'
-        db.add_column('maps_map', 'bbox_y1', self.gf('django.db.models.fields.DecimalField')(null=True, max_digits=19, decimal_places=10, blank=True), keep_default=False)
-
-        # Adding field 'Map.topic_category'
-        db.add_column('maps_map', 'topic_category', self.gf('django.db.models.fields.CharField')(default='location', max_length=255), keep_default=False)
-
-        # Adding field 'Map.purpose'
-        db.add_column('maps_map', 'purpose', self.gf('django.db.models.fields.TextField')(null=True, blank=True), keep_default=False)
-
-        # Adding field 'Map.srid'
-        db.add_column('maps_map', 'srid', self.gf('django.db.models.fields.CharField')(default='EPSG:4326', max_length=255), keep_default=False)
-
-        # Adding field 'Map.language'
-        db.add_column('maps_map', 'language', self.gf('django.db.models.fields.CharField')(default='eng', max_length=3), keep_default=False)
-
-        # Adding field 'Map.keywords_region'
-        db.add_column('maps_map', 'keywords_region', self.gf('django.db.models.fields.CharField')(default='USA', max_length=3), keep_default=False)
-
-        # Adding field 'Map.csw_anytext'
-        db.add_column('maps_map', 'csw_anytext', self.gf('django.db.models.fields.TextField')(null=True), keep_default=False)
-
-        # Adding field 'Map.csw_type'
-        db.add_column('maps_map', 'csw_type', self.gf('django.db.models.fields.CharField')(default='dataset', max_length=32), keep_default=False)
-
-        # Adding field 'Map.metadata_uploaded'
-        db.add_column('maps_map', 'metadata_uploaded', self.gf('django.db.models.fields.BooleanField')(default=False), keep_default=False)
-
-        # Adding field 'Map.csw_wkt_geometry'
-        db.add_column('maps_map', 'csw_wkt_geometry', self.gf('django.db.models.fields.TextField')(default='SRID=4326;POLYGON((-180 -90,-180 90,180 90,180 -90,-180 -90))'), keep_default=False)
-
-        # Adding field 'Map.constraints_use'
-        db.add_column('maps_map', 'constraints_use', self.gf('django.db.models.fields.CharField')(default='copyright', max_length=255), keep_default=False)
-
         # Deleting field 'Map.resourcebase_ptr'
         db.delete_column('maps_map', 'resourcebase_ptr_id')
 
@@ -356,14 +236,18 @@ class Migration(SchemaMigration):
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
         },
         'maps.map': {
-            'Meta': {'object_name': 'Map', '_ormbases': ['base.ResourceBase']},
+            'Meta': {'object_name': 'Map'},
+            'abstract': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
             'center_x': ('django.db.models.fields.FloatField', [], {}),
             'center_y': ('django.db.models.fields.FloatField', [], {}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'last_modified': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
+            'owner': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['auth.User']", 'null': 'True', 'blank': 'True'}),
             'popular_count': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
             'projection': ('django.db.models.fields.CharField', [], {'max_length': '32'}),
             'resourcebase_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['base.ResourceBase']", 'unique': 'True', 'primary_key': 'True'}),
             'share_count': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
+            'title': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
             'zoom': ('django.db.models.fields.IntegerField', [], {})
         },
         'maps.maplayer': {

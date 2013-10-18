@@ -76,21 +76,36 @@ class Migration(DataMigration):
             if srt:
                 layer.resourcebase_ptr.spatial_representation_type = srt[0]
 
+            # M2M
+            layer.resourcebase_ptr.save()
+
             # layer.resourcebase_ptr.keywords_region is modified in base/migrations/0011-0013
             region = orm['base.Region'].objects.filter(code=layer.keywords_region)
             if region:
                 layer.resourcebase_ptr.regions.add(region[0])
-
-            layer.resourcebase_ptr.save()
 
             # layer.contacts are deleted in migration 0009
             for lc in orm['layers.ContactRole'].objects.filter(layer=layer):
                 cr = orm['base.ContactRole'].objects.create(resource=layer.resourcebase_ptr, contact=lc.contact, role=lc.role)
                 cr.save()
 
+            layer.save()
+
     def backwards(self, orm):
-        "Write your backwards methods here."
-        raise RuntimeError("No reverse migration available.")
+        # Loop through all layers and remove resourcebase
+        for layer in orm.Layer.objects.all():
+            # base.regions
+            orm['base.Region'].objects.filter(resourcebase=layer.resourcebase_ptr).delete()
+
+            # base.contactroles
+            orm['base.ContactRole'].objects.filter(resource=layer.resourcebase_ptr).delete()
+
+            # base.resourcebase
+            orm['base.ResourceBase'].objects.filter(id=layer.resourcebase_ptr.id).delete()
+
+            layer.resourcebase_ptr = None
+            layer.save()
+
 
     models = {
         'actstream.action': {
@@ -301,7 +316,7 @@ class Migration(DataMigration):
             'owner': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['auth.User']", 'null': 'True', 'blank': 'True'}),
             'popular_count': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
             'purpose': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
-            'resourcebase_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['base.ResourceBase']", 'unique': 'True', 'primary_key': 'True'}),
+            'resourcebase_ptr': ('django.db.models.fields.related.OneToOneField', [], {'null': 'True', 'to': "orm['base.ResourceBase']"}),
             'share_count': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
             'spatial_representation_type': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
             'srid': ('django.db.models.fields.CharField', [], {'default': "'EPSG:4326'", 'max_length': '255'}),

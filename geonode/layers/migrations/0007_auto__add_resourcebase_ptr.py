@@ -9,7 +9,7 @@ class Migration(SchemaMigration):
     def forwards(self, orm):
         
         # Adding field 'Layer.resourcebase_ptr'
-        db.add_column('layers_layer', 'resourcebase_ptr', self.gf('django.db.models.fields.related.OneToOneField')(default=0, to=orm['base.ResourceBase'], unique=True, primary_key=True), keep_default=False)
+        db.add_column('layers_layer', 'resourcebase_ptr', self.gf('django.db.models.fields.related.OneToOneField')(null=True, to=orm['base.ResourceBase']))
 
 
     def backwards(self, orm):
@@ -194,7 +194,7 @@ class Migration(SchemaMigration):
             'owner': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['auth.User']", 'null': 'True', 'blank': 'True'}),
             'popular_count': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
             'purpose': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
-            'resourcebase_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['base.ResourceBase']", 'unique': 'True', 'primary_key': 'True'}),
+            'resourcebase_ptr': ('django.db.models.fields.related.OneToOneField', [], {'null': 'True', 'to': "orm['base.ResourceBase']"}),
             'share_count': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
             'spatial_representation_type': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
             'srid': ('django.db.models.fields.CharField', [], {'default': "'EPSG:4326'", 'max_length': '255'}),

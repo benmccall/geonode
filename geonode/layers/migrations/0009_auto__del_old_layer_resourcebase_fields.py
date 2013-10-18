@@ -131,10 +131,18 @@ class Migration(SchemaMigration):
         # Deleting field 'Layer.constraints_use'
         db.delete_column('layers_layer', 'constraints_use')
 
-
+        # Changing field 'Layer.resourcebase_ptr' as new primary key
+        db.alter_column('layers_layer', 'resourcebase_ptr_id', self.gf('django.db.models.fields.related.OneToOneField')(default=0, null=False, to=orm['base.ResourceBase']))
+        db.create_primary_key('layers_layer', ['resourcebase_ptr_id'])
+        db.create_unique('layers_layer', ['resourcebase_ptr_id'])
 
     def backwards(self, orm):
-        
+
+        # Changing field 'Layer.resourcebase_ptr'
+        db.alter_column('layers_layer', 'resourcebase_ptr_id', self.gf('django.db.models.fields.related.OneToOneField')(null=True, to=orm['base.ResourceBase']))
+        db.delete_unique('layers_layer', ['resourcebase_ptr_id'])
+        db.delete_primary_key('layers_layer')
+
         # Adding model 'Link'
         db.create_table('layers_link', (
             ('layer', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['layers.Layer'])),
@@ -278,7 +286,6 @@ class Migration(SchemaMigration):
 
         # Adding field 'Layer.constraints_use'
         db.add_column('layers_layer', 'constraints_use', self.gf('django.db.models.fields.CharField')(default='copyright', max_length=255), keep_default=False)
-
 
 
     models = {

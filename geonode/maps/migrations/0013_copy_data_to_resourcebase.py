@@ -24,6 +24,7 @@ class Migration(DataMigration):
             map.resourcebase_ptr.title = map.title
             
             map.resourcebase_ptr.save()
+            map.save()
 
     def backwards(self, orm):
         "Write your backwards methods here."

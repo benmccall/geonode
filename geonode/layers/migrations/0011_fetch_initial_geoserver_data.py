@@ -9,10 +9,11 @@ class Migration(DataMigration):
     def forwards(self, orm):
         # populate Link, Attribute and Style from GeoServer: we need to raise the geoserver_post_save signal
         from geonode.layers.models import Layer
-        from geonode.layers.models import geoserver_post_save
+        from geonode.layers.models import geoserver_pre_save, geoserver_post_save
         # we need to run the geoserver_post_save method to a real layer instance as it use model methods, and properties from the base class, ResourceBase
         for layerorm in orm.Layer.objects.all():
-            layer = Layer.objects.get(id=layerorm.id)
+            layer = Layer.objects.get(resourcebase_ptr_id=layerorm.resourcebase_ptr_id)
+            geoserver_pre_save(layer, sender=layer)
             geoserver_post_save(layer, sender=layer)
 
     def backwards(self, orm):

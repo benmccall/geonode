@@ -7,14 +7,30 @@ from django.db import models
 class Migration(DataMigration):
 
     def forwards(self, orm):
-        # populate Link, Attribute and Style from GeoServer: we need to raise the geoserver_post_save signal
+        # Populate BBox, Link, Attribute and Style from GeoServer
+        # First, set the resource base's bbox fields to avoid geometry errors
+        # Then, use the current Layer.save method to trigger the signals that will populate the rest of the data (eg: geoserver_post_save signal)
         from geonode.layers.models import Layer
-        from geonode.layers.models import geoserver_pre_save, geoserver_post_save
-        # we need to run the geoserver_post_save method to a real layer instance as it use model methods, and properties from the base class, ResourceBase
+        from geonode.layers.models import geoserver_pre_save
+        from geonode.utils import bbox_to_wkt
+
         for layerorm in orm.Layer.objects.all():
-            layer = Layer.objects.get(resourcebase_ptr_id=layerorm.resourcebase_ptr_id)
+            # we need to run the save method on a real layer instance as it uses model methods and properties from the base class, ResourceBase
+            layer = Layer.objects.get(pk=layerorm.resourcebase_ptr_id)
+            # call the geoserver_pre_save signal to populate the layer's bbox fields from geoserver
             geoserver_pre_save(layer, sender=layer)
-            geoserver_post_save(layer, sender=layer)
+
+            # Save bbox and csw_wkt_geometry fields to resourcebase or we will get geometry errors when calling layer.save()
+            rb = orm['base.resourcebase'].objects.get(pk=layerorm.resourcebase_ptr_id)
+            rb.bbox_x0 = layer.bbox_x0
+            rb.bbox_x1 = layer.bbox_x1
+            rb.bbox_y0 = layer.bbox_y0
+            rb.bbox_y1 = layer.bbox_y1
+            rb.csw_wkt_geometry = bbox_to_wkt(layer.bbox_x0, layer.bbox_x1, layer.bbox_y0, layer.bbox_y1, layer.srid)
+            rb.save()
+
+            # Save the "real layer" instance, which will trigger the geoserver_post_save signal
+            layer.save()
 
     def backwards(self, orm):
         pass

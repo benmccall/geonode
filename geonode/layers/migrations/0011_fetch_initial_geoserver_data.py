@@ -11,7 +11,7 @@ class Migration(DataMigration):
         # First, set the resource base's bbox fields to avoid geometry errors
         # Then, use the current Layer.save method to trigger the signals that will populate the rest of the data (eg: geoserver_post_save signal)
         from geonode.layers.models import Layer
-        from geonode.layers.models import geoserver_pre_save
+        from geonode.layers.models import geoserver_pre_save, set_attributes
         from geonode.utils import bbox_to_wkt
 
         for layerorm in orm.Layer.objects.all():
@@ -31,6 +31,8 @@ class Migration(DataMigration):
 
             # Save the "real layer" instance, which will trigger the geoserver_post_save signal
             layer.save()
+            # recalculate the layer statistics
+            set_attributes(layer, overwrite=True)
 
     def backwards(self, orm):
         pass
